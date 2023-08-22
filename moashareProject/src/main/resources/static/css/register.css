@@ -1,0 +1,75 @@
+	label{
+		font-weight: bold;
+		display:inline-block; 
+		width:130px; 
+	}
+	input {
+		border: 1px solid lightgrey;
+		border-radius: 3px;
+		line-height: 30px;	
+	}
+	.registerTitle{
+		padding-bottom: 40px;
+		text-align: center;
+		
+	}
+	.error{
+		font-size: 3px;
+		height: 6px;
+		padding-left: 140px;
+	}
+	.pad{
+		padding-bottom: 30px;
+	}
+	.sameInput {
+		width:400px;
+	}
+	.btn {
+		cursor: pointer;
+		font-weight: bold;
+	}
+	#div1{
+		
+		width: 570px;
+		border: 1px solid lightgrey;
+		border-radius: 3px;
+		justify-content: center;
+		padding: 70px;
+		margin: 20px auto;
+		height: 700px;
+		color: rgb(73, 73, 73);
+	}
+	#userid {
+		width: 325px;
+	}
+	#email1 {
+		width: 95px;
+	}
+	#email2 {
+		width: 100px;
+	}
+	#phone1 {
+		width: 80px;
+	}
+	#phone2 {
+		width: 150px;
+	}
+	#phone3 {
+		width: 150px;
+	}
+	#btnck{
+		background-color: #f7f7f7;
+		color: #7d7373;
+	}
+	#btnfinck{
+		width: 300px;
+		height: 50px;
+		border: 0px;
+		outline: 0px;
+		font-size: 20px;
+		background-color: #77af9c;
+    	color: #d7fff1;
+    	border-radius: 12px;
+    	margin:30px auto;
+    	display: block;
+	}
