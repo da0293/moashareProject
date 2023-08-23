@@ -6,12 +6,12 @@
   
 <mapper namespace="com.moashare.dao.MemberDAO">
     <select id="getMemberByEmail" parameterType="String" resultType="MemberDTO">
-    	select id, pw, nickname, auth, join_dt
+    	select id, pw, name,nickname, tel, auth, join_dt
     	from member
     	where id=#{emailId}
     </select>
     <select id="getMemberByNickname" parameterType="String" resultType="MemberDTO">
-    	select id, pw, nickname, auth, join_dt
+    	select id, pw, name,nickname,tel, auth, join_dt
     	from member
     	where nickname=#{nickname}
     </select>
