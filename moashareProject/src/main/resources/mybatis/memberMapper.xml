@@ -15,4 +15,8 @@
     	from member
     	where nickname=#{nickname}
     </select>
+    <insert id="insertOne" parameterType="MemberDTO">
+    	 insert into member
+         values (#{id}, #{pw}, #{nickname}, default, default)
+    </insert>
 </mapper>

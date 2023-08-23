@@ -10,5 +10,6 @@ public interface MemberDAO {
 
 	MemberDTO getMemberByEmail(String emailId);
 	MemberDTO getMemberByNickname(String nickname);
+	void insertOne(MemberDTO dto);
 
 }

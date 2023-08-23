@@ -9,9 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class LoginController {
-	@GetMapping("/register")
-	public String RegisterForm(Model model) {
-		return "home/register";
+
+	
+	@GetMapping("/login")
+	public String loginForm() {
+		return "home/login";
 	}
 	
 }
