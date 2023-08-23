@@ -144,10 +144,14 @@
 		var middle = $("#middle").text();
 		$("#id").val(email1+middle+email2);
 		var id = $("#id").val();
-		console.log("id : " + id );
+		var name = $("#username").val();
 		var pwd = $("#userpw").val();
 		var repwd = $("#userrepw").val();
 		var nickname = $("#usernickname").val();
+		var phone1 =$("#phone1").val(); 
+		var phone2 =$("#phone2").val(); 
+		var phone3 =$("#phone3").val();
+		$("#tel").val(phone1+'-'+phone2+'-'+phone3);
 		var codeInput = $("#codeInput").val();
 		var codeConfirm = $("#codeConfirm").val();
 
@@ -174,6 +178,10 @@
 		}else if(codeCheck==2){
 			alert("이메일 인증번호가 다릅니다.");
 			return false;
+		}else if ( name == '') {
+			alert("이름을 입력하십시오");
+			$("#username").focus(); 
+			return false; 
 		}else if ( nickname == '') {
 			alert("닉네임을 입력하십시오");
 			$("#usernickname").focus(); 
@@ -202,6 +210,9 @@
 			console.log(repwd);
 			alert("비밀번호가 일치하지 않습니다"); 
 			$("#userrepw").focus();
+			return false; 
+		}else if ( phone1 == '' || phone2 =='' || phone3 == '') {
+			alert("전화번호를 입력하십시오");
 			return false; 
 		}
 	}
@@ -240,6 +251,10 @@
 						style="display: none" value="">
 					<div id="verificationError" class="error"></div>
 				</div>
+				<div id="div5" class="pad">
+					<label>이름*</label>
+					<input type="text" class="sameInput" name="name" id="username" placeholder="이름"/>
+				</div>
 				<div id="div4" class="pad">
 					<label>닉네임*</label> <input type="text" name="nickname"
 						id="usernickname" placeholder="닉네임" /> <input type="button"
@@ -253,6 +268,13 @@
 				<div id="div6" class="pad">
 					<label>비밀번호 확인*</label> <input type="password" class="sameInput"
 						name="repw" id="userrepw" placeholder="비밀번호 확인" />
+				</div>
+				<div id="div7" class="pad">
+					<label>전화번호*</label>
+					<input type="text" name="phone1" id="phone1" placeholder="앞자리"/> 
+					<input type="text" name="phone2" id="phone2" placeholder="가운데자리"/> 
+					<input type="text" name="phone3" id="phone3" placeholder="뒷자리"/>	
+					<input type="hidden" name="tel" id="tel" value=""/>					
 				</div>
 				<div id="div7"
 					style="clear: both; padding-top: 10px; box-sizing: border-box;">

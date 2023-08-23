@@ -17,6 +17,6 @@
     </select>
     <insert id="insertOne" parameterType="MemberDTO">
     	 insert into member
-         values (#{id}, #{pw}, #{nickname}, default, default)
+         values (#{id}, #{pw},#{name}, #{nickname},#{tel}, default, default)
     </insert>
 </mapper>
