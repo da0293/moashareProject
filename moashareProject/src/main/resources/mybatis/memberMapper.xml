@@ -8,7 +8,7 @@
     <select id="getMemberByEmail" parameterType="String" resultType="MemberDTO">
     	select id, pw, name,nickname, tel, auth, join_dt
     	from member
-    	where id=#{emailId}
+    	where id=#{id}
     </select>
     <select id="getMemberByNickname" parameterType="String" resultType="MemberDTO">
     	select id, pw, name,nickname,tel, auth, join_dt

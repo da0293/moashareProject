@@ -8,7 +8,7 @@ import com.moashare.dto.MemberDTO;
 @Repository
 public interface MemberDAO {
 
-	MemberDTO getMemberByEmail(String emailId);
+	MemberDTO getMemberByEmail(String id);
 	MemberDTO getMemberByNickname(String nickname);
 	void insertOne(MemberDTO dto);
 
