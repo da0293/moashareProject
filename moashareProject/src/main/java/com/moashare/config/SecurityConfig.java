@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.moashare.config.Oauth.PrincipalOauth2UserService;
+import com.moashare.config.oauth.PrincipalOauth2UserService;
 
 @Configuration
 @EnableWebSecurity // 스프링 시큐리티 필터가 스프링 필터체인에 등록이 됨.

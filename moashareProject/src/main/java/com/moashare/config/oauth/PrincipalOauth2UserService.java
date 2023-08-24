@@ -1,4 +1,4 @@
-package com.moashare.config.Oauth;
+package com.moashare.config.oauth;
 
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
