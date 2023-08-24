@@ -2,7 +2,8 @@ package com.moashare.controller;
 
 import java.io.UnsupportedEncodingException;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,10 +25,13 @@ public class RegisterController {
 
 	private final MemberService ms;
 	private final EmailService es;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	
-	public RegisterController(MemberService ms, EmailService es) {
-		this.ms = ms;
-		this.es = es;
+	public RegisterController(MemberService ms, EmailService es, BCryptPasswordEncoder bCryptPasswordEncoder) {
+		super();
+		this.ms=ms;
+		this.es=es;
+		this.bCryptPasswordEncoder=bCryptPasswordEncoder;
 	}
 	
 	@GetMapping("/register")
@@ -37,8 +41,11 @@ public class RegisterController {
 
 	@PostMapping("/register")
 	public String registerOk(@ModelAttribute("dto")MemberDTO dto) {
+		String rawPassword=dto.getPw();
+		String encPassword=bCryptPasswordEncoder.encode(rawPassword);
+		dto.setPw(encPassword);
 		ms.addOne(dto);
-		return "home/login";
+		return "redirect:/login";
 	}
 	
 	@PostMapping("/register/emailCk")
