@@ -7,9 +7,5 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class HomeController {
-	@GetMapping("/home")
-	public String main(String[] args) {
-		return "home/home";
-	}
-
+	
 }

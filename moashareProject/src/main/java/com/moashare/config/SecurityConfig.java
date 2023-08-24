@@ -2,17 +2,23 @@ package com.moashare.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.moashare.config.Oauth.PrincipalOauth2UserService;
+
 @Configuration
 @EnableWebSecurity // 스프링 시큐리티 필터가 스프링 필터체인에 등록이 됨.
 public class SecurityConfig {
+	
+	private PrincipalOauth2UserService principalOauth2UserService;
+	
+	public SecurityConfig(PrincipalOauth2UserService pos) {
+		this.principalOauth2UserService=pos;
+	}
 
 	@Bean
 	public BCryptPasswordEncoder encodePwd() {
@@ -35,6 +41,9 @@ public class SecurityConfig {
 							.failureUrl("/login?error")
 							.defaultSuccessUrl("/home"); // 로그인 성공시 /주소로 이동
 							
+				})
+				.oauth2Login((oauth2Login)->{
+					oauth2Login.loginPage("/login");
 				})
 				.build();
 	}
