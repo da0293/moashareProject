@@ -21,6 +21,7 @@ public class MemberDTO {
 		this.pw=pw;
 		this.nickname=nickname;
 		this.auth=auth;
+		this.provider=provider;
 		this.join_dt=join_dt;
 	}
 

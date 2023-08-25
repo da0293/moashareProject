@@ -16,8 +16,8 @@ import com.moashare.dto.MemberDTO;
 @Service
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
-	private MemberDAO dao;
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	private final MemberDAO dao;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	public PrincipalOauth2UserService(MemberDAO dao, BCryptPasswordEncoder bCryptPasswordEncoder) {
 		this.dao=dao;
@@ -28,6 +28,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		OAuth2User oauth2User = super.loadUser(userRequest);
 		String provider=userRequest.getClientRegistration().getRegistrationId();
+		System.out.println("provider : " +provider);
 		String id=oauth2User.getAttribute("email");
 		String randomPw = UUID.randomUUID().toString();
 		String pw=bCryptPasswordEncoder.encode(randomPw);
