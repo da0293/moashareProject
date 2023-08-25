@@ -21,29 +21,27 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	public BCryptPasswordEncoder encodePwd() {
-		return new BCryptPasswordEncoder();
-	}
-
-	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		return http.csrf(AbstractHttpConfigurer::disable) // 사이트 위변조 요청 방지
-				.authorizeHttpRequests((authorizeRequests) -> { // 특정 URL에 대한 권한 설정.
+		return http.csrf(AbstractHttpConfigurer::disable) 
+				.authorizeHttpRequests((authorizeRequests) -> { 
 					authorizeRequests.requestMatchers("/home").authenticated();
-					authorizeRequests.requestMatchers("/admin").hasRole("ADMIN"); // ROLE_은 붙이면 안 된다. hasRole()을 사용할
-																						// 때 자동으로 ROLE_이 붙기 때문이다.
+					authorizeRequests.requestMatchers("/admin").hasRole("ADMIN"); 
 					authorizeRequests.anyRequest().permitAll();
 				})
 
 				.formLogin((formLogin) -> {
-					formLogin.loginPage("/login") // 권한이 필요한 요청은 해당 url로 리다이렉트
-							.loginProcessingUrl("/login") // login 주소가 호출되면 시큐리티가 낚아채서 대신 로그인을 해준다.
+					formLogin.loginPage("/login") 
+							.loginProcessingUrl("/login") 
 							.failureUrl("/login?error")
-							.defaultSuccessUrl("/home"); // 로그인 성공시 /주소로 이동
+							.defaultSuccessUrl("/home"); 
 							
 				})
 				.oauth2Login((oauth2Login)->{
-					oauth2Login.loginPage("/login");
+					oauth2Login.loginPage("/login")
+							.failureUrl("/login?error")
+							.defaultSuccessUrl("/home")
+							.userInfoEndpoint()
+							.userService(principalOauth2UserService);
 				})
 				.build();
 	}

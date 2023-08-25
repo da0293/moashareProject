@@ -2,18 +2,30 @@ package com.moashare.config.auth;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.moashare.dto.MemberDTO;
 
-public class PrincipalDetails implements UserDetails {
+import lombok.Getter;
+@Getter
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
 	private MemberDTO dto;
+	private Map<String, Object> attributes;
 	
+	// 일반로그인
 	public PrincipalDetails(MemberDTO dto) {
 		this.dto=dto;
+	}
+	
+	// OAuth로그인
+	public PrincipalDetails(MemberDTO dto, Map<String, Object> attributes) {
+		this.dto=dto;
+		this.attributes=attributes;
 	}
 	
 	@Override
@@ -22,7 +34,6 @@ public class PrincipalDetails implements UserDetails {
 		collect.add(new GrantedAuthority() {			
 			@Override
 			public String getAuthority() {
-				System.out.println("PrincipalDetails ok");
 				return dto.getAuth();
 			}
 		});
@@ -57,6 +68,16 @@ public class PrincipalDetails implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	@Override
+	public Map<String, Object> getAttributes() {
+		return attributes;
+	}
+
+	@Override
+	public String getName() {
+		return null;
 	}
 	
 }

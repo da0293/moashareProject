@@ -1,6 +1,6 @@
 package com.moashare.dto;
 
-import groovy.transform.builder.Builder;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
