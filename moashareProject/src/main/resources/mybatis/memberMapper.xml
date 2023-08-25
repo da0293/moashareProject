@@ -6,17 +6,17 @@
   
 <mapper namespace="com.moashare.dao.MemberDAO">
     <select id="getMemberByEmail" parameterType="String" resultType="MemberDTO">
-    	select id, pw, name,nickname, tel, auth, join_dt
+    	select id, pw, nickname, auth, provider, join_dt
     	from member
     	where id=#{id}
     </select>
     <select id="getMemberByNickname" parameterType="String" resultType="MemberDTO">
-    	select id, pw, name,nickname,tel, auth, join_dt
+    	select id, pw, nickname,auth, provider, join_dt
     	from member
     	where nickname=#{nickname}
     </select>
     <insert id="insertOne" parameterType="MemberDTO">
     	 insert into member
-         values (#{id}, #{pw},#{name}, #{nickname},#{tel}, default, default)
+         values (#{id}, #{pw}, #{nickname}, default, default, default)
     </insert>
 </mapper>
