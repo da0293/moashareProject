@@ -34,17 +34,13 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 		
 		OAuth2UserInfo oAuth2UserInfo=null;
 		if(userRequest.getClientRegistration().getRegistrationId().equals("google")) {
-			System.out.println("구글로그인");
 			oAuth2UserInfo=new GoogleUserInfo(oauth2User.getAttributes());
 		}else if(userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
-			System.out.println("네이버로그인");
 			oAuth2UserInfo=new NaverUserInfo((Map)oauth2User.getAttributes().get("response"));
 		}else {
-			System.out.println("구글과 네이버만 지원");
 		}
 		
 		String provider=oAuth2UserInfo.getProvider();
-		System.out.println("provider : " +provider);
 		String id=oAuth2UserInfo.getEmail();
 		String randomPw = UUID.randomUUID().toString();
 		String pw=bCryptPasswordEncoder.encode(randomPw);
@@ -58,8 +54,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 					.provider(provider)
 					.build();
 			dao.insertOne(dto);
-		}else { // 이미 구글로그인으로 회원가입된 회원
-			
 		}
 		return new PrincipalDetails(dto, oauth2User.getAttributes());
 	}

@@ -35,9 +35,12 @@
                 <span class="fas fa-key"></span>
                 <input type="password" name="password" id="password" placeholder="비밀번호">
             </div>
-            <input type="submit" id="loginBtn" class="btn mt-3" value="로그인"/>	
-            <button type="button" class="btn mt-3" style="background-color: red" th:onclick="|location.href='@{/oauth2/authorization/google}'|">Google 로그인</button>
-            <button type="button" class="btn mt-3" style="background-color: green" th:onclick="|location.href='@{/oauth2/authorization/naver}'|">네이버 로그인</button>
+            <div th:if="${param.error}" th:text="${errorMsg}" class="alert alert-danger" role="alert"></div>
+            <div>
+            	<input type="submit" id="loginBtn" class="btn mt-3" value="로그인"/>	
+            	<button type="button" class="btn mt-3" style="background-color: red" th:onclick="|location.href='@{/oauth2/authorization/google}'|">Google 로그인</button>
+            	<button type="button" class="btn mt-3" style="background-color: green" th:onclick="|location.href='@{/oauth2/authorization/naver}'|">네이버 로그인</button>
+      		</div>
         </form>
         <div class="text-center fs-6">
             <a th:href="@{/resetPw}">비밀번호를 잊으셨습니까?</a> or <a th:href="@{/register}">회원가입</a>

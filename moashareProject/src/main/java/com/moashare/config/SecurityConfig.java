@@ -9,15 +9,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.moashare.config.oauth.PrincipalOauth2UserService;
+import com.moashare.handler.FailureHandler;
 
 @Configuration
 @EnableWebSecurity // 스프링 시큐리티 필터가 스프링 필터체인에 등록이 됨.
 public class SecurityConfig {
 	
 	private PrincipalOauth2UserService principalOauth2UserService;
+	private FailureHandler failurehandler;
 	
-	public SecurityConfig(PrincipalOauth2UserService pos) {
+	public SecurityConfig(PrincipalOauth2UserService pos, FailureHandler failurehandler) {
 		this.principalOauth2UserService=pos;
+		this.failurehandler=failurehandler;
 	}
 
 	@Bean
@@ -31,14 +34,13 @@ public class SecurityConfig {
 
 				.formLogin((formLogin) -> {
 					formLogin.loginPage("/login") 
-							.loginProcessingUrl("/login") 
-							.failureUrl("/login?error")
+							.loginProcessingUrl("/login")
+							.failureHandler(failurehandler)
 							.defaultSuccessUrl("/home"); 
 							
 				})
 				.oauth2Login((oauth2Login)->{
 					oauth2Login.loginPage("/login")
-							.failureUrl("/login?error")
 							.defaultSuccessUrl("/home")
 							.userInfoEndpoint()
 							.userService(principalOauth2UserService);
