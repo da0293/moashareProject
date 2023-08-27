@@ -35,7 +35,7 @@
                 <span class="fas fa-key"></span>
                 <input type="password" name="password" id="password" placeholder="비밀번호">
             </div>
-            <div th:if="${param.error}" th:text="${errorMsg}" class="alert alert-danger" role="alert"></div>
+            <div th:if="${error}" th:text="${errorMsg}" class="alert alert-danger" role="alert" style="font-size: 12px;"></div>
             <div>
             	<input type="submit" id="loginBtn" class="btn mt-3" value="로그인"/>	
             	<button type="button" class="btn mt-3" style="background-color: red" th:onclick="|location.href='@{/oauth2/authorization/google}'|">Google 로그인</button>
