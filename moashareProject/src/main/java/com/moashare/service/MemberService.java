@@ -27,11 +27,20 @@ public class MemberService {
 
 	public int confirmCk(MemberDTO dto) {
 		int confirm=0;
-		if(dto != null) confirm=1; // 이메일 아이디가 존재할 시(중복일 시) 1로 체크
+		if(dto != null && dto.getProvider()==null) {
+			confirm=1; // 이메일 아이디가 존재할 시(중복일 시) 1로 체크
+		}else if(dto != null &&dto.getProvider()!=null) {
+			confirm=2; //  
+		}
 		return confirm;
 	}
 
 	public void addOne(MemberDTO dto) {
 		mdao.insertOne(dto);
+	}
+
+	public void resetPassword(MemberDTO dto) {
+		mdao.modifyPassword(dto);
+		
 	}
 }

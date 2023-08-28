@@ -1,8 +1,7 @@
-	var check = 0;
+var check = 0;
 	var nickCk=0; 
 	var codeCheck=0; 
 	$(function() {
-		$("#btnnicknameck").on("click", nicknameDuplicateCk); // 아이디중복체크
 		$("#btnemailck").on("click", emailDuplicateCk); // 이메일 아이디 중복체크
 		$("#btnemailverifty").on("click", emailVerifyCk); // 이메일 인증코드 보내기 버튼
 		$("#btncodeck").on("click", codeCk); // 이메일 인증코드 확인 체크
@@ -34,14 +33,18 @@
 						},
 						success : function(confirm) {
 							var confirm = confirm;
-							if (confirm == 1 || confirm==2) {
+							if (confirm == 1 ) {
 								check = 1;
-								$("#emailError").html("이메일이 존재합니다").css(
-										'color', 'red');
-							} else {
-								check = 2;
-								$("#emailError").html("이메일이 사용가능합니다").css(
+								$("#emailError").html("기존 회원입니다.이메일 인증을 진행해 주십시오.").css(
 										'color', 'green');
+							} else if(confirm==2) {
+								check = 2;
+								$("#emailError").html("간편로그인으로 회원가입 하신 이메일입니다. 간편로그인으로 로그인 해 주십시오.").css(
+										'color', 'blue');
+							}else {
+								check = 3;
+								$("#emailError").html("존재하지 않는 회원입니다. 회원가입을 먼저 해주십시오.").css(
+										'color', 'red');
 							}
 						},
 						error : function() {
@@ -51,44 +54,14 @@
 		}
 
 	}
-	function nicknameDuplicateCk() {
-		var nickname = $("#usernickname").val().trim();
-		if (nickname == '') {
-			alert("닉네임을 입력하십시오");
-			$("#usernickname").focus();
-			return false;
-		} else {
-			$.ajax({
-				url : '../register/nicknameCk',
-				type : 'post',
-				data : {
-					nickname : nickname
-				},
-				success : function(confirm) {
-					var confirm = confirm;
-					if (confirm == 1) {
-						nickCk = 1;
-						$("#nicknameError").html("닉네임이 존재합니다").css('color',
-								'red');
-					} else {
-						nickCk = 2;
-						$("#nicknameError").html("닉네임이 사용가능합니다").css('color',
-								'green');
-					}
-				},
-				error : function() {
-					alert("서버요청실패");
-				}
-			})
-		}
-	}
+	
 	function emailVerifyCk() {
 		var email1 = $("#email1").val();
 		var email2 = $("#email2").val();
 		var email = email1 + '@' + email2;
 
 		console.log(email);
-		if(check==2){
+		if( check==1 ){
 			verificationError
 			$.ajax({
 				url : '../register/emailVerify',
@@ -105,8 +78,9 @@
 					alert("관리자에게 문의하십시오.");
 				}
 			});
-		} else{
-			alert("중복확인을 먼저 바르게 진행해 주십시오.");
+			
+		}else {
+			alert("회원확인을 올바르게 진행해 주십시오.");
 		}
 		
 	}
@@ -142,7 +116,6 @@
 		var id = $("#id").val();
 		var pwd = $("#userpw").val();
 		var repwd = $("#userrepw").val();
-		var nickname = $("#usernickname").val();
 		var codeInput = $("#codeInput").val();
 		var codeConfirm = $("#codeConfirm").val();
 
@@ -154,11 +127,15 @@
 			return false; 
 		}else if ( check == 0){
 			//console.log(check);
-			alert("이메일 중복을 확인하십시오.");
+			alert("회원획인을 하십시오.");
 			return false;
-		}else if ( check == 1 ){
+		}else if ( check == 2 ){
 			console.log(check);
-			alert("중복된 이메일입니다. 사용가능한 이메일로 바꿔주십시오.");
+			alert("간편로그인으로 회원가입 하신 이메일입니다.");
+			return false;
+		} else if ( check == 3 ){
+			console.log(check);
+			alert("존재하지않는 회원입니다. 회원가입을 먼저 해주십시오");
 			return false;
 		} else if (codeConfirm=''){
 			alert("인증메일을 받으십시오.")
@@ -168,18 +145,6 @@
 			return false;
 		}else if(codeCheck==2){
 			alert("이메일 인증번호가 다릅니다.");
-			return false;
-		}else if ( nickname == '') {
-			alert("닉네임을 입력하십시오");
-			$("#usernickname").focus(); 
-			return false; 
-		}else if ( nickCk == 0){
-			//console.log(check);
-			alert("닉네임 중복을 확인하십시오.");
-			return false;
-		}else if ( nickCk == 1 ){
-			console.log(check);
-			alert("중복된 닉네임입니다. 사용가능한 닉네임으로 바꿔주십시오.");
 			return false;
 		}else if ( pwd =='' ){
 			alert("비밀번호를 입력하십시오");
@@ -199,5 +164,5 @@
 			$("#userrepw").focus();
 			return false; 
 		}
-		alert("회원가입완료");
+		alert("비밀번호 재설정 완료");
 	}
