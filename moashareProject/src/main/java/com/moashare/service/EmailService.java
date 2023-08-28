@@ -46,7 +46,7 @@ public class EmailService {
     public MimeMessage createEmailForm(String email) throws MessagingException, UnsupportedEncodingException {
         createCode(); //인증 코드 생성
         String toEmail = email; //받는 사람
-        String title = "MOASHARE 회원가입 인증 번호입니다."; //제목
+        String title = "MOASHARE 이메일 인증 번호입니다."; //제목
 
         MimeMessage message = emailSender.createMimeMessage();
         message.addRecipients(MimeMessage.RecipientType.TO, email); //보낼 이메일 설정

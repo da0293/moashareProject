@@ -2,18 +2,18 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>회원가입</title>
+<title>비밀버호 재설정</title>
 <link rel="stylesheet" href="../css/register.css" />
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-<script type="text/javascript" src="../js/register.js"></script>
+<script type="text/javascript" src="../js/resetPw.js"></script>
 </head>	
 <body>
-	<div class="wrapper" id="div1">
+	<div class="wrapper" id="div1" style="height: 540px;">
 		<div class="registerTitle">
-			<h1 style="font-size: 30px;">회원가입</h1>
+			<h1 style="font-size: 30px;">비밀번호 재설정</h1>
 		</div>
-		<form th:action="@{/register}" method="post">
+		<form th:action="@{/resetPw}" method="post">
 			<div id="registerInfo">
 				<div id="div2" class="pad">
 					<label>이메일*</label> <input type="text" name="email1" id="email1"
@@ -28,7 +28,7 @@
 						<option value="yahoo.co.kr">yahoo.co.kr</option>
 						<option value="korea.com">korea.com</option>
 						<option value="hotmail.com">hotmail.com</option>
-					</select> <input type="button" id="btnemailck" class="btn" value="중복확인" />
+					</select> <input type="button" id="btnemailck" class="btn" value="회원확인" />
 					<div id="emailError" class="error"></div>
 					<input type="hidden" name="id" id="id" value=""/>
 				</div>
@@ -42,25 +42,19 @@
 					<div id="verificationError" class="error"></div>
 				</div>
 				<div id="div4" class="pad">
-					<label>닉네임*</label> <input type="text" name="nickname"
-						id="usernickname" placeholder="닉네임" /> <input type="button"
-						id="btnnicknameck" class="btn" value="중복확인" />
-					<div id="nicknameError" class="error"></div>
-				</div>
-				<div id="div5" class="pad">
-					<label>비밀번호*</label> <input type="password" class="sameInput"
+					<label>새 비밀번호*</label> <input type="password" class="sameInput"
 						name="pw" id="userpw" placeholder="6~15자 영문,숫자,특수문자 1개 이상 필수" />
 				</div>
-				<div id="div6" class="pad">
+				<div id="div5" class="pad">
 					<label>비밀번호 확인*</label> <input type="password" class="sameInput"
-						name="repw" id="userrepw" placeholder="비밀번호 확인" />
+						name="repw" id="userrepw" placeholder="새 비밀번호 확인" />
 				</div>
-				<div id="div7"
+				<div id="div6"
 					style="clear: both; padding-top: 10px; box-sizing: border-box;">
-					<input type="submit" id="btnfinck" class="btn" value="회원가입" />
+					<input type="submit" id="btnfinck" class="btn" value="비밀번호 재설정 확인" />
 				</div>
 				<div style="text-align: center;">
-		            <a style="text-decoration: none;" th:href="@{/login}">로그인으로 돌아가기</a>
+		            <a style="text-decoration: none;" th:href="@{/login}">로그인으로 돌아가기</a> or <a style="text-decoration: none;" th:href="@{/register}">회원가입</a>
 		        </div>
 			</div>
 		</form>

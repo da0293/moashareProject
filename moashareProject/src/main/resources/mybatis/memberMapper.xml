@@ -19,4 +19,9 @@
     	 insert into member
          values (#{id}, #{pw}, #{nickname}, default, #{provider}, default)
     </insert>
+    <update id="modifyPassword" parameterType="MemberDTO">
+        update member
+        set pw=#{pw}
+        where id=#{id}
+    </update>
 </mapper>
