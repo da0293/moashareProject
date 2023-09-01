@@ -49,11 +49,7 @@ public class LoginController {
        return "home/login";
    }
 	
-	
-	@GetMapping("/home")
-	public String member(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-		return "home/homepage";
-	}
+
 
 	
 	@GetMapping("/admin")
