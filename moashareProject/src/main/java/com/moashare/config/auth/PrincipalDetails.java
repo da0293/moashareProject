@@ -8,33 +8,35 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import com.moashare.dto.MemberDTO;
+import com.moashare.model.Member;
 
 import lombok.Getter;
 @Getter
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
-	private MemberDTO dto;
+	private Member member;
 	private Map<String, Object> attributes;
 	
 	// 일반로그인
-	public PrincipalDetails(MemberDTO dto) {
-		this.dto=dto;
+	public PrincipalDetails(Member member) {
+		this.member=member;
 	}
 	
 	// OAuth로그인
-	public PrincipalDetails(MemberDTO dto, Map<String, Object> attributes) {
-		this.dto=dto;
+	public PrincipalDetails(Member member, Map<String, Object> attributes ) {
+		this.member=member;
 		this.attributes=attributes;
 	}
-	
+
+
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<GrantedAuthority> collect=new ArrayList<>();
 		collect.add(new GrantedAuthority() {			
 			@Override
 			public String getAuthority() {
-				return dto.getAuth();
+				return member.getAuth();
 			}
 		});
 		return collect;
@@ -42,14 +44,14 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 
 	@Override
 	public String getPassword() {
-		return dto.getPw();
+		return member.getPassword();
 	}
 
 	@Override
 	public String getUsername() {
-		return dto.getId();
+		return member.getEmail();
 	}
-
+	
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
@@ -74,7 +76,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	public Map<String, Object> getAttributes() {
 		return attributes;
 	}
-
+	
 	@Override
 	public String getName() {
 		return null;

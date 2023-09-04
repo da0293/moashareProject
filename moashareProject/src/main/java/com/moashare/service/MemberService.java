@@ -1,46 +1,60 @@
 package com.moashare.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import com.moashare.dao.MemberDAO;
-import com.moashare.dto.MemberDTO;
+import com.moashare.model.Member;
+import com.moashare.repository.MemberRepository;
 
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class MemberService {
-	private final MemberDAO mdao;
 	
-	public int emailCk(String emailId) {
-		MemberDTO dto = mdao.getMemberByEmail(emailId);
-		return confirmCk(dto);
-	}
+	private final MemberRepository memberRepository;
 	
-	public int nicknameCk(String nickname) {
-		MemberDTO dto = mdao.getMemberByNickname(nickname);		
-		return confirmCk(dto);
-	}
 
-	public int confirmCk(MemberDTO dto) {
-		int confirm=0;
-		if(dto != null && dto.getProvider()==null) {
-			confirm=1; // 이메일 아이디가 존재할 시(중복일 시) 1로 체크
-		}else if(dto != null &&dto.getProvider()!=null) {
-			confirm=2; //  
+	public boolean emailConfirm(String email) {
+		System.out.println("Service : " + email);
+		return memberRepository.existsByEmail(email);
+	}
+	
+	public boolean nicknameConfirm(String nickname) {
+		return memberRepository.existsByNickname(nickname);
+	}
+	
+	public Map<String, String> validateHandling(Errors errors) {
+		Map<String, String> validatorResult = new HashMap<>();
+		for(FieldError error : errors.getFieldErrors()) {
+			String validKeyName=String.format("valid_%s", error.getField());
+			validatorResult.put(validKeyName, error.getDefaultMessage());
 		}
-		return confirm;
+		return validatorResult;
 	}
+	
 
-	public void addOne(MemberDTO dto) {
-		mdao.insertOne(dto);
-	}
-
-	public void resetPassword(MemberDTO dto) {
-		mdao.modifyPassword(dto);
+	public void resetPassword() {
+//		MemberDTO dto
+//		mdao.modifyPassword(dto);
 		
 	}
+
+	public void save(@Valid Member member) {
+		memberRepository.save(member);
+		
+	}
+
+
+
+
 }

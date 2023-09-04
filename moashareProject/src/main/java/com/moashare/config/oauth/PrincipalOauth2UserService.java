@@ -14,19 +14,21 @@ import com.moashare.config.auth.PrincipalDetails;
 import com.moashare.config.oauth.provider.GoogleUserInfo;
 import com.moashare.config.oauth.provider.NaverUserInfo;
 import com.moashare.config.oauth.provider.OAuth2UserInfo;
-import com.moashare.dao.MemberDAO;
-import com.moashare.dto.MemberDTO;
+import com.moashare.model.Member;
+import com.moashare.repository.MemberRepository;
 
 @Service
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
-	private final MemberDAO dao;
+	private MemberRepository memberRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	
-	public PrincipalOauth2UserService(MemberDAO dao, BCryptPasswordEncoder bCryptPasswordEncoder) {
-		this.dao=dao;
+	
+	public PrincipalOauth2UserService(MemberRepository memberRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+		this.memberRepository=memberRepository;
 		this.bCryptPasswordEncoder=bCryptPasswordEncoder;
 	}
+	
 	
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -41,20 +43,23 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 		}
 		
 		String provider=oAuth2UserInfo.getProvider();
-		String id=oAuth2UserInfo.getEmail();
+		String email=oAuth2UserInfo.getEmail();
 		String randomPw = UUID.randomUUID().toString();
-		String pw=bCryptPasswordEncoder.encode(randomPw);
+		String password=bCryptPasswordEncoder.encode(randomPw);
 		String nickname=oAuth2UserInfo.getNickname();
-		MemberDTO dto = dao.getMemberByEmail(id);
-		if(dto==null){ //OAuth로그인 최초
-			dto=MemberDTO.builder()
-					.id(id)
-					.pw(pw)
-					.nickname(nickname)
-					.provider(provider)
-					.build();
-			dao.insertOne(dto);
+		Member memberEntity=memberRepository.findByEmail(email);
+		String auth="ROLE_USER";
+		if(memberEntity==null){ //OAuth로그인 최초
+			memberEntity = Member.builder()
+					  .email(email)
+					  .password(password)
+					  .nickname(nickname)
+					  .provider(provider)
+					  .auth(auth)
+					  .build();
+			memberRepository.save(memberEntity);
 		}
-		return new PrincipalDetails(dto, oauth2User.getAttributes());
+		return new PrincipalDetails(memberEntity, oauth2User.getAttributes());
+		
 	}
 }

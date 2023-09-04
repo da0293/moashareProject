@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardController {
 	@GetMapping("/board")
 	public String board(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
-		model.addAttribute("nickname", principalDetails.getDto().getNickname());
+//		model.addAttribute("nickname", principalDetails.getDto().getNickname());
 //		System.out.println("이름 : " +principalDetails.getDto());
 		return "board/board";
 	}
