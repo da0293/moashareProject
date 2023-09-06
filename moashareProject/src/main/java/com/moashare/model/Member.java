@@ -5,8 +5,12 @@ import java.sql.Timestamp;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.moashare.enumpackage.AuthType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -39,9 +43,8 @@ public class Member {
 	@NotNull(message="닉네임은 필수 입력값입니다.")
 	@Pattern(regexp = "^[가-힣a-zA-Z0-9]{2,10}$" , message = "닉네임은 특수문자를 포함하지 않은 2~10자리여야 합니다.")
 	private String nickname;
-	
-	@ColumnDefault("'ROLE_USER'")
-	private String auth; //Enum으로 도메인(범위) 설정 
+	@Enumerated(EnumType.STRING)
+	private AuthType auth; //Enum으로 도메인(범위) 설정 
 	
 	private String provider;
 	
@@ -49,7 +52,7 @@ public class Member {
 	private Timestamp join_dt;
 	
 	@Builder
-	public Member(Long id ,String email ,String password, String nickname, String auth, String provider, Timestamp join_dt) {
+	public Member(Long id ,String email ,String password, String nickname, AuthType auth, String provider, Timestamp join_dt) {
 		this.id=id; 
 		this.email=email;
 		this.password=password;

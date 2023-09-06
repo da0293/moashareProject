@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.moashare.enumpackage.AuthType;
 import com.moashare.model.Member;
 import com.moashare.service.EmailService;
 import com.moashare.service.MemberService;
@@ -66,6 +67,7 @@ public class RegisterController {
 		  .email(member.getEmail())
 		  .password(encPassword)
 		  .nickname(member.getNickname())
+		  .auth(AuthType.ROLE_USER)
 		  .build();
 		ms.save(member);
 		return "redirect:/login";
