@@ -34,7 +34,7 @@
 						},
 						success : function(confirm) {
 							var confirm = confirm;
-							if (confirm == 1 || confirm==2) {
+							if (confirm == 1) {
 								check = 1;
 								$("#emailError").html("이메일이 존재합니다").css(
 										'color', 'red');
@@ -147,8 +147,10 @@
 		var codeConfirm = $("#codeConfirm").val();
 
 		var pwdPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,15}$/;//6~15자 영문,숫자,특수문자 1개 이상 필수
+		var nicknamePattern=/^[가-힣a-zA-Z0-9]{2,10}$/;
 		
-		// 유효성검사 시작
+		
+		
 		if ( email1 == '' || email2 =='') {
 			alert("이메일을 입력하십시오.");
 			return false; 
@@ -173,6 +175,10 @@
 			alert("닉네임을 입력하십시오");
 			$("#usernickname").focus(); 
 			return false; 
+		}else if(!nicknamePattern.test(nickname)){
+			alert("닉네임 형식에 맞게 입력하십시오");
+			$("#usernickname").focus();
+			return false;
 		}else if ( nickCk == 0){
 			//console.log(check);
 			alert("닉네임 중복을 확인하십시오.");

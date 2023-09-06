@@ -30,7 +30,8 @@
 						<option value="hotmail.com">hotmail.com</option>
 					</select> <input type="button" id="btnemailck" class="btn" value="중복확인" />
 					<div id="emailError" class="error"></div>
-					<input type="hidden" name="id" id="id" value=""/>
+					<input type="hidden" name="email" id="id" value=""/>
+					<span th:text="${valid_email}" class="error" style="color: red"></span>
 				</div>
 				<div id="div3" class="pad">
 					<label>본인인증*</label> <input type="button" id="btnemailverifty"
@@ -43,17 +44,19 @@
 				</div>
 				<div id="div4" class="pad">
 					<label>닉네임*</label> <input type="text" name="nickname"
-						id="usernickname" placeholder="닉네임" /> <input type="button"
+						id="usernickname" placeholder="특수문자 없이 2~10자리"/> <input type="button"
 						id="btnnicknameck" class="btn" value="중복확인" />
 					<div id="nicknameError" class="error"></div>
+					<span th:text="${valid_nickname}" class="error" style="color: red"></span>
 				</div>
 				<div id="div5" class="pad">
 					<label>비밀번호*</label> <input type="password" class="sameInput"
-						name="pw" id="userpw" placeholder="6~15자 영문,숫자,특수문자 1개 이상 필수" />
+						name="password" id="userpw" placeholder="6~15자 영문,숫자,특수문자 1개 이상 필수" />
+					<span th:text="${valid_password}" class="error" style="color: red"></span>
 				</div>
 				<div id="div6" class="pad">
 					<label>비밀번호 확인*</label> <input type="password" class="sameInput"
-						name="repw" id="userrepw" placeholder="비밀번호 확인" />
+						name="repassword" id="userrepw" placeholder="비밀번호 확인" />
 				</div>
 				<div id="div7"
 					style="clear: both; padding-top: 10px; box-sizing: border-box;">

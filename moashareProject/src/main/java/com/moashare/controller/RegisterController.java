@@ -66,7 +66,6 @@ public class RegisterController {
 		  .email(member.getEmail())
 		  .password(encPassword)
 		  .nickname(member.getNickname())
-		  .auth("ROLE_USER")
 		  .build();
 		ms.save(member);
 		return "redirect:/login";
