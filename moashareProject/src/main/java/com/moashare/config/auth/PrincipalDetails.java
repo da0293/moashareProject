@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import com.moashare.enumpackage.AuthType;
 import com.moashare.model.Member;
 
 import lombok.Getter;
@@ -36,7 +37,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 		collect.add(new GrantedAuthority() {			
 			@Override
 			public String getAuthority() {
-				return member.getAuth();
+				return member.getAuth().toString();
 			}
 		});
 		return collect;

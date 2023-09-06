@@ -14,6 +14,7 @@ import com.moashare.config.auth.PrincipalDetails;
 import com.moashare.config.oauth.provider.GoogleUserInfo;
 import com.moashare.config.oauth.provider.NaverUserInfo;
 import com.moashare.config.oauth.provider.OAuth2UserInfo;
+import com.moashare.enumpackage.AuthType;
 import com.moashare.model.Member;
 import com.moashare.repository.MemberRepository;
 
@@ -55,7 +56,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 					  .password(password)
 					  .nickname(nickname)
 					  .provider(provider)
-					  .auth(auth)
+					  .auth(AuthType.ROLE_USER)
 					  .build();
 			memberRepository.save(memberEntity);
 		}
