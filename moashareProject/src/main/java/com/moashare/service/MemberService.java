@@ -50,6 +50,7 @@ public class MemberService {
 	}
 
 	public void save(@Valid Member member) {
+		System.out.println("여기");
 		memberRepository.save(member);
 		
 	}

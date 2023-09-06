@@ -1,0 +1,59 @@
+package com.moashare.model;
+
+import java.sql.Timestamp;
+
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+
+import groovy.transform.builder.Builder;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
+public class Board {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@NotNull(message="제목은 필수입력값입니다.")
+	@Size(min = 1, max = 100)
+	private String title;
+	
+	@NotNull(message="내용은 필수입력값입니다.")
+	@Column(columnDefinition = "LONGTEXT")
+	private String content;
+	
+	@ColumnDefault("0")
+	private int hits;
+	
+	@ManyToOne// Many=Board , One=Member
+	@JoinColumn(name = "member_id")
+	private Member member;// DB는 오브젝트 저장할 수 없다.  
+	
+	@CreationTimestamp
+	private Timestamp reg_dt;
+	
+	@Builder
+	public Board(Long id, String title, String content, int hits, Member member , Timestamp reg_dt ) {
+		this.id=id;
+		this.title=title;
+		this.content=content;
+		this.hits=hits;
+		this.member=member;
+		this.reg_dt=reg_dt;
+		
+	}
+	
+}

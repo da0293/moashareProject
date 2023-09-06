@@ -1,5 +1,8 @@
 package com.moashare.model;
 
+import java.sql.Timestamp;
+
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.Column;
@@ -23,7 +26,7 @@ import lombok.NoArgsConstructor;
 public class Member {
 	
 	@Id //primarykey
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private Long id; 
 	
 	@NotNull(message="이메일은 필수 입력값입니다.")
@@ -37,15 +40,16 @@ public class Member {
 	@Pattern(regexp = "^[가-힣a-zA-Z0-9]{2,10}$" , message = "닉네임은 특수문자를 포함하지 않은 2~10자리여야 합니다.")
 	private String nickname;
 	
-	private String auth;
+	@ColumnDefault("'ROLE_USER'")
+	private String auth; //Enum으로 도메인(범위) 설정 
 	
 	private String provider;
 	
 	@CreationTimestamp
-	private String join_dt;
+	private Timestamp join_dt;
 	
 	@Builder
-	public Member(Long id ,String email ,String password, String nickname, String auth, String provider, String join_dt) {
+	public Member(Long id ,String email ,String password, String nickname, String auth, String provider, Timestamp join_dt) {
 		this.id=id; 
 		this.email=email;
 		this.password=password;
