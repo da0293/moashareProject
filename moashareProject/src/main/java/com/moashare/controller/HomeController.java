@@ -20,7 +20,7 @@ public class HomeController {
 	@GetMapping("/home")
 	public String member(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
-//		System.out.println("이름 : " +principalDetails.getDto());
+		
 		return "home/homepage";
 	}
 	

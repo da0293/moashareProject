@@ -25,8 +25,7 @@
 			$("#email2").focus();
 			return false;
 		} else {
-			$
-					.ajax({
+			$.ajax({
 						url : '../register/emailCk',
 						type : 'post',
 						data : {

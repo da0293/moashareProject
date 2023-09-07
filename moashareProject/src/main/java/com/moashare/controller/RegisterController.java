@@ -58,11 +58,7 @@ public class RegisterController {
 			return "home/register";
 		}
 		String rawPassword=member.getPassword();
-//		log.info(member.getEmail());
-//		log.info(member.getNickname());
 		String encPassword=bCryptPasswordEncoder.encode(rawPassword);
-//		System.out.println(member.getEmail());
-//		log.info( "패스워드 <<<<<<<<"+ member.getPassword());
 		member = Member.builder()
 		  .email(member.getEmail())
 		  .password(encPassword)

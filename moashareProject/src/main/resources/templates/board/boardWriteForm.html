@@ -1,12 +1,11 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script type="text/javascript" src="../js/board.js"></script>
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-	crossorigin="anonymous"></script>
+
 <link 
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
 	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
@@ -36,10 +35,8 @@
 		<div class="container" role="main">
 			<div style="margin-top: 60px; margin-bottom: 20px;"><h2>MOASHARE</h2></div>
 			<div style="margin-bottom: 40px;"><h5>프로젝트 모집 새 글 작성</h5></div>
-			<form name="form" id="form" role="form" method="post">
-
+			<form name="form" id="form" role="form" method="post" th:action="@{/boardApi/writeOk}">
 				<div class="mb-3">
-
 					<label for="title">제목</label> <input type="text"
 						class="form-control" name="title" id="title"
 						placeholder="제목을 입력해 주세요">
@@ -53,7 +50,7 @@
 				</div>
 			</form>
 			<div>
-				<button type="submit" class="btn btn-sm btn-success" id="btnSave"
+				<button type="button" class="btn btn-sm btn-success" id="btnSave"
 					name="btnSave">저장</button>
 				<button type="button" class="btn btn-sm btn-dark" id="btnList"
 					name="btnList">목록</button>

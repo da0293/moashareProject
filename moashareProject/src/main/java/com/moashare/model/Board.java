@@ -1,21 +1,25 @@
 package com.moashare.model;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
-import groovy.transform.builder.Builder;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 @Getter
@@ -38,9 +42,15 @@ public class Board {
 	@ColumnDefault("0")
 	private int hits;
 	
-	@ManyToOne// Many=Board , One=Member
+	// Many=Board , One=Member
+	@ManyToOne(fetch = FetchType.EAGER) // FetchType.EAGER 무조건 들고옴
 	@JoinColumn(name = "member_id")
 	private Member member;// DB는 오브젝트 저장할 수 없다.  
+	
+	// mappedBy 연관관계 주인아니다 (foreign key 아님), 데이터베이스에 컬럼을 만들지 말자 
+	// 만약 댓글을 펼치기버튼을 눌러 볼 경우 LAZY
+	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER) 
+	private List<Reply> reply;
 	
 	@CreationTimestamp
 	private Timestamp reg_dt;
@@ -55,5 +65,6 @@ public class Board {
 		this.reg_dt=reg_dt;
 		
 	}
+
 	
 }
