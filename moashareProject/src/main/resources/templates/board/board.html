@@ -5,23 +5,23 @@
 <th:block layout:fragment="content">
 	<!-- Begin Page Content -->
 	<div class="container-fluid">
-		
 		<!-- Page Heading -->
 		<div class="d-sm-flex align-items-center justify-content-between mb-4">
 			<h1 class="h3 mb-0 text-gray-800">프로젝트 모집</h1>
 		</div>
 		<div class=" align-items-center justify-content-between mb-4">
-			<button class="btn btn-success btn-icon-split" th:onclick="|location.href='@{board/writeForm}'|"
-			style="padding-right: 0px;"><span class="text">새 글 작성</span></button>
-			
+			<button class="btn btn-success btn-icon-split"
+				th:onclick="|location.href='@{board/writeForm}'|"
+				style="padding-right: 0px;">
+				<span class="text">새 글 작성</span>
+			</button>
 		</div>
-		
-		
-		<div class="d-sm-flex align-items-center justify-content-between mb-3" style="margin-top: 70px;">
-			<h6 class="h6 mb-0 text-gray-600" style="margin-left:5px;">인기순</h6>
+		<div class="d-sm-flex align-items-center justify-content-between mb-3"
+			style="margin-top: 40px;">
+			<h6 class="h6 mb-0 text-gray-600" style="margin-left: 5px;">인기순</h6>
 		</div>
 		<div class="row">
-		
+
 			<!-- Earnings (Monthly) Card Example -->
 			<div class="col-xl-3 col-md-6 mb-4" style="height: 190px;">
 				<div class="card shadow h-100 py-2">
@@ -33,44 +33,48 @@
 									Earnings (Monthly)</div>
 								<div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
 							</div>
-<!-- 							<div class="col-auto">
+							<!-- 							<div class="col-auto">
 								<i class="fas fa-star fa-1x text-gray-300"></i>
 							</div> -->
 						</div>
 					</div>
 				</div>
-			</div>			
+			</div>
 		</div>
-		<div class="d-sm-flex align-items-center justify-content-between mb-3" style="margin-top: 40px;">
-			<h6 class="h6 mb-0 text-gray-600" style="margin-left:5px;">전체 프로젝트</h6>
+		<div class="d-sm-flex align-items-center justify-content-between mb-3"
+			style="margin-top: 40px;">
+			<h6 class="h6 mb-0 text-gray-600" style="margin-left: 5px;">전체
+				프로젝트</h6>
 		</div>
 		<div class="row">
-		
-			<!-- Earnings (Monthly) Card Example -->
-			<th:block th:each="dto, dtoStat: ${Board}">
-			<div class="col-xl-3 col-md-6 mb-4"  th:if="${dtoStat.index < 16}"  >
-				<div class="card border-left-primary shadow h-100 py-2">
-					<div class="card-body">
-						<div class="row no-gutters align-items-center">
-							<div class="col mr-2">
-								<div
 
-									class="h5 mb-0 font-weight-bold text-primary mb-1" style="overflow: hidden; text-overflow: ellipsis; display: block; white-space: nowrap; width: 100%;">
-									<!--<a th:href="@{board/{id}/document/list(clno=${dto.clno})}" style="text-decoration-line: none;" th:text="${dto.clname}"> </a>  -->
+			<!-- Earnings (Monthly) Card Example -->
+			<th:block th:each="board, boardStat: ${board}">
+				<div class="col-xl-3 col-md-6 mb-4" style="height: 190px;"
+					th:if="${boardStat.index < 16}">
+					<div class="card shadow h-100 py-2">
+						<div class="card-body">
+							<div class="row no-gutters align-items">
+								<div class="col mr-2">
+									<div class="h4 mb-0 font-weight-bold text-success mb-1"
+										style="overflow: hidden; text-overflow: ellipsis; display: block; white-space: nowrap; width: 100%; height: 110px;">
+										<a th:href="@{/}"
+											style="text-decoration-line: none; color: #1cc88a"
+											th:text="${board.title}">> </a>
+									</div>
+									<div class="h6 mb-0 font-weight-bold text-gray-800"
+										th:text="'조회수 ' + ${board.hits} + '회'"></div>
 								</div>
-								<div  style="overflow: hidden; text-overflow: ellipsis; display: block; white-space: nowrap; width: 100%;"  class="text-xs font font-weight-bold text-gray-800"  th:text="${dto.clexplain}"></div>
-							</div>
-							<div class="col-auto">
-								</i>
+								<div class="col-auto">
+									<i class="fas fa-star fa-1x text-gray-300"></i>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			</th:block>			
+			</th:block>
 		</div>
+
 	</div>
-	<!-- /.container-fluid -->
-	<!-- /.container-fluid -->
 </th:block>
 </html>

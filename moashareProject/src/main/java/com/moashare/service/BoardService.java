@@ -1,5 +1,8 @@
 package com.moashare.service;
 
+import java.util.List;
+
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.moashare.model.Board;
@@ -21,5 +24,9 @@ public class BoardService {
 	 public void saveBoard(Board board) {
 		 boardRepository.save(board);
 	 }
+
+	public List<Board> boardList(Pageable pageable) {
+		return boardRepository.findAll();
+	}
 	 
 }
