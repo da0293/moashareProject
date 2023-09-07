@@ -27,7 +27,7 @@ public class BoardController {
 	
 	@GetMapping("/board")
 	public String board(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model,
-							@PageableDefault(size = 2, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+							@PageableDefault(size = 3, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
 		model.addAttribute("board", boardService.boardList(pageable));
 		return "board/board";

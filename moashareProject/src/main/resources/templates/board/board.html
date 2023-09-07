@@ -74,7 +74,39 @@
 				</div>
 			</th:block>
 		</div>
-
+		<div class="col-sm-12 col-md-7">
+			<div class="dataTables_paginate paging_simple_numbers" 
+				id="dataTable_paginate">
+				<!-- 페이징 처리 시작 -->
+				<ul class="pagination justify-content-center">
+					<!-- Previous 시작 -->
+					<li
+						class="paginate_button page-item previous disabled"
+						id="dataTable_previous"><a
+						href="/"
+						aria-controls="dataTable" data-dt-idx="0" tabindex="0"
+						class="page-link">Previous</a></li>
+					<!-- Previous 끝 -->
+					<!-- Page번호 시작, 컨트롤러에서 list에 페이징 객체를 넣었으므로 list.변수명으로 불러옴 -->
+					<th:forEach>
+						<li
+							class="paginate_button page-item"><a
+							href="/" aria-controls="dataTable"
+							data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
+					</th:forEach>
+					<!-- Page번호 끝 -->
+					<!-- Next 시작 -->
+					<li
+						class="paginate_button page-item next"
+						id="dataTable_next"><a
+						href="?page=${board.number+1}"
+						aria-controls="dataTable" data-dt-idx="7" tabindex="0"
+						class="page-link">Next</a></li>
+					<!-- Next 끝 -->
+					<!-- 페이징 처리 끝 -->
+				</ul>
+			</div>
+		</div>
 	</div>
 </th:block>
 </html>
