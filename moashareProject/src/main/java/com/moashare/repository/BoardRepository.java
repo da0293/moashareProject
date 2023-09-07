@@ -1,5 +1,7 @@
 package com.moashare.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,6 +12,8 @@ import com.moashare.model.Member;
 // @Repository라는 어노테이션이 없어도 IOC된다. 
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Integer> {
+
+	Page<Board> findByTitleContaining(String searchKeyWord, Pageable pageable);
 
 	
 	

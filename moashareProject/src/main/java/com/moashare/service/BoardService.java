@@ -31,8 +31,7 @@ public class BoardService {
 	}
 
 	public Page<Board> boardSearchList(String searchKeyWord, Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		return boardRepository.findByTitleContaining(searchKeyWord,pageable);
 	}
 	 
 }
