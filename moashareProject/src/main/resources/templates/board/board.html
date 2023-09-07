@@ -46,7 +46,7 @@
 			<h6 class="h6 mb-0 text-gray-600" style="margin-left: 5px;">전체
 				프로젝트</h6>
 		</div>
-		<div class="row">
+		<div class="row" style="height: 660px;">
 
 			<!-- Earnings (Monthly) Card Example -->
 			<th:block th:each="board, boardStat: ${board}">
@@ -60,7 +60,7 @@
 										style="overflow: hidden; text-overflow: ellipsis; display: block; white-space: nowrap; width: 100%; height: 110px;">
 										<a th:href="@{/}"
 											style="text-decoration-line: none; color: #1cc88a"
-											th:text="${board.title}">> </a>
+											th:text="${board.title}"></a>
 									</div>
 									<div class="h6 mb-0 font-weight-bold text-gray-800"
 										th:text="'조회수 ' + ${board.hits} + '회'"></div>
@@ -74,13 +74,13 @@
 				</div>
 			</th:block>
 		</div>
-		<div class="col-sm-12 col-md-7">
+<!-- 		<div class="col-sm-12 col-md-7">
 			<div class="dataTables_paginate paging_simple_numbers" 
 				id="dataTable_paginate">
 				<!-- 페이징 처리 시작 -->
-				<ul class="pagination justify-content-center">
+<!-- 				<ul class="pagination justify-content-center">
 					<!-- Previous 시작 -->
-					<li
+<!-- 						<li
 						class="paginate_button page-item previous disabled"
 						id="dataTable_previous"><a
 						href="/"
@@ -88,7 +88,7 @@
 						class="page-link">Previous</a></li>
 					<!-- Previous 끝 -->
 					<!-- Page번호 시작, 컨트롤러에서 list에 페이징 객체를 넣었으므로 list.변수명으로 불러옴 -->
-					<th:forEach>
+<!-- 					<th:forEach>
 						<li
 							class="paginate_button page-item"><a
 							href="/" aria-controls="dataTable"
@@ -96,7 +96,7 @@
 					</th:forEach>
 					<!-- Page번호 끝 -->
 					<!-- Next 시작 -->
-					<li
+<!-- 					<li
 						class="paginate_button page-item next"
 						id="dataTable_next"><a
 						href="?page=${board.number+1}"
@@ -104,9 +104,15 @@
 						class="page-link">Next</a></li>
 					<!-- Next 끝 -->
 					<!-- 페이징 처리 끝 -->
-				</ul>
+<!-- 				</ul>
 			</div>
-		</div>
+		</div> -->
+		<div>
+		<th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+          <a th:if="${page != nowPage}" th:href="@{/board(page = ${page - 1}, searchKeyword = ${param.searchKeyword})}" th:text="${page}"></a>
+          <strong th:if="${page == nowPage}" th:text="${page}" style="color : red"></strong>
+      </th:block>
+      </div>
 	</div>
 </th:block>
 </html>

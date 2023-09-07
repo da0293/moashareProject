@@ -29,5 +29,10 @@ public class BoardService {
 	public Page<Board> boardList(Pageable pageable) {
 		return boardRepository.findAll(pageable);
 	}
+
+	public Page<Board> boardSearchList(String searchKeyWord, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	 
 }

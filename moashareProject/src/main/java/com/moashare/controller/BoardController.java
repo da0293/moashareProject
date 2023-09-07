@@ -1,5 +1,6 @@
 package com.moashare.controller;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.moashare.config.auth.PrincipalDetails;
+import com.moashare.model.Board;
 import com.moashare.service.BoardService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,9 +29,23 @@ public class BoardController {
 	
 	@GetMapping("/board")
 	public String board(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model,
-							@PageableDefault(size = 3, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+							@PageableDefault(page=0, size = 12, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+							String searchKeyWord) {
+		Page<Board> board= null;
+		if(searchKeyWord==null) {
+			board=boardService.boardList(pageable);
+		} else {
+			board=boardService.boardSearchList(searchKeyWord,pageable);
+		}
+		int nowPage=board.getPageable().getPageNumber()+1;
+		int startPage=Math.max(nowPage-4, 1);
+		int endPage=Math.max(nowPage+5, board.getTotalPages());
+		
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
-		model.addAttribute("board", boardService.boardList(pageable));
+		model.addAttribute("board", board);
+		model.addAttribute("nowPage", nowPage);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
 		return "board/board";
 	}
 	
