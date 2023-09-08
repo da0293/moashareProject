@@ -11,7 +11,7 @@ import com.moashare.model.Member;
 // CRUD 함수를 JpaRepository가 들고 있음
 // @Repository라는 어노테이션이 없어도 IOC된다. 
 @Repository
-public interface BoardRepository extends JpaRepository<Board, Integer> {
+public interface BoardRepository extends JpaRepository<Board, Long> {
 
 	Page<Board> findByTitleContaining(String searchKeyWord, Pageable pageable);
 

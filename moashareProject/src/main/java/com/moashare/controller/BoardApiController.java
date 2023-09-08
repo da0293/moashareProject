@@ -1,7 +1,10 @@
 package com.moashare.controller;
 
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,7 +39,14 @@ public class BoardApiController {
 				.member(principalDetails.getMember())
 				.build();
 		boardService.saveBoard(board);
-		return new ResponseDTO<Integer>(HttpStatus.OK,1); // 성공시 1로 리턴 
+		return new ResponseDTO<Integer>(HttpStatus.OK,1); // 정상성공시 1로 리턴 
 		
 	}
+	
+	@DeleteMapping("/boardApi/board/{id}")
+	public ResponseDTO<Integer> deleteyById(@PathVariable Long id){
+		boardService.deleteBoard(id);
+		return new ResponseDTO<Integer>(HttpStatus.OK,1); 
+	}
+	
 }

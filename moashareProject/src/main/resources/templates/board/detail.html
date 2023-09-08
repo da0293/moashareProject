@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layout/default}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<th:block layout:fragment="content">
+	<!-- Begin Page Content -->
+	<div class="container-fluid">
+		<div class="container px-4 px-lg-5">
+			<div class="row gx-4 gx-lg-5 justify-content-center">
+				<div class="container List-container">
+				<div style="margin-top: 20px; margin-bottom: 70px;">
+						<button type="button" class="btn btn-warning update-btn"
+							id="updateBoard">수정</button>
+						<button type="button" class="btn btn-danger delete-btn"
+							id="deleteBoard">삭제</button>
+						<button type="button" class="btn btn-primary list-btn"
+							onclick="history.back()">뒤로</button>
+					</div>
+					<div class="row mt-1 header">
+						<input type="hidden" id="id" name="brdno" th:value="${board.id}"/>
+						<h5 class="col-1 board-title">제목</h5>
+						<p class="col-8" style="word-break: break-all;" th:text="${board.title}"></p>					
+					</div>
+					<div class="row mt-1 header">
+						<h5 class="col-1 board-writer">작성자</h5>
+						<p class="col-8" style="word-break: break-all;" th:text="${board.member.nickname}"></p>	
+					</div>
+					<div class="row mt-1 header">
+						<h5 class="col-1 board-title">작성일</h5>
+						<p class="col-8" style="word-break: break-all;"th:text="${#dates.format(board.reg_dt, 'yyyy-MM-dd HH:mm:ss')}"></p>		
+						<p class="col-2" th:text="'조회수 ' + ${board.hits}"></p>			
+					</div>						
+					<div class="board-container" style="border-top-color: black; border-top: solid; ">
+						<div class="content" style="word-break: break-all; margin-top: 30px;" th:utext="${board.content}">
+							</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		</div>
+		<!-- /.container-fluid -->
+</th:block>
+</html>

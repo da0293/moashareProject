@@ -33,10 +33,16 @@ $(document).on('click', '#btnSave', function(e) {
 $(document).on('click', '#btnList', function(e) {
 
 	e.preventDefault();
+	location.href = "/board";
 
+});
 
-
-	location.href = "${pageContext.request.contextPath}/board/getBoardList";
-
+$(document).on('click', '#deleteBoard', function(e) {
+	console.log("버튼눌림");
+	e.preventDefault();
+	var id = $("#id").val();
+	console.log(id);
+	// ajax 호출 시 default가 비동기 호출, 아래 코드 실행 가능
+	
 });
 
