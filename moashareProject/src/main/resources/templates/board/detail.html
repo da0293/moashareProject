@@ -9,13 +9,13 @@
 		<div class="container px-4 px-lg-5">
 			<div class="row gx-4 gx-lg-5 justify-content-center">
 				<div class="container List-container">
-				<div style="margin-top: 20px; margin-bottom: 70px;">
-						<button type="button" class="btn btn-warning update-btn"
+				<div style="margin-top: 20px; margin-bottom: 50px; text-align: right" >
+						<button th:if="${board.member.nickname}== ${nickname}" type="button" class="btn btn-warning update-btn"
 							id="updateBoard">수정</button>
-						<button type="button" class="btn btn-danger delete-btn"
+						<button th:if="${board.member.nickname}== ${nickname}" type="button" class="btn btn-danger delete-btn"
 							id="deleteBoard">삭제</button>
-						<button type="button" class="btn btn-primary list-btn"
-							onclick="history.back()">뒤로</button>
+						<button type="button" class="btn btn-success list-btn"
+							onclick="history.back()">뒤로가기</button>
 					</div>
 					<div class="row mt-1 header">
 						<input type="hidden" id="id" name="brdno" th:value="${board.id}"/>
