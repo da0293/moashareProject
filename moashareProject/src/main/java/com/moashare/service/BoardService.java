@@ -8,10 +8,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.moashare.enumpackage.AuthType;
 import com.moashare.model.Board;
 import com.moashare.model.Member;
 import com.moashare.repository.BoardRepository;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Service
 public class BoardService {
 
@@ -62,6 +65,35 @@ public class BoardService {
 	@Transactional
 	public void deleteBoard(Long id) {
 		boardRepository.deleteById(id);
+	}
+
+	// 게시판 수정
+
+//	public void updateBoard(Long id, Board board) {
+//		log.info("id <<<<<<<<<<<<<<<  " + id);
+//		log.info("board <<<<<<<<<<<<<<<<< : " +board.getContent());
+//		Board updateBoard=boardRepository.findById(id)
+//				.orElseThrow(() -> {
+//					return new IllegalArgumentException("아이디가 없어 글 찾기를 실패하였씁니다.");
+//				}); // 영속화 완료
+//		
+//		updateBoard=Board.builder()
+//				.title(board.getTitle())
+//				.content(board.getContent())
+//				.build();
+//		// 해당 함수 종료시(Service가 종료될 때) 트랜잭션 종료, 이 때 더티체킹함(자동 업데이트)
+//	}
+	@Transactional
+	public void updateBoard(Long id, String title, String content) {
+		log.info("여기");
+		Board board=boardRepository.findById(id)
+				.orElseThrow(() -> {
+					return new IllegalArgumentException("아이디가 없어 글 찾기를 실패하였씁니다.");
+				}); // 영속화 완료
+		board = Board.builder()
+				.title(title)
+				.content(content)
+				.build();
 	}
 	 
 }

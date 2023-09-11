@@ -24,3 +24,4 @@ $(document).on('click', '#deleteBoard', function(e) {
 	
 
 });
+

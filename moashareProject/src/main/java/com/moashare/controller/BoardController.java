@@ -28,6 +28,7 @@ public class BoardController {
 		this.boardService=boardService;
 	}
 	
+	// 페이징처리
 	@GetMapping("/board")
 	public String board(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model,
 							@PageableDefault(page=0, size = 12, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
@@ -63,6 +64,10 @@ public class BoardController {
 		return "board/detail";
 		
 	}
-	
+	@GetMapping("/board/{id}/update")
+	public String updateForm(@PathVariable Long id, Model model) {
+		model.addAttribute("board", boardService.detailView(id));
+		return "board/updateForm";
+	}
 
 }

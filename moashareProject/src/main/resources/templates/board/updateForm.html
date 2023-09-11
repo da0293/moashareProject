@@ -2,13 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-<script type="text/javascript" src="../js/board.js"></script>
+<script type="text/javascript" src="/js/board.js"></script>
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
 <link 
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"s
+	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
 	crossorigin="anonymous" rel="stylesheet"/>
 <script
 	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
@@ -28,32 +28,30 @@
 	rel="stylesheet"/>
 <script
 	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-
 <!-- include libraries(jQuery, bootstrap) -->
 	<!-- Begin Page Content -->
 	<div class="container-fluid">
 		<div class="container" role="main">
 			<div style="margin-top: 60px; margin-bottom: 20px;"><h2>MOASHARE</h2></div>
-			<div style="margin-bottom: 40px;"><h5>프로젝트 모집 새 글 작성</h5></div>
-			<form name="form" id="form" role="form" method="post" th:action="@{/boardApi/writeOk}">
+			<div style="margin-bottom: 40px;"><h5>작성 글 작성</h5></div>
+			<form name="form" id="form" role="form" method="post">
 				<div class="mb-3">
 					<label for="title">제목</label> <input type="text"
 						class="form-control" name="title" id="title"
-						placeholder="제목을 입력해 주세요">
+						th:value="${board.title}">
 
 				</div>
 				<div class="mb-3">
 					<label for="content">내용</label>
 					<textarea class="form-control summernote" rows="20" name="content"
-						id="content"></textarea>
+						id="content" th:utext="${board.content}"></textarea>
 
 				</div>
+				<input type="hidden" id="id" name="brdno" th:value="${board.id}"/>
 			</form>
 			<div>
-				<button type="button" class="btn btn-sm btn-success" id="btnSave"
-					name="btnSave">저장</button>
-				<button type="button" class="btn btn-sm btn-dark" id="btnList"
-					name="btnList">목록</button>
+				<button type="button" class="btn btn-sm btn-success" id="btnUpdate"
+					name="btnUpdate">수정완료</button>
 			</div>
 		</div>
 	</div>
