@@ -32,8 +32,6 @@ public class BoardApiController {
 	
 	@PostMapping("/boardApi/writeOk")
 	public ResponseDTO<Integer> writeOk(@RequestParam("title")String title, @RequestParam("content")String content, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-		log.info("title <<<<<<<<<<<<<"+ title);
-		log.info("cont " + content);
 		
 		Board board = Board.builder()
 				.title(title)
@@ -52,12 +50,8 @@ public class BoardApiController {
 	}
 	
 	@PutMapping("/boardApi/board/{id}") // delete와 같아도 메서드가 달라 괜찮다.
-	public ResponseDTO<Integer> update(@PathVariable Long id, @RequestParam("title")String title, @RequestParam("content")String content){
-		log.info("id : <<<<<<<<<<<<<<<< " +id);
-		log.info("title : <<<<<<<<<<<<<<<< " +title);
-		log.info("content : <<<<<<<<<<<<<<<< " +content);
-		
-		boardService.updateBoard(id,title, content);
+	public ResponseDTO<Integer> update(@PathVariable Long id, @RequestBody Board requestBoard){
+		boardService.updateBoard(id,requestBoard);
 		return new ResponseDTO<Integer>(HttpStatus.OK,1); 
 		
 	}
