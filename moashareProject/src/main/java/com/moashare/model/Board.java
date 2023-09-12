@@ -22,9 +22,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Setter
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -67,6 +65,11 @@ public class Board {
 		this.member=member;
 		this.reg_dt=reg_dt;
 		
+	}
+	
+	public void update(String title, String content) {
+		this.title=title;
+		this.content=content;
 	}
 
 	

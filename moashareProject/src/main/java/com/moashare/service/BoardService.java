@@ -42,6 +42,7 @@ public class BoardService {
 
 	// 게시판 상세페이지
 	public Board detailView(Long id) {
+
 		return boardRepository.findById(id)
 				.orElseThrow(() -> {
 					return new IllegalArgumentException("아이디를 찾을 수 없어 글을 볼 수 없습니다.");
@@ -61,8 +62,9 @@ public class BoardService {
 				.orElseThrow(() -> {
 					return new IllegalArgumentException("아이디가 없어 글 찾기를 실패하였씁니다.");
 				}); // 영속화 완료
-		board.setTitle(requestBoard.getTitle());
-		board.setContent(requestBoard.getContent());
+		board.update(requestBoard.getTitle(),requestBoard.getContent());
+
 		// 해당 함수 종료시(Service가 종료될 때) 트랜잭션 종료, 이 때 더티체킹함(자동 업데이트)
-	}	 
+	}
+
 }
