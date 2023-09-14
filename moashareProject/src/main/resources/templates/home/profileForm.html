@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>프로필</title>
+<link rel="stylesheet" href="../css/register.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script type="text/javascript" src="../js/profile.js"></script>
+</head>	
+<body>
+	<div class="wrapper" id="div1">
+		<div class="registerTitle">
+			<h1 style="font-size: 30px;">회원가입</h1>
+		</div>
+		<form>
+			<div id="profileInfo">
+				<input type="hidden" id="userid" th:value="${id}" />
+				<div id="div4" class="pad">
+					<label>닉네임*</label> <input type="text" name="nickname" th:value="${nickname}"
+						id="usernickname" placeholder="특수문자 없이 2~10자리"/> <input type="button"
+						id="btnnicknameck" class="btn" value="중복확인" />
+					<div id="nicknameError" class="error"></div>
+					<span class="error" style="color: red"></span>
+				</div>
+				<div id="div5" class="pad">
+					<label>비밀번호*</label> <input type="password" class="sameInput" 
+						name="password" id="userpw" placeholder="6~15자 영문,숫자,특수문자 1개 이상 필수" />
+				</div>
+				<div id="div7"
+					style="clear: both; padding-top: 10px; box-sizing: border-box;" align="center">
+					<input type="button" id="updateProfileBtn" class="btn" style="background-color: lime;" value="회원수정 완료" />
+					<a style="text-decoration: none; color: green;" th:href="@{/home}">홈으로 돌아가기</a>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

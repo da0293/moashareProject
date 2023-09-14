@@ -24,6 +24,12 @@ public class HomeController {
 		return "home/homepage";
 	}
 	
+	@GetMapping("/profile")
+	public String updateProfile(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+		model.addAttribute("nickname", principalDetails.getMember().getNickname());
+		model.addAttribute("id", principalDetails.getMember().getId());
+		return "home/profileForm";
+	}
 	
 	// 협업공간이름 검색
 	@GetMapping("/search") 	
