@@ -19,11 +19,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class MemberService {
 	
 	private final MemberRepository memberRepository;
-	private final BCryptPasswordEncoder encoder;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	public MemberService(MemberRepository memberRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+		this.memberRepository=memberRepository;
+		this.bCryptPasswordEncoder=bCryptPasswordEncoder;
+	}
 
 	public boolean emailConfirm(String email) {
 		System.out.println("Service : " + email);
@@ -65,8 +69,8 @@ public class MemberService {
 		});
 		
 		String rawPassword=member.getPassword();
-		String encPassword=encoder.encode(rawPassword);
-		persistance.update(member.getNickname(),member.getPassword());
+		String encPassword=bCryptPasswordEncoder.encode(rawPassword);
+		persistance.update(member.getNickname(),encPassword);
 		// 회원 수정 함수 종료시 = 서비스 종류 = 트랜잭션 종료 = 커밋 자동
 		// = 영속화된 persistance객체의 변화가 감지되면 더티체킹이 되서 update문을 자동으로 날려줌
 		
