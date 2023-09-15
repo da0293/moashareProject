@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.moashare.model.Board;
+import com.moashare.model.Member;
+import com.moashare.model.Reply;
 import com.moashare.repository.BoardRepository;
+import com.moashare.repository.ReplyRepository;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
@@ -17,9 +20,11 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardService {
 
 	 private final BoardRepository boardRepository;
+	 private final ReplyRepository replyRepository;
 	 
-	 public BoardService(BoardRepository boardRepository) {
+	 public BoardService(BoardRepository boardRepository, ReplyRepository replyRepository) {
 		 this.boardRepository=boardRepository;
+		 this.replyRepository=replyRepository;
 	 }
 	 
 	 // 게시판 글 저장
@@ -65,6 +70,21 @@ public class BoardService {
 		board.update(requestBoard.getTitle(),requestBoard.getContent());
 
 		// 해당 함수 종료시(Service가 종료될 때) 트랜잭션 종료, 이 때 더티체킹함(자동 업데이트)
+	}
+
+	@Transactional
+	public void saveReply(Member member, Long id, String rcontent) {
+		Board board=boardRepository.findById(id)
+				.orElseThrow(() -> {
+					return new IllegalArgumentException("댓글 작성에 실패하였씁니다.게시글번호를 찾을 수 없습니다.");
+				});
+		Reply reply=Reply.builder()
+				.rcontent(rcontent)
+				.board(board)
+				.member(member)
+				.build();
+		
+		replyRepository.save(reply);
 	}
 
 }

@@ -16,6 +16,7 @@ import com.moashare.controller.BoardApiController;
 import com.moashare.dto.ResponseDTO;
 import com.moashare.model.Board;
 import com.moashare.model.Member;
+import com.moashare.model.Reply;
 import com.moashare.service.BoardService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -53,6 +54,17 @@ public class BoardApiController {
 	public ResponseDTO<Integer> update(@PathVariable Long id, @RequestBody Board requestBoard){
 		boardService.updateBoard(id,requestBoard);
 		return new ResponseDTO<Integer>(HttpStatus.OK,1); 
+		
+	}
+	
+	// 댓글 작성
+	@PostMapping("/boardApi/board/{boardId}/reply")
+	public ResponseDTO<Integer> replySave(@RequestParam("rcontent") String rcontent,
+			@AuthenticationPrincipal PrincipalDetails principalDetails,
+			@PathVariable Long boardId) {
+		log.info("여기");
+		boardService.saveReply(principalDetails.getMember(), boardId, rcontent);
+		return new ResponseDTO<Integer>(HttpStatus.OK,1); // 정상성공시 1로 리턴 
 		
 	}
 	

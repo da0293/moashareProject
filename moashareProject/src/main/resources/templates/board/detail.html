@@ -3,6 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{/layout/default}">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script type="text/javascript" src="../js/board.js"></script>
 <th:block layout:fragment="content">
 	<!-- Begin Page Content -->
 	<div class="container-fluid">
@@ -37,8 +38,15 @@
 					</div>
 					<hr>
 					<div class="card">
-						<div class="card-body"><textarea class="form-control" rows="1"></textarea></div>
-						<div class="card-footer"><button class="btn btn-success">등록</button></div>	
+						<form>
+							<input type="hidden" id="boardId" th:value="${board.id}" />
+							<div class="card-body">
+								<textarea id="reply-content" class="form-control" rows="1"></textarea>
+							</div>
+							<div class="card-footer">
+								<button id="btn-reply-content" class="btn btn-success">등록</button>
+							</div>	
+						</form>
 					</div>
 					<br />
 					<div class="card">

@@ -17,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
@@ -53,6 +54,7 @@ public class Board {
 	// 만약 댓글을 펼치기버튼을 눌러 볼 경우 LAZY
 	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER) 
 	@JsonIgnoreProperties({"board"})
+//	@OrderBy("id desc")
 	private List<Reply> replys;
 	
 	@CreationTimestamp

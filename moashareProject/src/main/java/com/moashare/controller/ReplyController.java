@@ -20,5 +20,6 @@ public class ReplyController {
 		// get reply에서 문제가 일어나는데 reply클래스에서 get id, rcontent...하다가 다시 get board
 		// 그러면 다시 board클래스로 가서 get id, get title...이런 식으로 무한참조된다.
 		// 방법 : reply갔을 때 board호출 안되도록 무시, Board모델에 reply컬럼 위에 표시 : @JsonIgonreProperties 사용
+		// 정리 : 다이렉트로 replyRepsoitory에서 get했을 때는 무한참조 안 일어나지만 boardRepostiory를 통했을 때에는 무한참조 생김! 
 	}
 }
