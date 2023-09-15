@@ -27,6 +27,7 @@ public class HomeController {
 	@GetMapping("/profile")
 	public String updateProfile(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
+		model.addAttribute("email", principalDetails.getMember().getEmail());
 		model.addAttribute("id", principalDetails.getMember().getId());
 		return "home/profileForm";
 	}

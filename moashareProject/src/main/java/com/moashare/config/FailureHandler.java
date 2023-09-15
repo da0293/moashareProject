@@ -39,8 +39,6 @@ public class FailureHandler implements AuthenticationFailureHandler {
 		
 		request.setAttribute("errorMsg", errorMsg);
         request.getRequestDispatcher("/login/fail").forward(request, response);
-
-		
 	}
 
 }

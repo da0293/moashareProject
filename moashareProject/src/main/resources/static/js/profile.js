@@ -43,11 +43,13 @@
 		const nickname = $("#usernickname").val();
 		const pwd = $("#userpw").val();
 		const id = $("#userid").val();
+		const email = $("#userEamil").val();
 		console.log("id : " + id);
 		console.log("pwd : " + pwd);
 		console.log("nickname : " + nickname);
        	const params = {
             id : id,
+            email : email,
             nickname : nickname,
             password : pwd,
         }

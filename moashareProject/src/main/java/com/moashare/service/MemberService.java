@@ -4,6 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
@@ -15,7 +20,6 @@ import com.moashare.repository.MemberRepository;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
@@ -23,6 +27,7 @@ public class MemberService {
 	
 	private final MemberRepository memberRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
 	
 	public MemberService(MemberRepository memberRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
 		this.memberRepository=memberRepository;
@@ -71,6 +76,7 @@ public class MemberService {
 		String rawPassword=member.getPassword();
 		String encPassword=bCryptPasswordEncoder.encode(rawPassword);
 		persistance.update(member.getNickname(),encPassword);
+
 		// 회원 수정 함수 종료시 = 서비스 종류 = 트랜잭션 종료 = 커밋 자동
 		// = 영속화된 persistance객체의 변화가 감지되면 더티체킹이 되서 update문을 자동으로 날려줌
 		
