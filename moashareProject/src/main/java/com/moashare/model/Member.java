@@ -33,7 +33,7 @@ public class Member {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private Long id; 
 	
-	@NotNull(message="이메일은 필수 입력값입니다.")
+	@Column( nullable=false,unique=true)
 	@Email(message="올바른 이메일 주소를 입력하세요.")
 	private String email;
 	

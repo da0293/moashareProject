@@ -89,7 +89,7 @@ public class BoardService {
 //		Reply reply=new Reply();
 //		reply.update(member, board, replyDTO.getRcontent());
 		int result=replyRepository.replySave(replyDTO.getMember_id(), replyDTO.getBoard_id(), replyDTO.getRcontent());
-		log.info("<<<<<<<<<<<<<<<<<< result : " + result);
+		System.out.println(result); // 오브젝트를 출력하면 자동으로 toString 호출
 	}
 
 }

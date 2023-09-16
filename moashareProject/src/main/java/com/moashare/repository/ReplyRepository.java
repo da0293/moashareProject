@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 public interface ReplyRepository extends JpaRepository<Reply, Long>{
 	
 	// 인테페이스에선  public 생략가능
+	// Modfiying은 int만
 	@Modifying
 	@Transactional
 	@Query(value="insert into Reply (member_id,board_id,rcontent,reg_dt) values (?1,?2,?3,now())", nativeQuery=true)

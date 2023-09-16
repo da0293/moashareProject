@@ -90,7 +90,7 @@ $(document).on('click', '#btn-reply-content', function(e) {
 		success: function(response) {
 			console.log(response);
 			alert("댓글 작성이 완료되었습니다.")
-			location.href="/board/"+boardId;
+			location.href="/board/"+board_id;
 		},
 		error: function() {
 			alert("서버요청실패");
