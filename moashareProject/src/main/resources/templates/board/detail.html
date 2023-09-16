@@ -11,7 +11,7 @@
 			<div class="row gx-4 gx-lg-5 justify-content-center">
 				<div class="container List-container">
 				<div style="margin-top: 20px; margin-bottom: 50px; text-align: right" >
-						<button th:if="${board.member.nickname}== ${nickname}" type="button" class="btn btn-warning update-btn"
+						<button th:if="${board.member.id}== ${id}" type="button" class="btn btn-warning update-btn"
 							id="updateBoard" th:onclick="|location.href='@{/board/{boardId}(boardId=${board.id})}/update'|">수정</button>
 						<button th:if="${board.member.nickname}== ${nickname}" type="button" class="btn btn-danger delete-btn"
 							id="deleteBoard">삭제</button>
@@ -61,7 +61,7 @@
 								<div th:text="${reply.rcontent}"></div>
 								<div class="d-flex">
 									  <div class="font-italic"  th:text="${reply.member.nickname}"></div>&nbsp;&nbsp;
-									  <button id="btnReplyDelte" class="badge">삭제</button>
+									  <button th:if="${reply.member.id}== ${id}" id="btnReplyDelte" class="badge">삭제</button>
 							 	 </div>
 							</form>
 							</li>
