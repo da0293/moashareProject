@@ -79,16 +79,17 @@ public class BoardService {
 	@Transactional
 	public void saveReply(ReplyDTO replyDTO) {
 		
-		Member member=memberRepository.findById(replyDTO.getMemberId()).orElseThrow(() -> {
-			return new IllegalArgumentException("댓글 작성에 실패하였씁니다.회원 아이디를 찾을 수 없습니다.");
-		});
-		Board board=boardRepository.findById(replyDTO.getBoardId())
-				.orElseThrow(() -> {
-					return new IllegalArgumentException("댓글 작성에 실패하였씁니다.게시글번호를 찾을 수 없습니다.");
-				}); // 영속화
-		Reply reply=new Reply();
-		reply.update(member, board, replyDTO.getRcontent());
-		replyRepository.save(reply);
+//		Member member=memberRepository.findById(replyDTO.getMemberId()).orElseThrow(() -> {
+//			return new IllegalArgumentException("댓글 작성에 실패하였씁니다.회원 아이디를 찾을 수 없습니다.");
+//		});
+//		Board board=boardRepository.findById(replyDTO.getBoardId())
+//				.orElseThrow(() -> {
+//					return new IllegalArgumentException("댓글 작성에 실패하였씁니다.게시글번호를 찾을 수 없습니다.");
+//				}); // 영속화
+//		Reply reply=new Reply();
+//		reply.update(member, board, replyDTO.getRcontent());
+		int result=replyRepository.replySave(replyDTO.getMember_id(), replyDTO.getBoard_id(), replyDTO.getRcontent());
+		log.info("<<<<<<<<<<<<<<<<<< result : " + result);
 	}
 
 }

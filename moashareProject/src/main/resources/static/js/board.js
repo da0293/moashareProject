@@ -70,18 +70,18 @@ $(document).on('click', '#btn-reply-content', function(e) {
 	e.preventDefault();
 	console.log("버튼눌림");
 	const rcontent = $("#reply-content").val();
-	const boardId = $("#boardId").val();
-	const memberId= $("#memberId").val();
+	const board_id = $("#boardId").val();
+	const member_id= $("#memberId").val();
 	
 	const params={
-		memberId : memberId,
-		boardId : boardId,
+		member_id : member_id,
+		board_id : board_id,
 		rcontent : rcontent,
 	};
 
 	// ajax 호출 시 default가 비동기 호출, 아래 코드 실행 가능
 	$.ajax({
-		url: '../../boardApi/board/'+boardId+'/reply',
+		url: '../../boardApi/board/'+board_id+'/reply',
 		type: 'post',
 		contentType:'application/json; charset=utf-8',
 		dataType:'json',

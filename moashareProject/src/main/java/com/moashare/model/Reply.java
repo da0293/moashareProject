@@ -51,9 +51,17 @@ public class Reply {
 		this.reg_dt=reg_dt;
 	}
 	
+	
 	public void update(Member member, Board board, String rcontent) {
 		this.member=member;
 		this.board=board;
 		this.rcontent=rcontent;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Reply [id=" + id + ", rcontent=" + rcontent + ", board=" + board + ", member=" + member + ", reg_dt="
+				+ reg_dt + "]";
 	}
 }
