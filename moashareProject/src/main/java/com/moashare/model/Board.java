@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -52,7 +53,8 @@ public class Board {
 	
 	// mappedBy 연관관계 주인아니다 (foreign key 아님), 데이터베이스에 컬럼을 만들지 말자 
 	// 만약 댓글을 펼치기버튼을 눌러 볼 경우 LAZY
-	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER) 
+	// cascade = CascadeType.REMOVE 게시판 삭제시 댓글 들 같이 삭제 
+	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE) 
 	@JsonIgnoreProperties({"board"})
 //	@OrderBy("id desc")
 	private List<Reply> replys;

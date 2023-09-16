@@ -98,3 +98,27 @@ $(document).on('click', '#btn-reply-content', function(e) {
 	}) 
 });
 
+$(document).on('click', '#btnReplyDelte', function(e) {
+
+	e.preventDefault();
+	console.log("버튼눌림");
+	var replyId = $("#replyId").val();
+	var boardId = $("#boardId").val();
+	
+	// ajax 호출 시 default가 비동기 호출, 아래 코드 실행 가능
+	$.ajax({
+		url: '../../boardApi/board/'+boardId+'/reply/'+replyId,
+		type: 'DELETE',
+		data: {
+			JSON
+		},
+		success: function(response) {
+			console.log(response);
+			alert("댓글 삭제가 완료되었습니다.")
+			location.href="/board/"+boardId;
+		},
+		error: function() {
+			alert("서버요청실패");
+		}
+	}) 
+});

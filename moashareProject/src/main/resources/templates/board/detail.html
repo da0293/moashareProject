@@ -54,12 +54,16 @@
 						<div class="card-header">댓글 리스트</div>
 						<ul id="reply--box" class="list-group">
 							<th:block th:each="reply: ${board.replys}">
-							<li id="reply--1" class="list-group-item d-flex justify-content-between">
+							<li id="reply" class="list-group-item d-flex justify-content-between">
+							<form>
+								<input type="hidden" id="replyId" th:value="${reply.id}" />
+								<input type="hidden" id="boardId" th:value="${board.id}" />
 								<div th:text="${reply.rcontent}"></div>
 								<div class="d-flex">
 									  <div class="font-italic"  th:text="${reply.member.nickname}"></div>&nbsp;&nbsp;
-									  <button class="badge">삭제</button>
+									  <button id="btnReplyDelte" class="badge">삭제</button>
 							 	 </div>
+							</form>
 							</li>
 							<th:block/>
 						</ul>

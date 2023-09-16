@@ -92,4 +92,10 @@ public class BoardService {
 		System.out.println(result); // 오브젝트를 출력하면 자동으로 toString 호출
 	}
 
+	@Transactional
+	public void deleteReply(Long replyId) {
+		replyRepository.deleteById(replyId);
+		
+	}
+
 }
