@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.moashare.config.auth.PrincipalDetails;
 import com.moashare.controller.BoardApiController;
+import com.moashare.dto.ReplyDTO;
 import com.moashare.dto.ResponseDTO;
 import com.moashare.model.Board;
 import com.moashare.model.Member;
@@ -57,15 +58,24 @@ public class BoardApiController {
 		
 	}
 	
+//	// 댓글 작성
+//	// 데이터를 받을 때 컨트롤러에서 dto를 만들어서 받는 것이 좋다.
+//	@PostMapping("/boardApi/board/{boardId}/reply")
+//	public ResponseDTO<Integer> replySave(@RequestParam("rcontent") String rcontent,
+//			@AuthenticationPrincipal PrincipalDetails principalDetails,
+//			@PathVariable Long boardId) {
+//		log.info("여기");
+//		boardService.saveReply(principalDetails.getMember(), boardId, rcontent);
+//		return new ResponseDTO<Integer>(HttpStatus.OK,1); // 정상성공시 1로 리턴 
+//		
+//	}
 	// 댓글 작성
+	// 데이터를 받을 때 컨트롤러에서 dto를 만들어서 받는 것이 좋다.
 	@PostMapping("/boardApi/board/{boardId}/reply")
-	public ResponseDTO<Integer> replySave(@RequestParam("rcontent") String rcontent,
-			@AuthenticationPrincipal PrincipalDetails principalDetails,
-			@PathVariable Long boardId) {
-		log.info("여기");
-		boardService.saveReply(principalDetails.getMember(), boardId, rcontent);
+	public ResponseDTO<Integer> replySave(@RequestBody ReplyDTO replyDTO) {
+		log.info("<<<<<<<<<<<<<<<<<<<<<<<<<<<<여기");
+		boardService.saveReply(replyDTO);
 		return new ResponseDTO<Integer>(HttpStatus.OK,1); // 정상성공시 1로 리턴 
 		
 	}
-	
 }

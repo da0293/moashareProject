@@ -8,10 +8,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.moashare.dto.ReplyDTO;
 import com.moashare.model.Board;
 import com.moashare.model.Member;
 import com.moashare.model.Reply;
 import com.moashare.repository.BoardRepository;
+import com.moashare.repository.MemberRepository;
 import com.moashare.repository.ReplyRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,10 +23,11 @@ public class BoardService {
 
 	 private final BoardRepository boardRepository;
 	 private final ReplyRepository replyRepository;
-	 
-	 public BoardService(BoardRepository boardRepository, ReplyRepository replyRepository) {
+	 private final MemberRepository memberRepository;
+	 public BoardService(BoardRepository boardRepository, ReplyRepository replyRepository, MemberRepository memberRepository) {
 		 this.boardRepository=boardRepository;
 		 this.replyRepository=replyRepository;
+		 this.memberRepository=memberRepository;
 	 }
 	 
 	 // 게시판 글 저장
@@ -72,18 +75,19 @@ public class BoardService {
 		// 해당 함수 종료시(Service가 종료될 때) 트랜잭션 종료, 이 때 더티체킹함(자동 업데이트)
 	}
 
+	// 댓글 작성
 	@Transactional
-	public void saveReply(Member member, Long id, String rcontent) {
-		Board board=boardRepository.findById(id)
+	public void saveReply(ReplyDTO replyDTO) {
+		
+		Member member=memberRepository.findById(replyDTO.getMemberId()).orElseThrow(() -> {
+			return new IllegalArgumentException("댓글 작성에 실패하였씁니다.회원 아이디를 찾을 수 없습니다.");
+		});
+		Board board=boardRepository.findById(replyDTO.getBoardId())
 				.orElseThrow(() -> {
 					return new IllegalArgumentException("댓글 작성에 실패하였씁니다.게시글번호를 찾을 수 없습니다.");
-				});
-		Reply reply=Reply.builder()
-				.rcontent(rcontent)
-				.board(board)
-				.member(member)
-				.build();
-		
+				}); // 영속화
+		Reply reply=new Reply();
+		reply.update(member, board, replyDTO.getRcontent());
 		replyRepository.save(reply);
 	}
 

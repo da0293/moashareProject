@@ -60,6 +60,7 @@ public class BoardController {
 	@GetMapping("/board/{id}")
 	public String findById(@PathVariable Long id, Model model,@AuthenticationPrincipal PrincipalDetails principalDetails) {
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
+		model.addAttribute("id",principalDetails.getMember().getId());
 		model.addAttribute("board", boardService.detailView(id));
 		return "board/detail";
 		

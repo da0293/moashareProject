@@ -69,16 +69,24 @@ $(document).on('click', '#btn-reply-content', function(e) {
 
 	e.preventDefault();
 	console.log("버튼눌림");
-	let rcontent = $("#reply-content").val();
-	let boardId = $("#boardId").val();
+	const rcontent = $("#reply-content").val();
+	const boardId = $("#boardId").val();
+	const memberId= $("#memberId").val();
+	
+	const params={
+		memberId : memberId,
+		boardId : boardId,
+		rcontent : rcontent,
+	};
 
 	// ajax 호출 시 default가 비동기 호출, 아래 코드 실행 가능
 	$.ajax({
 		url: '../../boardApi/board/'+boardId+'/reply',
 		type: 'post',
-		data: {
-			rcontent : rcontent
-		},
+		contentType:'application/json; charset=utf-8',
+		dataType:'json',
+		data : JSON.stringify(params),
+		async : false,
 		success: function(response) {
 			console.log(response);
 			alert("댓글 작성이 완료되었습니다.")
@@ -88,6 +96,5 @@ $(document).on('click', '#btn-reply-content', function(e) {
 			alert("서버요청실패");
 		}
 	}) 
-
 });
 

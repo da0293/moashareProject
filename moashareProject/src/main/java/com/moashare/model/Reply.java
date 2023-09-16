@@ -19,7 +19,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Entity
 public class Reply {
 	
@@ -49,5 +49,11 @@ public class Reply {
 		this.board=board;
 		this.member=member;
 		this.reg_dt=reg_dt;
+	}
+	
+	public void update(Member member, Board board, String rcontent) {
+		this.member=member;
+		this.board=board;
+		this.rcontent=rcontent;
 	}
 }
