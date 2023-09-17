@@ -16,6 +16,8 @@ import com.moashare.repository.BoardRepository;
 import com.moashare.repository.MemberRepository;
 import com.moashare.repository.ReplyRepository;
 
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
@@ -49,8 +51,8 @@ public class BoardService {
 	}
 
 	// 게시판 상세페이지
+	@Transactional
 	public Board detailView(Long id) {
-
 		return boardRepository.findById(id)
 				.orElseThrow(() -> {
 					return new IllegalArgumentException("아이디를 찾을 수 없어 글을 볼 수 없습니다.");
@@ -98,4 +100,8 @@ public class BoardService {
 		
 	}
 
+	@Transactional
+	public int updateHits(Long id) {
+		return boardRepository.updateHits(id);
+	}
 }

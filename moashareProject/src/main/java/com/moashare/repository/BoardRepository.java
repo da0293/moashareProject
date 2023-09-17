@@ -3,6 +3,8 @@ package com.moashare.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.moashare.model.Board;
@@ -14,7 +16,10 @@ import com.moashare.model.Member;
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
 	Page<Board> findByTitleContaining(String searchKeyWord, Pageable pageable);
-
+	
+	@Modifying
+	@Query(value="update board b set b.hits = b.hits+1 where b.id = :id", nativeQuery = true)
+	int updateHits(Long id);
 	
 	
 }
