@@ -68,7 +68,6 @@ class BaordApiControllerTest {
 	@DisplayName("유효성 성공")
     @Test
     void 유효성_성공_테스트() {
-        // given
 		// given
 				Board board=Board.builder()
 						.title("제목")
