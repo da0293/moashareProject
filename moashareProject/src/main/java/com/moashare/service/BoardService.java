@@ -1,5 +1,7 @@
 package com.moashare.service;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,21 +22,26 @@ import com.moashare.repository.BoardRepository;
 import com.moashare.repository.MemberRepository;
 import com.moashare.repository.ReplyRepository;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class BoardService {
 
 	 private final BoardRepository boardRepository;
 	 private final ReplyRepository replyRepository;
 	 private final MemberRepository memberRepository;
-	 public BoardService(BoardRepository boardRepository, ReplyRepository replyRepository, MemberRepository memberRepository) {
-		 this.boardRepository=boardRepository;
-		 this.replyRepository=replyRepository;
-		 this.memberRepository=memberRepository;
-	 }
+	 private final String VIEWCOOKIENAME = "alreadyViewCookie";
+//	 public BoardService(BoardRepository boardRepository, ReplyRepository replyRepository, MemberRepository memberRepository) {
+//		 this.boardRepository=boardRepository;
+//		 this.replyRepository=replyRepository;
+//		 this.memberRepository=memberRepository;
+//	 }
 	 
 	 // 게시판 글 저장
 	 @Transactional // 함수 종료 시 자동 commit
@@ -61,7 +68,6 @@ public class BoardService {
 				.orElseThrow(() -> {
 					return new IllegalArgumentException("아이디를 찾을 수 없어 글을 볼 수 없습니다.");
 				});
-		boardRepository.updateHits(id);
 		return board;
 	}
 	
@@ -119,4 +125,49 @@ public class BoardService {
 		}
 		return validatorResult;
 	}
+
+	public int updateView(Long id, HttpServletRequest request, HttpServletResponse response) {
+		Cookie[] cookies = request.getCookies();
+        boolean checkCookie = false;
+        int result = 0;
+        if(cookies != null){
+            for (Cookie cookie : cookies)
+            {
+                // 이미 조회를 한 경우 체크
+                if (cookie.getName().equals(VIEWCOOKIENAME+id)) checkCookie = true;
+
+            }
+            if(!checkCookie){
+                Cookie newCookie = createCookieForForNotOverlap(id);
+                response.addCookie(newCookie);
+                result = boardRepository.updateHits(id);
+            }
+        } else {
+            Cookie newCookie = createCookieForForNotOverlap(id);
+            response.addCookie(newCookie);
+            result = boardRepository.updateHits(id);
+        }
+        return result;
+	}
+
+	/*
+    * 조회수 중복 방지를 위한 쿠키 생성 메소드
+    * @param cookie
+    * @return
+    * 
+	 */
+	private Cookie createCookieForForNotOverlap(Long id) {
+		 Cookie cookie = new Cookie(VIEWCOOKIENAME+id, String.valueOf(id));
+	        cookie.setComment("조회수 중복 증가 방지 쿠키");	// 쿠키 용도 설명 기재
+	        cookie.setMaxAge(getRemainSecondForTommorow()); 	// 하루를 준다.
+	        cookie.setHttpOnly(true);				// 서버에서만 조작 가능
+	        return cookie;
+	}
+
+	// 다음 날 정각까지 남은 시간(초)
+    private int getRemainSecondForTommorow() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime tommorow = LocalDateTime.now().plusDays(1L).truncatedTo(ChronoUnit.DAYS);
+        return (int) now.until(tommorow, ChronoUnit.SECONDS);
+    }
 }

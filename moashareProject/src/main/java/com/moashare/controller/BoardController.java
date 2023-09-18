@@ -1,5 +1,7 @@
 package com.moashare.controller;
 
+import java.net.http.HttpRequest;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -18,6 +20,7 @@ import com.moashare.model.Board;
 import com.moashare.service.BoardService;
 
 import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
@@ -61,10 +64,13 @@ public class BoardController {
 	
 	@GetMapping("/board/{id}")
 	public String findById(@PathVariable Long id, Model model,
+			 HttpServletRequest req, HttpServletResponse res,
 			@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		log.info("<<<<<<<<<<<<<<<< 여기");
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
 		model.addAttribute("id",principalDetails.getMember().getId());
-		model.addAttribute("board", boardService.detailView(id) );
+		model.addAttribute("board", boardService.detailView(id));
+		boardService.updateView(id, req, res);
 		return "board/detail";
 		
 	}

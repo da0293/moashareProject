@@ -1,5 +1,6 @@
 package com.moashare.repository;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,7 +20,5 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	@Transactional
 	@Modifying
 	@Query(value="update board b set b.hits = b.hits+1 where b.id = :id", nativeQuery = true)
-	int updateHits(Long id);
-	
-	
+	int updateHits(@Param(value = "id") Long id);
 }
