@@ -1,12 +1,16 @@
 package com.moashare.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 
 import com.moashare.dto.ReplyDTO;
 import com.moashare.model.Board;
@@ -53,10 +57,12 @@ public class BoardService {
 	// 게시판 상세페이지
 	@Transactional
 	public Board detailView(Long id) {
-		return boardRepository.findById(id)
+		Board board=boardRepository.findById(id)
 				.orElseThrow(() -> {
 					return new IllegalArgumentException("아이디를 찾을 수 없어 글을 볼 수 없습니다.");
 				});
+		boardRepository.updateHits(id);
+		return board;
 	}
 	
 	// 게시판 삭제
@@ -103,5 +109,14 @@ public class BoardService {
 	@Transactional
 	public int updateHits(Long id) {
 		return boardRepository.updateHits(id);
+	}
+	
+	public Map<String, String> validateHandling(Errors errors) {
+		Map<String, String> validatorResult = new HashMap<>();
+		for(FieldError error : errors.getFieldErrors()) {
+			String validKeyName=String.format("valid_%s", error.getField());
+			validatorResult.put(validKeyName, error.getDefaultMessage());
+		}
+		return validatorResult;
 	}
 }

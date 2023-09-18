@@ -27,18 +27,6 @@
                     <i class="fas fa-fw fa-clipboard"></i>
                     <span>공지사항</span></a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link" th:href="@{/news/issue}">
-                    <i class="fas fa-fw fa-list"></i>
-                    <span>내 이슈 리스트</span></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" th:href="@{/calendar}">
-                    <i class="fas fa-fw fa-calendar"></i>
-                    <span>캘린더</span></a>
-            </li>
-            <!-- Divider -->
-            <hr class="sidebar-divider">
 
             <!-- Heading -->
 
@@ -53,29 +41,6 @@
                 <a class="nav-link" th:href="@{/star}">
                     <i class="fas fa-fw fa-star"></i>
                     <span>북마크</span></a>
-            </li>
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-            <li class="sidebar-brand d-flex align-items-center"><button class="btn btn-success btn-icon-split"
-			data-toggle="modal" data-target="#createClub" style="padding-right: 0px;"><span class="icon text-white-50"><i
-					class="fas fa-flag"></i></span><span class="text">새 프로젝트 생성</span></button>
-		</li>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>내 프로젝트 리스트</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">내 프로젝트</h6>
-                        <a class="collapse-item" href="login.html">Login</a>
-                        <a class="collapse-item" href="register.html">Register</a>
-                        
-                    </div>
-                </div>
             </li>
         </ul>
     <!-- End of Sidebar -->

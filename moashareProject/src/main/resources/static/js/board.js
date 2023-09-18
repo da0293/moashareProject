@@ -2,26 +2,30 @@ $(document).on('click', '#btnSave', function(e) {
 
 	e.preventDefault();
 	console.log("버튼눌림");
-	var title = $("#title").val();
+	const title = $("#title").val();
 	console.log("title : " + title);
-	var content = $("#content").val();
+	const content = $("#content").val();
 	console.log("content : " + content);
+	const params={
+		title : title,
+		content : content,
+	}
 	
 	// ajax 호출 시 default가 비동기 호출, 아래 코드 실행 가능
 	$.ajax({
 		url: '../boardApi/writeOk',
 		type: 'post',
-		data: {
-			title : title,
-			content : content
-		},
+	 	contentType : 'application/json; charset=utf-8',
+        dataType : 'json',
+        data : JSON.stringify(params),
+        async : false,
 		success: function(response) {
 			console.log(response);
 			alert("새 글 작성이 완료되었습니다.")
 			location.href="/board"
 		},
 		error: function() {
-			alert("서버요청실패");
+			alert("제목과 내용은 필수입력값입니다.");
 		}
 	})
 	

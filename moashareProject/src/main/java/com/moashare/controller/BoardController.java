@@ -64,9 +64,7 @@ public class BoardController {
 			@AuthenticationPrincipal PrincipalDetails principalDetails) {
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
 		model.addAttribute("id",principalDetails.getMember().getId());
-		Board board=boardService.detailView(id);
-		boardService.updateHits(id);
-		model.addAttribute("board", board );
+		model.addAttribute("board", boardService.detailView(id) );
 		return "board/detail";
 		
 	}

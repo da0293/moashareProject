@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.moashare.model.Board;
-import com.moashare.model.Member;
 
 // CRUD 함수를 JpaRepository가 들고 있음
 // @Repository라는 어노테이션이 없어도 IOC된다. 
@@ -16,7 +16,7 @@ import com.moashare.model.Member;
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
 	Page<Board> findByTitleContaining(String searchKeyWord, Pageable pageable);
-	
+	@Transactional
 	@Modifying
 	@Query(value="update board b set b.hits = b.hits+1 where b.id = :id", nativeQuery = true)
 	int updateHits(Long id);
