@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.validation.constraints.AssertFalse.List;
 @ControllerAdvice // 어디서든 exception발생시 여기로 
 @RestController
 public class GlobalExceptionHandler {
