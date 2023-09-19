@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layout/default}">
+<th:block layout:fragment="content">
+	<div class="container-fluid">
+
+		<!-- 404 Error Text -->
+		<div class="text-center">
+			<div class="error mx-auto" data-text="404">404</div><br/>
+			<p class="lead text-gray-800 mb-5">해당 페이지는 없는 페이지입니다.</p>
+			<p class="text-gray-500 mb-0"></p>
+			<a th:href="@{/login}">재로그인</a> 
+		</div>
+
+	</div>
+</th:block>
+</html>
