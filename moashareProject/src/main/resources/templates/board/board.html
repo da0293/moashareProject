@@ -83,7 +83,7 @@
 										th:text="'조회수 ' + ${board.hits} + '회'"></div>
 								</div>
 								<div class="col-auto">
-									<i class="fas fa-star fa-1x text-gray-300"></i>
+									<i class="fas fa-star fa-1x text-gray-300" style="cursor: pointer;" th:onclick="|location.href='@{/board/{boardId}(boardId=${board.id})}/bookmark'|"></i>
 								</div>
 							</div>
 						</div>

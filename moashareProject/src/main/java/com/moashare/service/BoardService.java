@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import org.apache.catalina.authenticator.SpnegoAuthenticator.AuthenticateAction;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
@@ -16,11 +18,14 @@ import org.springframework.validation.FieldError;
 
 import com.moashare.dto.ReplyDTO;
 import com.moashare.model.Board;
+import com.moashare.model.Bookmark;
 import com.moashare.model.Member;
 import com.moashare.model.Reply;
 import com.moashare.repository.BoardRepository;
+import com.moashare.repository.BookmarkRepository;
 import com.moashare.repository.MemberRepository;
 import com.moashare.repository.ReplyRepository;
+import com.nimbusds.jose.proc.SecurityContext;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
@@ -37,6 +42,7 @@ public class BoardService {
 	 private final ReplyRepository replyRepository;
 	 private final MemberRepository memberRepository;
 	 private final String VIEWCOOKIENAME = "alreadyViewCookie";
+	 private final BookmarkRepository bookmarkRepository;
 //	 public BoardService(BoardRepository boardRepository, ReplyRepository replyRepository, MemberRepository memberRepository) {
 //		 this.boardRepository=boardRepository;
 //		 this.replyRepository=replyRepository;
@@ -169,5 +175,32 @@ public class BoardService {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime tommorow = LocalDateTime.now().plusDays(1L).truncatedTo(ChronoUnit.DAYS);
         return (int) now.until(tommorow, ChronoUnit.SECONDS);
+    }
+    
+    // 북마크 기능
+    @Transactional
+    public void likeBoard(Long boardId, Long memberId ) {
+    	Board board=boardRepository.findById(boardId).orElseThrow(() -> {
+    		return new IllegalArgumentException("게시판이 제대로 확인되지않아 북마크에 실패하였씁니다.");
+    	});
+    	
+    	Member member=memberRepository.findById(memberId).orElseThrow(() -> {
+    		return new IllegalArgumentException("아이디가 제대로 확인되지않아 북마크에 실패하였씁니다.");
+    	});
+    	
+    	if(bookmarkRepository.findByBoardAndMember(board, member)==null) {
+    		// 북마크를 누른 적이 없다면 Bookmark 생성
+    		Bookmark bookmark = Bookmark.builder()
+    				.board(board)
+    				.member(member)
+    				.build();
+    		bookmarkRepository.save(bookmark);
+    	} else {
+    		// 북마크 취소 후 테이블 삭제 
+    		Bookmark bookmark = bookmarkRepository.findByBoardAndMember(board, member);
+    		bookmark.unLikedBookmark(board);
+    		bookmarkRepository.delete(bookmark);
+    	}
+    	
     }
 }

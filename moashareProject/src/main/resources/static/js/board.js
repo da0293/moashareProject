@@ -126,3 +126,12 @@ $(document).on('click', '#btnReplyDelte', function(e) {
 		}
 	}) 
 });
+
+//북마크 
+$(document).on('click', '#clickBookmark', function(e) {
+	
+		console.log("아이콘 누름 ");
+       	var id = $("#boardId").val();
+		console.log(id);
+		return false;
+});
