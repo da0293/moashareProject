@@ -88,22 +88,7 @@ public class BoardController {
 			@PageableDefault(page=0, size = 12, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
 			String searchKeyWord) {
 		boardService.likeBoard(id, principalDetails.getMember().getId());
-		Page<Board> board= null;
-		if(searchKeyWord==null) {
-			board=boardService.boardList(pageable);
-		} else {
-			board=boardService.boardSearchList(searchKeyWord,pageable);
-		}
-		int nowPage=board.getPageable().getPageNumber()+1;
-		int startPage=Math.max(nowPage-4, 1);
-		int endPage=Math.max(nowPage+5, board.getTotalPages());
-		
-		model.addAttribute("nickname", principalDetails.getMember().getNickname());
-		model.addAttribute("board", board);
-		model.addAttribute("nowPage", nowPage);
-		model.addAttribute("startPage", startPage);
-		model.addAttribute("endPage", endPage);
-		return "board/board";
+		return "redirect:/board";
 
 	}
 }
