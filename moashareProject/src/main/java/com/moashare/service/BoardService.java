@@ -19,6 +19,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
 import com.moashare.dto.BoardDTO;
+import com.moashare.dto.BookmarkDTO;
 import com.moashare.dto.ReplyDTO;
 import com.moashare.model.Board;
 import com.moashare.model.Bookmark;
@@ -218,4 +219,30 @@ public class BoardService {
     	}
     	
     }
+    // 로그인 아이디에 대한 북마크 가져오기 
+    @Transactional
+	public List<Bookmark> bookmarkList(Long memberId) {
+		Member member=memberRepository.findById(memberId).orElseThrow(() -> {
+    		return new IllegalArgumentException("아이디가 제대로 확인되지않아 북마크리스트를 가져오지못하였습니다.");
+    	});
+		
+		List<Bookmark> bookmarkList=bookmarkRepository.findByMember(member);
+		if (bookmarkList !=null) {
+			return bookmarkList;
+		}
+		return null;
+	}
+    @Transactional
+	public List<BoardDTO> inBoardId(List<Long> ids) {
+    	BoardDTO boardDTO=null; 
+    	List<BoardDTO> result= new ArrayList<>();
+		List<Board> boardList=boardRepository.findByIdIn(ids);
+		for (Board board : boardList ) {
+			boardDTO = BoardDTO.builder()
+					.board(board)
+					.build();
+			result.add(boardDTO);
+		}
+		return result;
+	}
 }

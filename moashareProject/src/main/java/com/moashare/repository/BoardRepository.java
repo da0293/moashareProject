@@ -1,5 +1,7 @@
 package com.moashare.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,4 +23,8 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	@Modifying
 	@Query(value="update board b set b.hits = b.hits+1 where b.id = :id", nativeQuery = true)
 	int updateHits(@Param(value = "id") Long id);
+	
+	@Transactional
+	@Query(value = "select * from board as b where b.id in (:ids)", nativeQuery = true)
+	List<Board> findByIdIn(@Param(value = "ids") List<Long> ids);
 }
