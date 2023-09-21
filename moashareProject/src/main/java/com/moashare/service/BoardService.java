@@ -2,6 +2,7 @@ package com.moashare.service;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.function.Supplier;
 
 import org.apache.catalina.authenticator.SpnegoAuthenticator.AuthenticateAction;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
+import com.moashare.dto.BoardDTO;
 import com.moashare.dto.ReplyDTO;
 import com.moashare.model.Board;
 import com.moashare.model.Bookmark;
@@ -43,11 +46,6 @@ public class BoardService {
 	 private final MemberRepository memberRepository;
 	 private final String VIEWCOOKIENAME = "alreadyViewCookie";
 	 private final BookmarkRepository bookmarkRepository;
-//	 public BoardService(BoardRepository boardRepository, ReplyRepository replyRepository, MemberRepository memberRepository) {
-//		 this.boardRepository=boardRepository;
-//		 this.replyRepository=replyRepository;
-//		 this.memberRepository=memberRepository;
-//	 }
 	 
 	 // 게시판 글 저장
 	 @Transactional // 함수 종료 시 자동 commit
@@ -57,14 +55,31 @@ public class BoardService {
 	 
 	// 게시판 목록 가져오기
 	@Transactional(readOnly = true)
-	public Page<Board> boardList(Pageable pageable) {
-		return boardRepository.findAll(pageable);
+	public Page<BoardDTO> boardList(Pageable pageable) {
+		Page<Board> boards= boardRepository.findAll(pageable);
+		List<BoardDTO> boardDTO=doPaging(boards);
+		return new PageImpl<>(boardDTO, pageable, boards.getTotalElements());
+		
 	}
 
 	// 게시판 목록(검색 시)가져오기
 	@Transactional(readOnly = true)
-	public Page<Board> boardSearchList(String searchKeyWord, Pageable pageable) {
-		return boardRepository.findByTitleContaining(searchKeyWord,pageable);
+	public Page<BoardDTO> boardSearchList(String searchKeyWord, Pageable pageable) {
+		Page<Board> boards= boardRepository.findByTitleContaining(searchKeyWord,pageable);
+		List<BoardDTO> boardDTO=doPaging(boards);
+		return new PageImpl<>(boardDTO, pageable, boards.getTotalElements());
+	}
+	
+	// 공통 페이징 처리
+	private List<BoardDTO> doPaging(Page<Board> boards) {
+		List<BoardDTO> boardDTO=new ArrayList<>();
+		for(Board board : boards ) {
+			 BoardDTO result = BoardDTO.builder()
+					 .board(board)
+					 .build();
+			 boardDTO.add(result);
+		}
+		return boardDTO;
 	}
 
 	// 게시판 상세페이지
@@ -131,7 +146,7 @@ public class BoardService {
 		}
 		return validatorResult;
 	}
-
+	// 조회수
 	public int updateView(Long id, HttpServletRequest request, HttpServletResponse response) {
 		Cookie[] cookies = request.getCookies();
         boolean checkCookie = false;

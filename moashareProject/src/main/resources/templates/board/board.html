@@ -21,7 +21,7 @@
 				<div class="input-group">
 					<input type="text" class="form-control bg-gray-0 border-0 small"
 						placeholder="제목 검색" aria-label="Search"
-						aria-describedby="basic-addon2" name="searchKeyWord" >
+						aria-describedby="basic-addon2" name="searchKeyWord">
 					<div class="input-group-append">
 						<button class="btn btn-success" type="submit">
 							<i class="fas fa-search fa-sm"></i>
@@ -63,10 +63,9 @@
 			<h6 class="h6 mb-0 text-gray-600" style="margin-left: 5px;">전체
 				프로젝트</h6>
 		</div>
-		<div class="row" style="height: 660px;">
-
+		<div class="row">
 			<!-- Earnings (Monthly) Card Example -->
-			<th:block th:each="board, boardStat: ${board}">
+			<th:block th:each="board, boardStat: ${boardList}">
 				<div class="col-xl-3 col-md-6 mb-4" style="height: 190px;"
 					th:if="${boardStat.index < 12}">
 					<div class="card shadow h-100 py-2">
@@ -83,7 +82,9 @@
 										th:text="'조회수 ' + ${board.hits} + '회'"></div>
 								</div>
 								<div class="col-auto">
-									<i class="fas fa-star fa-1x text-gray-300" style="cursor: pointer;" th:onclick="|location.href='@{/board/{boardId}(boardId=${board.id})}/bookmark'|"></i>
+									<i class="fas fa-star fa-1x text-gray-300"
+										style="cursor: pointer;"
+										th:onclick="|location.href='@{/board/{boardId}(boardId=${board.id})}/bookmark'|"></i>
 								</div>
 							</div>
 						</div>
@@ -91,47 +92,31 @@
 				</div>
 			</th:block>
 		</div>
-		<!-- 		<div class="col-sm-12 col-md-7">
-			<div class="dataTables_paginate paging_simple_numbers" 
-				id="dataTable_paginate">
-				<!-- 페이징 처리 시작 -->
-		<!-- 				<ul class="pagination justify-content-center">
-					<!-- Previous 시작 -->
-		<!-- 						<li
-						class="paginate_button page-item previous disabled"
-						id="dataTable_previous"><a
-						href="/"
-						aria-controls="dataTable" data-dt-idx="0" tabindex="0"
-						class="page-link">Previous</a></li>
-					<!-- Previous 끝 -->
-		<!-- Page번호 시작, 컨트롤러에서 list에 페이징 객체를 넣었으므로 list.변수명으로 불러옴 -->
-		<!-- 					<th:forEach>
-						<li
-							class="paginate_button page-item"><a
-							href="/" aria-controls="dataTable"
-							data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
-					</th:forEach>
-					<!-- Page번호 끝 -->
-		<!-- Next 시작 -->
-		<!-- 					<li
-						class="paginate_button page-item next"
-						id="dataTable_next"><a
-						href="?page=${board.number+1}"
-						aria-controls="dataTable" data-dt-idx="7" tabindex="0"
-						class="page-link">Next</a></li>
-					<!-- Next 끝 -->
-		<!-- 페이징 처리 끝 -->
-		<!-- 				</ul>
-			</div>
-		</div> -->
-		<div>
-			<th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
-				<a th:if="${page != nowPage}"
-					th:href="@{/board(page = ${page - 1}, searchKeyword = ${param.searchKeyword})}"
-					th:text="${page}"></a>
-				<strong th:if="${page == nowPage}" th:text="${page}"
-					style="color: red"></strong>
-			</th:block>
+		<div th:if="${!boardList.isEmpty()}">
+			<ul class="pagination"
+				th:with="
+            pageNumber = ${boardList.pageable.pageNumber},
+            pageSize = ${boardList.pageable.pageSize},
+            totalPages = ${boardList.totalPages},
+            startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize + 1},
+            tempEndPage = ${startPage + pageSize - 1},
+            endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})">
+
+				<li th:classappend="${boardList.first} ? 'disabled'"
+					class="page-item"><a class="page-link"
+					th:href="${boardList.first} ? '#' : @{/board(page=${pageNumber - 1})}">
+						<span aria-hidden="true">&lt;</span>
+				</a></li>
+				<li th:each="page: ${#numbers.sequence(startPage, endPage)}"
+					th:classappend="${page == pageNumber + 1} ? 'active'"
+					class="page-item"><a th:text="${page}" class="page-link"
+					th:href="@{/board(page=${page - 1})}"></a></li>
+				<li th:classappend="${boardList.last} ? 'disabled'"
+					class="page-item"><a class="page-link"
+					th:href="${boardList.last} ? '#' : @{/board(page=${pageNumber + 1})}"
+					aria-label="Next"> <span aria-hidden="true">&gt;</span>
+				</a></li>
+			</ul>
 		</div>
 	</div>
 </th:block>

@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.moashare.config.auth.PrincipalDetails;
+import com.moashare.dto.BoardDTO;
 import com.moashare.model.Board;
+import com.moashare.model.Bookmark;
 import com.moashare.service.BoardService;
 
 import jakarta.servlet.http.HttpServlet;
@@ -38,21 +40,14 @@ public class BoardController {
 	public String board(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model,
 							@PageableDefault(page=0, size = 12, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
 							String searchKeyWord) {
-		Page<Board> board= null;
+		Page<BoardDTO> boardList= null;
 		if(searchKeyWord==null) {
-			board=boardService.boardList(pageable);
+			boardList=boardService.boardList(pageable);
 		} else {
-			board=boardService.boardSearchList(searchKeyWord,pageable);
+			boardList=boardService.boardSearchList(searchKeyWord,pageable);
 		}
-		int nowPage=board.getPageable().getPageNumber()+1;
-		int startPage=Math.max(nowPage-4, 1);
-		int endPage=Math.max(nowPage+5, board.getTotalPages());
-		
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
-		model.addAttribute("board", board);
-		model.addAttribute("nowPage", nowPage);
-		model.addAttribute("startPage", startPage);
-		model.addAttribute("endPage", endPage);
+		model.addAttribute("boardList", boardList);
 		return "board/board";
 	}
 
@@ -83,10 +78,7 @@ public class BoardController {
 	
 	// 북마크
 	@GetMapping("/board/{id}/bookmark")
-	public String updateBookmark(@PathVariable Long id, @AuthenticationPrincipal PrincipalDetails principalDetails,
-			Model model,
-			@PageableDefault(page=0, size = 12, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
-			String searchKeyWord) {
+	public String updateBookmark(@PathVariable Long id, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 		boardService.likeBoard(id, principalDetails.getMember().getId());
 		return "redirect:/board";
 
