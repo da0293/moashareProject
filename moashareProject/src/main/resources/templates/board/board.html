@@ -46,19 +46,25 @@
 					<div class="card shadow h-100 py-2">
 						<div class="card-body">
 							<div class="row no-gutters align-items">
-								<div class="col mr-2">
+								<div class="col mr-2" >
 									<div class="h4 mb-0 font-weight-bold text-success mb-1"
-										style="overflow: hidden; text-overflow: ellipsis; display: block; white-space: nowrap; width: 100%; height: 110px;">
+										style="overflow: hidden; text-overflow: ellipsis;  display: -webkit-box;  
+										-webkit-line-clamp: 3; -webkit-box-orient: vertical;  width: 320px; height: 86px;">
 										<a th:href="@{/board/{boardId}(boardId=${board.id})}"
-											style="text-decoration-line: none; color: #1cc88a"
+											style="text-decoration-line: none; color: #1cc88a;"
 											th:text="${board.title}"></a>
 									</div>
-									<div class="h6 mb-0 font-weight-bold text-gray-800"
-										th:text="'조회수 ' + ${board.hits} + '회'"></div>
+									<hr/>
+									<div>
+									<span class="h6 mb-0 font-weight-bold text-gray-800" 
+										th:text="'조회수 ' + ${board.hits}"></span>&nbsp;
+										<span class="h6 mb-0 font-weight-bold text-gray-800" 
+										th:text="'댓글 ' + ${board.replycnt}"></span>
+									</div>
 								</div>
 								<div class="col-auto">
 									<i class="fas fa-star fa-1x text-gray-300"
-										style="cursor: pointer;"
+										style="cursor: pointer;" 
 										th:onclick="|location.href='@{/board/{boardId}(boardId=${board.id})}/bookmark'|"></i>
 								</div>
 							</div>

@@ -15,6 +15,7 @@ public class BoardDTO {
 	private String title;
 	private String content;
 	private int hits;
+	private int replycnt;
 	private Timestamp reg_dt;
 	
 	@Builder
@@ -23,6 +24,7 @@ public class BoardDTO {
 		this.title=board.getTitle();
 		this.content=board.getContent();
 		this.hits=board.getHits();
+		this.replycnt=board.getReplycnt();
 		this.reg_dt=board.getReg_dt();
 		
 	}

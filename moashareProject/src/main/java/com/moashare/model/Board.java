@@ -50,6 +50,9 @@ public class Board {
 	@JoinColumn(name = "member_id")
 	private Member member;// DB는 오브젝트 저장할 수 없다.  
 	
+	@ColumnDefault("0")
+	private int replycnt;
+	
 	// mappedBy 연관관계 주인아니다 (foreign key 아님), 데이터베이스에 컬럼을 만들지 말자 
 	// 만약 댓글을 펼치기버튼을 눌러 볼 경우 LAZY
 	// cascade = CascadeType.REMOVE 게시판 삭제시 댓글 들 같이 삭제 
@@ -62,7 +65,7 @@ public class Board {
 	private Timestamp reg_dt;
 	
 	@Builder
-	public Board(Long id, String title, String content, int hits, Member member , Timestamp reg_dt ) {
+	public Board(Long id, String title, String content, int hits, int replycnt, Member member , Timestamp reg_dt ) {
 		this.id=id;
 		this.title=title;
 		this.content=content;
@@ -78,4 +81,13 @@ public class Board {
 		this.content=content;
 	}
 
+	// 리뷰개수 수정
+	public void increaseReplyCnt(int replycnt ) {
+		this.replycnt=replycnt+1;
+	}
+
+	public void decreaseReplyCnt(int replycnt) {
+		this.replycnt=replycnt-1;
+		
+	}
 }

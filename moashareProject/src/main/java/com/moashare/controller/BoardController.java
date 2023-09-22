@@ -87,7 +87,7 @@ public class BoardController {
 		return "board/updateForm";
 	}
 
-	// 북마크 페이징처리
+	// 북마크 페이지
 	@GetMapping("/bookmark")
 	public String bookmark(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model,
 							@PageableDefault(page=0, size = 12, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,

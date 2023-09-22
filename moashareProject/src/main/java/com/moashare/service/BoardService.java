@@ -116,12 +116,28 @@ public class BoardService {
 	public void saveReply(ReplyDTO replyDTO) {
 		int result=replyRepository.replySave(replyDTO.getMember_id(), replyDTO.getBoard_id(), replyDTO.getRcontent());
 		System.out.println(result); // 오브젝트를 출력하면 자동으로 toString 호출
+		Board board=boardRepository.findById(replyDTO.getBoard_id())
+				.orElseThrow(() -> {
+					return new IllegalArgumentException("아이디가 없어 댓글 개수 찾기를 실패하였씁니다.");
+				}); // 영속화 완료
+		board.increaseReplyCnt(board.getReplycnt());
 	}
 
 	// 댓글삭제
 	@Transactional
 	public void deleteReply(Long replyId) {
+		Reply reply =replyRepository.findById(replyId)
+				.orElseThrow(() -> {
+					return new IllegalArgumentException("아이디가 없어 댓글 개수 찾기를 실패하였씁니다.");
+				});
 		replyRepository.deleteById(replyId);
+		 // 영속화 완료
+		log.info("<<<<<<<<<<<<<<<<<<<<<<< reply : " +reply.getBoard().getId());
+		Board board=boardRepository.findById(reply.getBoard().getId())
+				.orElseThrow(() -> {
+					return new IllegalArgumentException("아이디가 없어 댓글 개수 찾기를 실패하였씁니다.");
+				});
+		board.decreaseReplyCnt(board.getReplycnt());
 		
 	}
 	
