@@ -114,40 +114,18 @@ public class BoardService {
 	// 댓글 작성
 	@Transactional
 	public void saveReply(ReplyDTO replyDTO) {
-		
-//		Member member=memberRepository.findById(replyDTO.getMemberId()).orElseThrow(() -> {
-//			return new IllegalArgumentException("댓글 작성에 실패하였씁니다.회원 아이디를 찾을 수 없습니다.");
-//		});
-//		Board board=boardRepository.findById(replyDTO.getBoardId())
-//				.orElseThrow(() -> {
-//					return new IllegalArgumentException("댓글 작성에 실패하였씁니다.게시글번호를 찾을 수 없습니다.");
-//				}); // 영속화
-//		Reply reply=new Reply();
-//		reply.update(member, board, replyDTO.getRcontent());
 		int result=replyRepository.replySave(replyDTO.getMember_id(), replyDTO.getBoard_id(), replyDTO.getRcontent());
 		System.out.println(result); // 오브젝트를 출력하면 자동으로 toString 호출
 	}
 
+	// 댓글삭제
 	@Transactional
 	public void deleteReply(Long replyId) {
 		replyRepository.deleteById(replyId);
 		
 	}
-
-	@Transactional
-	public int updateHits(Long id) {
-		return boardRepository.updateHits(id);
-	}
 	
-	public Map<String, String> validateHandling(Errors errors) {
-		Map<String, String> validatorResult = new HashMap<>();
-		for(FieldError error : errors.getFieldErrors()) {
-			String validKeyName=String.format("valid_%s", error.getField());
-			validatorResult.put(validKeyName, error.getDefaultMessage());
-		}
-		return validatorResult;
-	}
-	// 조회수
+	// 조회수 증가
 	public int updateView(Long id, HttpServletRequest request, HttpServletResponse response) {
 		Cookie[] cookies = request.getCookies();
         boolean checkCookie = false;
@@ -232,6 +210,8 @@ public class BoardService {
 		}
 		return null;
 	}
+    
+    // 해당 boardId를 가진 board객체 List객체로 가져오기
     @Transactional
 	public List<BoardDTO> inBoardId(List<Long> ids) {
     	BoardDTO boardDTO=null; 
