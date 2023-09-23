@@ -90,4 +90,10 @@ public class BoardApiController {
 		boardService.deleteReply(replyId);
 		return new ResponseDTO<Integer>(HttpStatus.OK,1);
 	}
+	
+	@PutMapping("/boardApi/board/{boardId}/reply/{replyId}")
+	public ResponseDTO<Integer> replyUpdate(@PathVariable Long replyId, @RequestBody ReplyDTO replyDTO){
+		boardService.updateReply(replyId,replyDTO);
+		return new ResponseDTO<Integer>(HttpStatus.OK,1);
+	}
 }

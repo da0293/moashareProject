@@ -9,9 +9,12 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 import org.apache.catalina.authenticator.SpnegoAuthenticator.AuthenticateAction;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -240,5 +243,15 @@ public class BoardService {
 			result.add(boardDTO);
 		}
 		return result;
+	}
+    
+    // 댓글 수정
+    @Transactional
+	public void updateReply(Long replyId, ReplyDTO replyDTO) {
+		Reply reply=replyRepository.findById(replyId)
+				.orElseThrow(() -> {
+					return new IllegalArgumentException("아이디가 없어 글 찾기를 실패하였씁니다.");
+				}); // 영속화 완료
+		reply.update(replyDTO.getRcontent());
 	}
 }

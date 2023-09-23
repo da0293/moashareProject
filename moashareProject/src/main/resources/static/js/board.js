@@ -126,3 +126,41 @@ $(document).on('click', '#btnReplyDelte', function(e) {
 		}
 	}) 
 });
+
+function updateReplyCk(boardId,replyId,replyContent){
+
+	console.log("id : " +replyId);
+	console.log("id : " +replyContent);
+	$("#reply_text").val(replyContent);
+	$("#reply_id").val(replyId);
+	$("#board_id").val(boardId);
+}
+
+function updateReply(){
+	
+        const replyId = $("#reply_id").val();
+        const rcontent = $("#reply_text").val();
+        const boardId = $("#board_id").val();
+        const params = {
+            id : replyId,
+            board_id : boardId,
+            rcontent : rcontent,
+        }
+
+        $.ajax({
+            url : '../../boardApi/board/'+boardId+'/reply/'+replyId,
+            type : 'PUT',
+            contentType : 'application/json; charset=utf-8',
+            dataType : 'json',
+            data : JSON.stringify(params),
+            async : false,
+            success : function (response) {
+                console.log(response);
+                location.href="/board/"+boardId;
+            },
+            error: function() {
+			alert("서버요청실패");
+		}
+    })
+
+}

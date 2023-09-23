@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{/layout/default}">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script type="text/javascript" src="../js/board.js"></script>
 <th:block layout:fragment="content">
 	<!-- Begin Page Content -->
@@ -10,34 +11,101 @@
 		<div class="container px-4 px-lg-5">
 			<div class="row gx-4 gx-lg-5 justify-content-center">
 				<div class="container List-container">
-				<div style="margin-top: 20px; margin-bottom: 50px; text-align: right" >
-						<button th:if="${board.member.id}== ${id}" type="button" class="btn btn-warning update-btn"
-							id="updateBoard" th:onclick="|location.href='@{/board/{boardId}(boardId=${board.id})}/update'|">수정</button>
-						<button th:if="${board.member.nickname}== ${nickname}" type="button" class="btn btn-danger delete-btn"
-							id="deleteBoard">삭제</button>
+					<div
+						style="margin-top: 20px; margin-bottom: 50px; text-align: right">
+						<button th:if="${board.member.id}== ${id}" type="button"
+							class="btn btn-warning update-btn" id="updateBoard"
+							th:onclick="|location.href='@{/board/{boardId}(boardId=${board.id})}/update'|">수정</button>
+						<button th:if="${board.member.nickname}== ${nickname}"
+							type="button" class="btn btn-danger delete-btn" id="deleteBoard">삭제</button>
 						<button type="button" class="btn btn-success list-btn"
 							onclick="history.back()">뒤로가기</button>
 					</div>
 					<div class="row mt-1 header">
-						<input type="hidden" id="memberId" th:value="${id}" />
-						<input type="hidden" id="id" name="brdno" th:value="${board.id}"/>
+						<input type="hidden" id="memberId" th:value="${id}" /> <input
+							type="hidden" id="id" name="brdno" th:value="${board.id}" />
 						<h5 class="col-1 board-title">제목</h5>
-						<p class="col-8" style="word-break: break-all;" th:text="${board.title}"></p>					
+						<p class="col-8" style="word-break: break-all;"
+							th:text="${board.title}"></p>
 					</div>
 					<div class="row mt-1 header">
 						<h5 class="col-1 board-writer">작성자</h5>
-						<p class="col-8" style="word-break: break-all;" th:text="${board.member.nickname}"></p>	
+						<p class="col-8" style="word-break: break-all;"
+							th:text="${board.member.nickname}"></p>
 					</div>
 					<div class="row mt-1 header">
 						<h5 class="col-1 board-title">작성일</h5>
-						<p class="col-8" style="word-break: break-all;"th:text="${#dates.format(board.reg_dt, 'yyyy-MM-dd HH:mm:ss')}"></p>		
-						<p class="col-2" th:text="'조회수 ' + ${board.hits}"></p>			
-					</div>						
-					<div class="board-container" style="border-top-color: black; border-top: solid; ">
-						<div class="content" style="word-break: break-all; margin-top: 30px;" th:utext="${board.content}">
-							</div>
+						<p class="col-8" style="word-break: break-all;"
+							th:text="${#dates.format(board.reg_dt, 'yyyy-MM-dd HH:mm:ss')}"></p>
+						<p class="col-2" th:text="'조회수 ' + ${board.hits}"></p>
+					</div>
+					<div class="board-container"
+						style="border-top-color: black; border-top: solid;">
+						<div class="content"
+							style="word-break: break-all; margin-top: 30px;"
+							th:utext="${board.content}"></div>
 					</div>
 					<hr>
+					
+					<br />
+					<div class="card">
+						<div class="card-header"
+							th:text="'댓글 [ ' + ${board.replycnt} +' ]'"></div>
+						<ul id="reply--box" class="list-group">
+							<th:block th:each="reply: ${board.replys}">
+								<li id="reply" 
+									class="list-group-item d-flex justify-content-between">
+									<form>
+										<input type="hidden" id="replyId" th:value="${reply.id}" /> <input
+											type="hidden" id="boardId" th:value="${board.id}" />
+										<div style="word-break:break-all;" th:text="${reply.rcontent}" 
+											></div>
+										<br />
+										<div class="d-flex">
+											<div class="font-italic" th:text="${reply.member.nickname}"></div>
+											&nbsp;&nbsp;
+										</div >
+									</form>
+									<div style="position: relative;">
+									<button th:if="${reply.member.id}== ${id}" id="btnReplyUpdate"
+											class="badge" style="background-color: #f6c23e;"
+											data-toggle="modal" data-target="#updateReply"
+											th:boardId="${board.id}"
+											th:replyId="${reply.id}"
+											th:replyContent="${reply.rcontent}"
+											th:onclick="updateReplyCk(this.getAttribute('boardId'),this.getAttribute('replyId'),this.getAttribute('replyContent'))"
+											>수정</button>
+									<button th:if="${reply.member.id}== ${id}" id="btnReplyDelte"
+												class="badge">삭제</button>
+										
+									</div>
+								</li>
+							<th:block />
+						</ul>
+					</div>
+					<div class="modal fade" id="updateReply" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title">댓글 수정</h4>
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+								</div>
+								<div class="modal-body">
+									<div class= "class"  id="board_id" style="display:none"></div>
+									<div class= "class"  id="reply_id" style="display:none"></div>
+									<div class="form-group">
+										<label for="reply_text">댓글 내용</label> 
+										<textarea id="reply_text" name="reply_text" class="form-control" rows="6"></textarea>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default pull-left"
+										data-dismiss="modal">닫기</button>
+									<button type="button" class="btn btn-warning modalModBtn" onclick="updateReply();">수정</button>
+								</div>
+							</div>
+						</div>
+					</div>
 					<div class="card">
 						<form>
 							<input type="hidden" id="boardId" th:value="${board.id}" />
@@ -46,27 +114,8 @@
 							</div>
 							<div class="card-footer">
 								<button id="btn-reply-content" class="btn btn-success">등록</button>
-							</div>	
+							</div>
 						</form>
-					</div>
-					<br />
-					<div class="card">
-						<div class="card-header">댓글 리스트</div>
-						<ul id="reply--box" class="list-group">
-							<th:block th:each="reply: ${board.replys}">
-							<li id="reply" class="list-group-item d-flex justify-content-between">
-							<form>
-								<input type="hidden" id="replyId" th:value="${reply.id}" />
-								<input type="hidden" id="boardId" th:value="${board.id}" />
-								<div th:text="${reply.rcontent}"></div>
-								<div class="d-flex">
-									  <div class="font-italic"  th:text="${reply.member.nickname}"></div>&nbsp;&nbsp;
-									  <button th:if="${reply.member.id}== ${id}" id="btnReplyDelte" class="badge">삭제</button>
-							 	 </div>
-							</form>
-							</li>
-							<th:block/>
-						</ul>
 					</div>
 				</div>
 			</div>

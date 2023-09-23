@@ -1,5 +1,6 @@
 package com.moashare.repository;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,6 +15,7 @@ public interface ReplyRepository extends JpaRepository<Reply, Long>{
 	// Modfiying은 int만
 	@Modifying
 	@Transactional
-	@Query(value="insert into Reply (member_id,board_id,rcontent,reg_dt) values (?1,?2,?3,now())", nativeQuery=true)
+	@Query(value = "insert into Reply (member_id,board_id,rcontent,reg_dt) values (?1,?2,?3,now())", nativeQuery=true)
 	int replySave(Long member_id, Long board_id, String rcontent); // insert, update, delete하면 업데이트한 행 개수 리턴해줌.)
+
 }
