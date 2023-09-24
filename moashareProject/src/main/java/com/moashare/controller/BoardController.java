@@ -127,15 +127,15 @@ public class BoardController {
 
 	}
 	
-	@PostMapping("/board/{boardId}/reply")
-	public String replySave(@RequestBody ReplyDTO replyDTO, @PathVariable Long boardId, Model model,  @AuthenticationPrincipal PrincipalDetails principalDetails) {
-		boardService.saveReply(replyDTO);
-		// 댓글리스트 추가 
-		model.addAttribute("replyList", boardService.getReplyList(boardId));
-		model.addAttribute("id",principalDetails.getMember().getId());
-		
-		log.info("<<<<<<<<<<<<< 달성 ");
-		return "board/detail :: #replyTable"; // 정상성공시 1로 리턴 
-		
-	}
+//	@PostMapping("/board/{boardId}/reply")
+//	public String replySave(@RequestBody ReplyDTO replyDTO, @PathVariable Long boardId, Model model,  @AuthenticationPrincipal PrincipalDetails principalDetails) {
+//		boardService.saveReply(replyDTO);
+//		// 댓글리스트 추가 
+//		model.addAttribute("replyList", boardService.getReplyList(boardId));
+//		model.addAttribute("id",principalDetails.getMember().getId());
+//		
+//		log.info("<<<<<<<<<<<<< 달성 ");
+//		return "board/detail :: #replyTable"; // 정상성공시 1로 리턴 
+//		
+//	}
 }

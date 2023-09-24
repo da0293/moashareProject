@@ -56,8 +56,8 @@
 								<li id="reply"
 									class="list-group-item d-flex justify-content-between">
 									<form>
-										<input type="hidden" id="replyId" th:value="${reply.id}" /> <input
-											type="hidden" id="boardId" th:value="${reply.board.id}" />
+										<input type="hidden" id="replyId" th:value="${reply.id}" /> 
+										<input type="hidden" id="boardId" th:value="${reply.board.id}" />
 										<div style="word-break:break-all;" th:text="${reply.rcontent}" 
 											></div>
 										<br />
@@ -69,16 +69,13 @@
 									</form>
 									<div style="position: relative;">
 									<button th:if="${reply.member.id}== ${id}" id="btnReplyUpdate"
-											class="badge" style="background-color: #f6c23e;"
+											class="badge" style="background-color: light gray;"
 											data-toggle="modal" data-target="#updateReply"
 											th:boardId="${reply.board.id}"
 											th:replyId="${reply.id}"
 											th:replyContent="${reply.rcontent}"
 											th:onclick="updateReplyCk(this.getAttribute('boardId'),this.getAttribute('replyId'),this.getAttribute('replyContent'))"
-											>수정</button>
-									<button th:if="${reply.member.id}== ${id}" id="btnReplyDelte"
-												class="badge">삭제</button>
-										
+											>댓글 수정</button>										
 									</div>
 								</li>
 							<th:block />
@@ -103,6 +100,7 @@
 									<button type="button" class="btn btn-default pull-left"
 										data-dismiss="modal">닫기</button>
 									<button type="button" class="btn btn-warning modalModBtn" onclick="updateReply();">수정</button>
+									<button type="button" class="btn btn-danger modalModBtn" onclick="deleteReply();">삭제</button>
 								</div>
 							</div>
 						</div>
@@ -111,13 +109,13 @@
 						<form>
 							<input type="hidden" id="boardId" th:value="${board.id}" />
 							<div class="card-body">
-								<textarea id="reply-content" class="form-control" rows="1"></textarea>
+								<textarea id="reply-content" class="form-control" rows="2"></textarea>
 							</div>
 							<div class="card-footer">
 								<button id="btn-reply-content" class="btn btn-success">등록</button>
 							</div>
 						</form>
-					</div>
+					</div><br/>
 				</div>
 			</div>
 		</div>

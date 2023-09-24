@@ -256,8 +256,9 @@ public class BoardService {
 	}
     
     // 댓글 리스트 가져오기 
+    @Transactional
 	public List<Reply> getReplyList(Long board_id){
-
+		log.info("<<<<<<<<<<<<<<<<서비스 : " +board_id);
 		Board board=boardRepository.findById(board_id).orElseThrow(() -> {
     		return new IllegalArgumentException("게시글이 제대로 확인되지않아 댓글리스트를 가져오지못하였습니다.");
     	});
