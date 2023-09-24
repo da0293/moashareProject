@@ -14,14 +14,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.moashare.config.auth.PrincipalDetails;
 import com.moashare.dto.BoardDTO;
 import com.moashare.dto.BookmarkDTO;
+import com.moashare.dto.ReplyDTO;
 import com.moashare.model.Board;
 import com.moashare.model.Bookmark;
+import com.moashare.model.Reply;
 import com.moashare.service.BoardService;
 
 import jakarta.servlet.http.HttpServlet;
@@ -74,6 +77,7 @@ public class BoardController {
 			 HttpServletRequest req, HttpServletResponse res,
 			@AuthenticationPrincipal PrincipalDetails principalDetails) {
 		log.info("<<<<<<<<<<<<<<<< 여기");
+		model.addAttribute("replyList", boardService.getReplyList(id));
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
 		model.addAttribute("id",principalDetails.getMember().getId());
 		model.addAttribute("board", boardService.detailView(id));
@@ -121,5 +125,16 @@ public class BoardController {
 		boardService.likeBoard(id, principalDetails.getMember().getId());
 		return "redirect:/board";
 
+	}
+	
+	@PostMapping("/board/{boardId}/reply")
+	public String replySave(@RequestBody ReplyDTO replyDTO, @PathVariable Long boardId, Model model) {
+		boardService.saveReply(replyDTO);
+		// 댓글리스트 추가 
+		model.addAttribute("replyList", boardService.getReplyList(boardId));
+
+		log.info("<<<<<<<<<<<<< 달성 ");
+		return "board/detail :: #replyTable"; // 정상성공시 1로 리턴 
+		
 	}
 }

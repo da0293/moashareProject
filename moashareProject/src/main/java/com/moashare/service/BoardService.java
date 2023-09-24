@@ -254,4 +254,19 @@ public class BoardService {
 				}); // 영속화 완료
 		reply.update(replyDTO.getRcontent());
 	}
+    
+    // 댓글 리스트 가져오기 
+	public List<Reply> getReplyList(Long board_id){
+
+		Board board=boardRepository.findById(board_id).orElseThrow(() -> {
+    		return new IllegalArgumentException("게시글이 제대로 확인되지않아 댓글리스트를 가져오지못하였습니다.");
+    	});
+		List<Reply> replyList=new ArrayList<>();
+		replyList=replyRepository.findAllByOrderByBoardDesc(board_id);
+		if (replyList !=null) {
+			return replyList;
+		}
+		return null;
+
+	}
 }

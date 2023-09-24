@@ -36,7 +36,7 @@
 					<div class="row mt-1 header">
 						<h5 class="col-1 board-title">작성일</h5>
 						<p class="col-8" style="word-break: break-all;"
-							th:text="${#dates.format(board.reg_dt, 'yyyy-MM-dd HH:mm:ss')}"></p>
+							th:text="${#dates.format(board.reg_dt, 'yyyy-MM-dd HH:mm')}"></p>
 						<p class="col-2" th:text="'조회수 ' + ${board.hits}"></p>
 					</div>
 					<div class="board-container"
@@ -51,19 +51,20 @@
 					<div class="card">
 						<div class="card-header"
 							th:text="'댓글 [ ' + ${board.replycnt} +' ]'"></div>
-						<ul id="reply--box" class="list-group">
-							<th:block th:each="reply: ${board.replys}">
-								<li id="reply" 
+						<ul id="replyTable" class="list-group">
+							<th:block th:each="reply: ${replyList}">
+								<li id="reply"
 									class="list-group-item d-flex justify-content-between">
 									<form>
 										<input type="hidden" id="replyId" th:value="${reply.id}" /> <input
-											type="hidden" id="boardId" th:value="${board.id}" />
+											type="hidden" id="boardId" th:value="${reply.board.id}" />
 										<div style="word-break:break-all;" th:text="${reply.rcontent}" 
 											></div>
 										<br />
 										<div class="d-flex">
-											<div class="font-italic" th:text="${reply.member.nickname}"></div>
+										 <div class="font-italic" th:text="${reply.member.nickname}"></div> 
 											&nbsp;&nbsp;
+										 <div class="font-italic" th:text="${#dates.format(reply.reg_dt, 'yyyy-MM-dd HH:mm')}"></div> 
 										</div >
 									</form>
 									<div style="position: relative;">

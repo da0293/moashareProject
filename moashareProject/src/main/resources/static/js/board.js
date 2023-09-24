@@ -85,16 +85,16 @@ $(document).on('click', '#btn-reply-content', function(e) {
 
 	// ajax 호출 시 default가 비동기 호출, 아래 코드 실행 가능
 	$.ajax({
-		url: '../../boardApi/board/'+board_id+'/reply',
+		url: '../../board/'+board_id+'/reply',
 		type: 'post',
 		contentType:'application/json; charset=utf-8',
-		dataType:'json',
 		data : JSON.stringify(params),
 		async : false,
-		success: function(response) {
-			console.log(response);
+		success: function(fragment) {
 			alert("댓글 작성이 완료되었습니다.")
-			location.href="/board/"+board_id;
+			$('#replyTable').replaceWith(fragment);
+			//$('#replyTable').append(fragment);
+			//location.href="/board/"+board_id;
 		},
 		error: function() {
 			alert("서버요청실패");

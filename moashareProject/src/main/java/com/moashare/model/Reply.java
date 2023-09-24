@@ -13,12 +13,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Reply {
 	
@@ -40,15 +41,6 @@ public class Reply {
 	
 	@CreationTimestamp
 	private Timestamp reg_dt;
-	
-	@Builder
-	public Reply(Long id, String rcontent, Board board, Member member, Timestamp reg_dt) {
-		this.id=id;
-		this.rcontent=rcontent;
-		this.board=board;
-		this.member=member;
-		this.reg_dt=reg_dt;
-	}
 	
 	// 메서드명 update라고 해야지만 update반영 아닐 시 네이티브쿼리 이용
 	public void update(Member member, Board board, String rcontent) {
