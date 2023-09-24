@@ -71,7 +71,7 @@
 									<button th:if="${reply.member.id}== ${id}" id="btnReplyUpdate"
 											class="badge" style="background-color: #f6c23e;"
 											data-toggle="modal" data-target="#updateReply"
-											th:boardId="${board.id}"
+											th:boardId="${reply.board.id}"
 											th:replyId="${reply.id}"
 											th:replyContent="${reply.rcontent}"
 											th:onclick="updateReplyCk(this.getAttribute('boardId'),this.getAttribute('replyId'),this.getAttribute('replyContent'))"
