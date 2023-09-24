@@ -113,6 +113,7 @@ $(document).on('click', '#btn-reply-content', function(e) {
 			console.log(board_id);
 			alert("댓글 작성이 완료되었습니다.");
 			$.ajax(getReplyList(board_id));
+			$('#reply-content').val('');
 		},
 		error: function() {
 			alert("서버요청실패");
@@ -152,6 +153,7 @@ function updateReply() {
 		success: function(response) {
 			console.log(response);
 			$.ajax(getReplyList(boardId));
+			$('#updateReply').modal('hide');
 		},
 		error: function() {
 			alert("서버요청실패");
@@ -177,6 +179,7 @@ function deleteReply() {
 			console.log(response);
 			alert("댓글 삭제가 완료되었습니다.")
 			$.ajax(getReplyList(boardId));
+			$('#updateReply').modal('hide');
 		},
 		error: function() {
 			alert("서버요청실패");
