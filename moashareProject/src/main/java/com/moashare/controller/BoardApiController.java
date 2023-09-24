@@ -83,7 +83,7 @@ public class BoardApiController {
 //		
 //	}
 	@PostMapping("/boardApi/{boardId}/reply")
-	public ResponseDTO<Integer> replySave(@RequestBody ReplyDTO replyDTO, @PathVariable Long boardId, Model model,  @AuthenticationPrincipal PrincipalDetails principalDetails) {
+	public ResponseDTO<Integer> replySave(@Valid @RequestBody ReplyDTO replyDTO, @PathVariable Long boardId, Model model,  @AuthenticationPrincipal PrincipalDetails principalDetails) {
 		boardService.saveReply(replyDTO);
 		// 댓글리스트 추가 
 		//model.addAttribute("replyList", boardService.getReplyList(boardId));

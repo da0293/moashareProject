@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
@@ -27,7 +28,7 @@ public class Reply {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotNull(message="댓글 내용값은 필수입니다.")
+	@NotBlank(message="내용은 필수입력값입니다.")
 	@Size(min = 1, max = 200)
 	private String rcontent;
 	
@@ -41,6 +42,14 @@ public class Reply {
 	
 	@CreationTimestamp
 	private Timestamp reg_dt;
+	
+	@Builder
+	public Reply(String rcontent) {
+
+		this.rcontent=rcontent;
+
+	}
+	
 	
 	// 메서드명 update라고 해야지만 update반영 아닐 시 네이티브쿼리 이용
 	public void update(Member member, Board board, String rcontent) {
