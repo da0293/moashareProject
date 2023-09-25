@@ -71,9 +71,9 @@ public class MemberService {
 			return new IllegalArgumentException("회원 찾기 실패");
 		});
 		
-		String rawPassword=member.getPassword();
-		String encPassword=bCryptPasswordEncoder.encode(rawPassword);
-		persistance.update(member.getNickname(),encPassword);
+//		String rawPassword=member.getPassword();
+//		String encPassword=bCryptPasswordEncoder.encode(rawPassword);
+		persistance.update(member.getNickname());
 
 		// 회원 수정 함수 종료시 = 서비스 종류 = 트랜잭션 종료 = 커밋 자동
 		// = 영속화된 persistance객체의 변화가 감지되면 더티체킹이 되서 update문을 자동으로 날려줌

@@ -62,8 +62,8 @@ public class Member {
 		this.join_dt=join_dt;
 	}
 	
-	public void update(String nickname, String password) {
+	public void update(String nickname) {
 		this.nickname=nickname;
-		this.password=password;
+//		this.password=password;
 	}
 }

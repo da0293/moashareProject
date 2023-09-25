@@ -43,7 +43,6 @@ public class HomeController {
 		model.addAttribute("id", principalDetails.getMember().getId());
 		return "home/profileForm";
 	}
-	
 	// 협업공간이름 검색
 	@GetMapping("/search") 	
 	public String searchClubName(@RequestParam(value = "searchValue")String searchValue, Model model,@AuthenticationPrincipal PrincipalDetails userDetails ) {

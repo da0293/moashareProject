@@ -65,13 +65,13 @@ public class BoardController {
 		model.addAttribute("boardList", boardList);
 		return "board/board";
 	}
-
+	// 게시글 작성
 	@GetMapping("/board/writeForm")
 	public String boardWriteForm(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
 		return "board/boardWriteForm";
 	}
-	
+	// 게시글 상세보기
 	@GetMapping("/board/{id}")
 	public String findById(@PathVariable Long id, Model model,
 			 HttpServletRequest req, HttpServletResponse res,
@@ -85,6 +85,7 @@ public class BoardController {
 		return "board/detail";
 		
 	}
+	// 게시글 수정
 	@GetMapping("/board/{id}/update")
 	public String updateForm(@PathVariable Long id, Model model) {
 		model.addAttribute("board", boardService.detailView(id));

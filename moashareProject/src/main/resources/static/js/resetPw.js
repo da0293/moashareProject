@@ -6,7 +6,7 @@ var check = 0;
 		$("#btnemailverifty").on("click", emailVerifyCk); // 이메일 인증코드 보내기 버튼
 		$("#btncodeck").on("click", codeCk); // 이메일 인증코드 확인 체크
 		$("#btnfinck").on("click", finalCk); // 유효성검사
-		$("select").on("change", selectEmail); // 이메일도메인
+		$("select").on("change", selectEmail); // 이메일도메인ㅋ
 	});
 	function emailDuplicateCk() {
 		console.log("버튼눌림");

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>비밀버호 재설정</title>
+<link rel="stylesheet" href="../css/register.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script type="text/javascript" src="../js/resetPw.js"></script>
+</head>	
+<body>
+	<div class="wrapper" id="div1" style="height: 540px;">
+		<div class="registerTitle">
+			<h1 style="font-size: 30px;">비밀번호 재설정</h1>
+		</div>
+		<form th:action="@{/resetPw}" method="post">
+			<div id="registerInfo">
+				<input type="hidden" id="userEamil" th:value="${email}" />
+				<div id="div5" class="pad">
+					<label>비밀번호</label> <input type="password" class="sameInput" 
+						name="password" id="userpw" placeholder="6~15자 영문,숫자,특수문자 1개 이상 필수" />
+				</div>
+				<div id="div6"
+					style="clear: both; padding-top: 10px; box-sizing: border-box;">
+					<input type="submit" id="btnfinck" class="btn" value="비밀번호 재설정 확인" />
+				</div>
+				<div style="text-align: center;">
+		            <a style="text-decoration: none;" th:href="@{/home}">홈으로 돌아가기</a>
+		        </div>
+			</div>
+		</form>
+	</div>
+</body>
+</html>
