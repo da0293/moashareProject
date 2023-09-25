@@ -116,7 +116,7 @@ $(document).on('click', '#btn-reply-content', function(e) {
 			$('#reply-content').val('');
 		},
 		error: function() {
-			alert("서버요청실패");
+			alert("댓글은 필수 입력값이며 최대 200자끼지 가능합니다.");
 		}
 	})
 });

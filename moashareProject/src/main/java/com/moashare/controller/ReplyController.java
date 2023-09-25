@@ -28,7 +28,7 @@ public class ReplyController {
 		model.addAttribute("replyList", boardService.getReplyList(boardId));
 		model.addAttribute("id",principalDetails.getMember().getId());
 		log.info("마침");
-		return "board/detail :: #replyTable"; // 정상성공시 1로 리턴 
+		return "board/detail :: #replyTable"; 
 
 	}
 }

@@ -62,9 +62,4 @@ public class Reply {
 		this.rcontent=rcontent;
 	}
 
-	@Override
-	public String toString() {
-		return "Reply [id=" + id + ", rcontent=" + rcontent + ", board=" + board + ", member=" + member + ", reg_dt="
-				+ reg_dt + "]";
-	}
 }

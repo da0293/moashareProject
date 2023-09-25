@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{/layout/default}">
+
 <th:block layout:fragment="content">
 	<!-- Begin Page Content -->
 	<div class="container-fluid">
@@ -12,7 +13,7 @@
 		
 		<div class="d-sm-flex align-items-center justify-content-between mb-3"
 			style="margin-top: 40px;">
-			<h6 class="h6 mb-0 text-gray-600" style="margin-left: 5px;">이번주 인기 프로젝트</h6>
+			<h6 class="h6 mb-0 text-gray-800" style="margin-left: 5px;"><i class="fas fa-fire fa-1x text-gray-800" style="width: 20px; height: 20px;"></i>이번주 인기 프로젝트</h6>
 		</div>
 		<div class="row">
 			<!-- Earnings (Monthly) Card Example -->
@@ -35,13 +36,13 @@
 									<span class="h6 mb-0 font-weight-bold text-gray-800" 
 										th:text="'조회수 ' + ${board.hits}"></span>&nbsp;
 										<span class="h6 mb-0 font-weight-bold text-gray-800" 
-										th:text="'댓글 ' + 0"></span>
+										th:text="'댓글 ' + ${board.replycnt}"></span>
+										</span>&nbsp;&nbsp;
+										<span class="h6 mb-0 font-weight-bold text-gray-800"
+										th:text="' 작성일 '+${#dates.format(board.reg_dt, 'yy.MM.dd HH:mm')}"></span>
 									</div>
 								</div>
 								<div class="col-auto">
-									<i class="fas fa-star fa-1x text-gray-300"
-										style="cursor: pointer;"
-										th:onclick="|location.href='@{/board/{boardId}(boardId=${board.id})}/bookmark'|"></i>
 								</div>
 							</div>
 						</div>

@@ -1,7 +1,5 @@
 package com.moashare.controller;
 
-import java.util.Map;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
@@ -83,14 +81,10 @@ public class BoardApiController {
 //		
 //	}
 	@PostMapping("/boardApi/{boardId}/reply")
-	public ResponseDTO<Integer> replySave(@Valid @RequestBody ReplyDTO replyDTO, @PathVariable Long boardId, Model model,  @AuthenticationPrincipal PrincipalDetails principalDetails) {
+	public ResponseDTO<Integer> replySave(@Valid @RequestBody ReplyDTO replyDTO, Model model, Errors errors,
+			@AuthenticationPrincipal PrincipalDetails principalDetails) {
 		boardService.saveReply(replyDTO);
-		// 댓글리스트 추가 
-		//model.addAttribute("replyList", boardService.getReplyList(boardId));
-		//model.addAttribute("id",principalDetails.getMember().getId());
-		
 		log.info("<<<<<<<<<<<<< 달성 ");
-		//return "board/detail :: #replyTable"; // 정상성공시 1로 리턴 
 		return new ResponseDTO<Integer>(HttpStatus.OK,1);
 		
 	}

@@ -60,6 +60,8 @@
 										th:text="'조회수 ' + ${board.hits}"></span>&nbsp;
 										<span class="h6 mb-0 font-weight-bold text-gray-800" 
 										th:text="'댓글 ' + ${board.replycnt}"></span>
+										<span class="h6 mb-0 font-weight-bold text-gray-800"
+										th:text="' 작성일 '+${#dates.format(board.reg_dt, 'yy.MM.dd HH:mm')}"></span>
 									</div>
 								</div>
 								<div class="col-auto">
