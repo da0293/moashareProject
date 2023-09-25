@@ -270,4 +270,9 @@ public class BoardService {
 		return null;
 
 	}
+    @Transactional
+	public List<Board> hotBoardList() {
+		List<Board> hotBoardList=boardRepository.findAllByHotBoard();
+		return hotBoardList;
+	}
 }

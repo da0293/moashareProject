@@ -10,17 +10,29 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.moashare.config.auth.PrincipalDetails;
+import com.moashare.dto.BoardDTO;
+import com.moashare.model.Board;
+import com.moashare.model.Bookmark;
+import com.moashare.service.BoardService;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class HomeController {
 	
+	private final BoardService boardService;
+	
+	public HomeController(BoardService boardService) {
+		this.boardService=boardService;
+	}
+	
 	
 	@GetMapping("/home")
 	public String member(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
-		
+		List<Board> hotBoardList=boardService.hotBoardList();
+		model.addAttribute("nickname", principalDetails.getMember().getNickname());
+		model.addAttribute("hotBoardList", hotBoardList);
 		return "home/homepage";
 	}
 	
