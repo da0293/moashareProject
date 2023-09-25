@@ -53,10 +53,8 @@ public class MemberService {
 	}
 	
 
-	public void resetPassword() {
-//		MemberDTO dto
-//		mdao.modifyPassword(dto);
-		
+	public void resetPassword(String email, String password) {
+		memberRepository.resetPassword(email, password);
 	}
 
 	@Transactional

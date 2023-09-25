@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.moashare.config.auth.PrincipalDetails;
+import com.moashare.dto.MemberDTO;
 import com.moashare.service.EmailService;
 import com.moashare.service.MemberService;
 
@@ -61,12 +62,9 @@ public class LoginController {
 	@PostMapping("/resetPw")
 	public String resetOk(@RequestParam("repw")String password,
 			@RequestParam("email")String email) {
+		log.info("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 이메일 " + email );
 		password=bCryptPasswordEncoder.encode(password);
-//		MemberDTO dto = MemberDTO.builder()
-//				  .id(id)
-//				  .pw(encPassword)
-//				  .build();
-//		ms.resetPassword(dto);
+		ms.resetPassword(email, password);
 		return "redirect:/login";
 	}
 	
