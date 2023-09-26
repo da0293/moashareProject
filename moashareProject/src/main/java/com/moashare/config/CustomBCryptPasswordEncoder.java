@@ -5,5 +5,5 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CustomBCryptPasswordEncoder extends BCryptPasswordEncoder{
-	
+	// 순환참조 방지용
 }

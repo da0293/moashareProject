@@ -3,26 +3,15 @@ package com.moashare.service;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Supplier;
 
-import org.apache.catalina.authenticator.SpnegoAuthenticator.AuthenticateAction;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
 
 import com.moashare.dto.BoardDTO;
-import com.moashare.dto.BookmarkDTO;
 import com.moashare.dto.ReplyDTO;
 import com.moashare.model.Board;
 import com.moashare.model.Bookmark;
@@ -192,7 +181,7 @@ public class BoardService {
     
     // 북마크 기능
     @Transactional
-    public void likeBoard(Long boardId, Long memberId ) {
+    public String likeBoard(Long boardId, Long memberId ) {
     	Board board=boardRepository.findById(boardId).orElseThrow(() -> {
     		return new IllegalArgumentException("게시판이 제대로 확인되지않아 북마크에 실패하였씁니다.");
     	});
@@ -200,7 +189,7 @@ public class BoardService {
     	Member member=memberRepository.findById(memberId).orElseThrow(() -> {
     		return new IllegalArgumentException("아이디가 제대로 확인되지않아 북마크에 실패하였씁니다.");
     	});
-    	
+    	String bookmarkStatus="n"; 
     	if(bookmarkRepository.findByBoardAndMember(board, member)==null) {
     		// 북마크를 누른 적이 없다면 Bookmark 생성
     		Bookmark bookmark = Bookmark.builder()
@@ -208,16 +197,19 @@ public class BoardService {
     				.member(member)
     				.build();
     		bookmarkRepository.save(bookmark);
+    		bookmarkStatus="y"; 
     	} else {
     		// 북마크 취소 후 테이블 삭제 
     		Bookmark bookmark = bookmarkRepository.findByBoardAndMember(board, member);
     		bookmark.unLikedBookmark(board);
     		bookmarkRepository.delete(bookmark);
     	}
+    	log.info("<<<<<<<<<<<<<<<<<<<<<<bookmarkstatus : " +bookmarkStatus);
+    	return bookmarkStatus;
     	
     }
     // 로그인 아이디에 대한 북마크 가져오기 
-    @Transactional
+    @Transactional(readOnly = true)
 	public List<Bookmark> bookmarkList(Long memberId) {
 		Member member=memberRepository.findById(memberId).orElseThrow(() -> {
     		return new IllegalArgumentException("아이디가 제대로 확인되지않아 북마크리스트를 가져오지못하였습니다.");
@@ -231,7 +223,7 @@ public class BoardService {
 	}
     
     // 해당 boardId를 가진 board객체 List객체로 가져오기
-    @Transactional
+    @Transactional(readOnly = true)
 	public List<BoardDTO> inBoardId(List<Long> ids) {
     	BoardDTO boardDTO=null; 
     	List<BoardDTO> result= new ArrayList<>();
@@ -244,7 +236,14 @@ public class BoardService {
 		}
 		return result;
 	}
-    
+    // 북마크체크된 북마크리스트 가져오기
+    @Transactional(readOnly = true)
+	public Page<BoardDTO> bookmarkList(List<Long> ids, Pageable pageable) {
+		Page<Board> boards= boardRepository.findByIdIn(ids,pageable);
+		List<BoardDTO> boardDTO=doPaging(boards);
+		return new PageImpl<>(boardDTO, pageable, boards.getTotalElements());
+		
+	}
     // 댓글 수정
     @Transactional
 	public void updateReply(Long replyId, ReplyDTO replyDTO) {
@@ -256,7 +255,7 @@ public class BoardService {
 	}
     
     // 댓글 리스트 가져오기 
-    @Transactional
+    @Transactional(readOnly = true)
 	public List<Reply> getReplyList(Long board_id){
 		log.info("<<<<<<<<<<<<<<<<서비스 : " +board_id);
 		Board board=boardRepository.findById(board_id).orElseThrow(() -> {
@@ -270,7 +269,8 @@ public class BoardService {
 		return null;
 
 	}
-    @Transactional
+    // 인기글 가져오기
+    @Transactional(readOnly = true)
 	public List<Board> hotBoardList() {
 		List<Board> hotBoardList=boardRepository.findAllByHotBoard();
 		return hotBoardList;

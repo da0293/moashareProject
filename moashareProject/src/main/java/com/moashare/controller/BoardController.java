@@ -2,6 +2,7 @@ package com.moashare.controller;
 
 import java.net.http.HttpRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -52,15 +53,18 @@ public class BoardController {
 		} else {
 			boardList=boardService.boardSearchList(searchKeyWord,pageable);
 		}
-//		List<Bookmark> bookmarkList=boardService.bookmarkList(principalDetails.getMember().getId());
-//		List<Long> bookmarks=new ArrayList<>();
-//		for( Bookmark bookmark :  bookmarkList) {
-//			bookmarks.add(bookmark.getBoard().getId());
-//		}
-//		for( Board bookmark :  bookmarkList) {
-//			bookmarks.add(bookmark.getBoard().getId());
-//		}
-//		model.addAttribute("bookmarks", bookmarks);
+		// 해당 아이디가 가진 북마크리스트 가져옴
+		List<Bookmark> bookmarkList=boardService.bookmarkList(principalDetails.getMember().getId());
+		List<Long> bookmarks=new ArrayList<>();
+		HashMap<Long, Boolean> map =new HashMap<>();
+		for( Bookmark bookmark :  bookmarkList) {
+			//bookmarks.add(bookmark.getBoard().getId());
+			map.put(bookmark.getBoard().getId(),bookmark.isStatus());
+		}
+		for( Bookmark bookmark :  bookmarkList) {
+			bookmarks.add(bookmark.getBoard().getId());
+		}
+		model.addAttribute("bookmarks", bookmarks);
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
 		model.addAttribute("boardList", boardList);
 		return "board/board";
@@ -97,22 +101,23 @@ public class BoardController {
 	public String bookmark(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model,
 							@PageableDefault(page=0, size = 12, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
 							String searchKeyWord) {
-//		Page<Board> boardList= null;
+		Page<BoardDTO> boardList= null;
+		// 특정 아이디에 대한 북마크 리스트 가져오기
 		List<Bookmark> bookmarkList=boardService.bookmarkList(principalDetails.getMember().getId());
-		List<BoardDTO> boardList =new ArrayList<>();
 		if (bookmarkList!=null) {
 			List<Long> bookmarks=new ArrayList<>();
 			for( Bookmark bookmark :  bookmarkList) {
 				bookmarks.add(bookmark.getBoard().getId());
 			}
 			// 해당 북마크체크된 보드 객체 가져오기 
-			boardList = boardService.inBoardId(bookmarks);
+			boardList = boardService.bookmarkList(bookmarks,pageable);
 //			if(searchKeyWord==null) {
 //				boardList=boardService.boardList(pageable);
 //			} else {
 //				boardList=boardService.bookmarkSearchList(searchKeyWord,pageable);
 //			}
 		}
+		
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
 		model.addAttribute("boardList", boardList);
 		return "board/bookmark";
@@ -121,11 +126,16 @@ public class BoardController {
 	
 	
 	// 북마크 추가, 삭제
-	@GetMapping("/board/{id}/bookmark")
-	public String updateBookmark(@PathVariable Long id, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-		boardService.likeBoard(id, principalDetails.getMember().getId());
-		return "redirect:/board";
-
+	@PostMapping("/board/{boardId}/bookmark")
+	@ResponseBody
+	public String updateBookmark(@PathVariable Long boardId, @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+		log.info("<<<<<<<<<<<<<<<<<<<<<<<< boardId : " +boardId);
+		// 북마크가 된 상태면 추가, 이미있을 시 삭제 
+		String bookmarkStatus= boardService.likeBoard(boardId, principalDetails.getMember().getId());
+//		model.addAttribute("replyList", boardService.getReplyList(boardId));
+//		model.addAttribute("id",principalDetails.getMember().getId());
+		return bookmarkStatus; 
+//		return "board :: #bookmarkTable"; 
 	}
 	
 //	@PostMapping("/board/{boardId}/reply")

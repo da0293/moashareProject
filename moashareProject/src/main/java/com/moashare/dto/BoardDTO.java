@@ -19,7 +19,7 @@ public class BoardDTO {
 	private Timestamp reg_dt;
 	
 	@Builder
-	public BoardDTO(Board board ) {
+	public BoardDTO(Board board) {
 		this.id=board.getId();
 		this.title=board.getTitle();
 		this.content=board.getContent();

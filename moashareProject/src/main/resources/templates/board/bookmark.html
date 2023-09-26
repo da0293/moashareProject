@@ -13,6 +13,7 @@
 			style="margin-top: 40px;">
 			<h6 class="h6 mb-0 text-gray-600" style="margin-left: 5px;">북마크 프로젝트</h6>
 		</div>
+		<div style="height: 640px;">
 		<div class="row">
 			<!-- Earnings (Monthly) Card Example -->
 			<th:block th:each="board, boardStat: ${boardList}">
@@ -40,15 +41,17 @@
 									</div>
 								</div>
 								<div class="col-auto">
-									<i class="fas fa-star fa-1x text-gray-300"
-										style="cursor: pointer;"
-										th:onclick="|location.href='@{/board/{boardId}(boardId=${board.id})}/bookmark'|"></i>
+									<i class="fas fa-star"
+										style="cursor: pointer; color: yellow;"
+										th:boardId="${board.id}"
+										th:onclick="updateBookmarkCk(this.getAttribute('boardId'))"></i>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</th:block>
+		</div>
 		</div>
 		<div th:if="${!boardList.isEmpty()}">
 			<ul style="justify-content: center;" class="pagination"
