@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.moashare.dto.BoardDTO;
+import com.moashare.dto.BookmarkDTO;
 import com.moashare.dto.ReplyDTO;
 import com.moashare.model.Board;
 import com.moashare.model.Bookmark;
@@ -75,6 +76,7 @@ public class BoardService {
 		return boardDTO;
 	}
 
+	
 	// 게시판 상세페이지
 	@Transactional
 	public Board detailView(Long id) {
@@ -238,11 +240,28 @@ public class BoardService {
 	}
     // 북마크체크된 북마크리스트 가져오기
     @Transactional(readOnly = true)
-	public Page<BoardDTO> bookmarkList(List<Long> ids, Pageable pageable) {
-		Page<Board> boards= boardRepository.findByIdIn(ids,pageable);
-		List<BoardDTO> boardDTO=doPaging(boards);
-		return new PageImpl<>(boardDTO, pageable, boards.getTotalElements());
+	public Page<BookmarkDTO> bookmarkCkList(Long memberId, Pageable pageable) {
+    	Member member=memberRepository.findById(memberId).orElseThrow(() -> {
+    		return new IllegalArgumentException("아이디가 확인되지않아 북마크를 가져오지못하였습니다.");
+    	});
+		Page<Bookmark> bookmarks= bookmarkRepository.findByMember(member, pageable);
+		int size=bookmarks.getSize();
+		log.info("<<<<<<<<<<<<<<<<<< 여기 사이즈 : " +size);
+		List<BookmarkDTO> bookmarkDTO=doBookmarkPaging(bookmarks);
+		log.info("MMMMMMMMM");
+		return new PageImpl<>(bookmarkDTO, pageable, bookmarks.getTotalElements());
 		
+	}
+    // 북마크 페이징처리
+	private List<BookmarkDTO> doBookmarkPaging(Page<Bookmark> bookmarks) {
+		List<BookmarkDTO> bookmarkDTO=new ArrayList<>();
+		for(Bookmark bookmark : bookmarks ) {
+			 BookmarkDTO result = BookmarkDTO.builder()
+					 .board(bookmark.getBoard())
+					 .build();
+			 bookmarkDTO.add(result);
+		}
+		return bookmarkDTO;
 	}
     // 댓글 수정
     @Transactional

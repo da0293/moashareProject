@@ -17,15 +17,11 @@ public class BookmarkDTO {
 	private Long id;
 	private Board board;
 	private Member member;
-	private boolean status;
-	private Timestamp reg_dt;
 	
 	@Builder
-	public BookmarkDTO(Long id, Board board, Boolean status , Member member,Timestamp reg_dt) {
+	public BookmarkDTO(Long id, Board board, Member member) {
 		this.id=id;
 		this.board=board;
 		this.member=member;
-		this.status=status;
-		this.reg_dt=reg_dt;
 	}
 }
