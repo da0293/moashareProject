@@ -42,9 +42,9 @@
 								</div>
 								<div class="col-auto">
 									<i class="fas fa-star"
-										style="cursor: pointer; color: yellow;"
+										style="cursor: pointer; color: yellow;" th:id="${bookmark.board.id}+'star'"
 										th:boardId="${bookmark.board.id}"
-										th:onclick="updateBookmarkCk(this.getAttribute('boardId'))"></i>
+										th:onclick="deleteBookmarkCk(this.getAttribute('boardId'))"></i>
 								</div>
 							</div>
 						</div>
@@ -53,28 +53,28 @@
 			</th:block>
 		</div>
 		</div>
-		<div th:if="${!boardList.isEmpty()}">
+		<div th:if="${!bookmarkList.isEmpty()}">
 			<ul style="justify-content: center;" class="pagination"
 				th:with="
-            pageNumber = ${boardList.pageable.pageNumber},
-            pageSize = ${boardList.pageable.pageSize},
-            totalPages = ${boardList.totalPages},
+            pageNumber = ${bookmarkList.pageable.pageNumber},
+            pageSize = ${bookmarkList.pageable.pageSize},
+            totalPages = ${bookmarkList.totalPages},
             startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize + 1},
             tempEndPage = ${startPage + pageSize - 1},
             endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})">
 
-				<li th:classappend="${boardList.first} ? 'disabled'"
+				<li th:classappend="${bookmarkList.first} ? 'disabled'"
 					class="page-item"><a class="page-link"
-					th:href="${boardList.first} ? '#' : @{/board(page=${pageNumber - 1})}">
+					th:href="${bookmarkList.first} ? '#' : @{/bookmark(page=${pageNumber - 1})}">
 						<span aria-hidden="true">&lt;</span>
 				</a></li>
 				<li th:each="page: ${#numbers.sequence(startPage, endPage)}"
 					th:classappend="${page == pageNumber + 1} ? 'active'"
 					class="page-item"><a th:text="${page}" class="page-link"
-					th:href="@{/board(page=${page - 1})}"></a></li>
-				<li th:classappend="${boardList.last} ? 'disabled'"
+					th:href="@{/bookmark(page=${page - 1})}"></a></li>
+				<li th:classappend="${bookmarkList.last} ? 'disabled'"
 					class="page-item"><a class="page-link"
-					th:href="${boardList.last} ? '#' : @{/board(page=${pageNumber + 1})}"
+					th:href="${bookmarkList.last} ? '#' : @{/bookmark(page=${pageNumber + 1})}"
 					aria-label="Next"> <span aria-hidden="true">&gt;</span>
 				</a></li>
 			</ul>

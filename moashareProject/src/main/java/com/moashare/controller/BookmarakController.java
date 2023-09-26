@@ -42,7 +42,6 @@ public class BookmarakController {
 	public String bookmark(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model,
 							@PageableDefault(page=0, size = 12, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
 							String searchKeyWord) {
-//		Page<BoardDTO> boardList= null;
 		Page<BookmarkDTO> bookmarkList=null;
 		// 특정 아이디에 대한 북마크 리스트 가져오기
 		log.info("여기옴");
