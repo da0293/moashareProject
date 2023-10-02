@@ -38,48 +38,53 @@
 				프로젝트</h6>
 		</div>
 		<div style="height: 640px;">
-		<div class="row">
-			<!-- Earnings (Monthly) Card Example -->
-			<th:block th:each="board, boardStat: ${boardList}">
-				<div class="col-xl-3 col-md-6 mb-4" style="height: 190px;"
-					th:if="${boardStat.index < 12}">
-					<div class="card shadow h-100 py-2">
-						<div class="card-body">
-							<div class="row no-gutters align-items">
-								<div class="col mr-2" >
-									<div class="h4 mb-0 font-weight-bold text-success mb-1"
-										style="overflow: hidden; text-overflow: ellipsis;  display: -webkit-box;  
-										-webkit-line-clamp: 3; -webkit-box-orient: vertical;  width: 320px; height: 86px;">
-										<a th:href="@{/board/{boardId}(boardId=${board.id})}"
-											style="text-decoration-line: none; color: #1cc88a;"
-											th:text="${board.title}"></a>
+			<div class="row">
+				<!-- Earnings (Monthly) Card Example -->
+				<th:block th:each="board, boardStat: ${boardList}">
+					<div class="col-xl-3 col-md-6 mb-4" style="height: 190px;"
+						th:if="${boardStat.index < 12}">
+						<div class="card shadow h-100 py-2">
+							<div class="card-body">
+								<div class="row no-gutters align-items">
+									<div class="col mr-2">
+										<div class="h4 mb-0 font-weight-bold text-success mb-1"
+											style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; width: 320px; height: 82px;">
+											<a th:href="@{/board/{boardId}(boardId=${board.id})}"
+												style="text-decoration-line: none; color: #1cc88a;"
+												th:text="${board.title}"></a>
+										</div>
+										<hr />
+										<div>
+											<span class="h6 mb-0 font-weight-bold text-gray-800"
+												th:text="'조회수 ' + ${board.hits}"></span>&nbsp; <span
+												class="h6 mb-0 font-weight-bold text-gray-800"
+												th:text="'댓글 ' + ${board.replycnt}"></span> <span
+												class="h6 mb-0 font-weight-bold text-gray-800"
+												th:text="' 작성일 '+${#dates.format(board.reg_dt, 'yy.MM.dd HH:mm')}"></span>
+										</div>
 									</div>
-									<hr/>
-									<div>
-									<span class="h6 mb-0 font-weight-bold text-gray-800" 
-										th:text="'조회수 ' + ${board.hits}"></span>&nbsp;
-										<span class="h6 mb-0 font-weight-bold text-gray-800" 
-										th:text="'댓글 ' + ${board.replycnt}"></span>
-										<span class="h6 mb-0 font-weight-bold text-gray-800"
-										th:text="' 작성일 '+${#dates.format(board.reg_dt, 'yy.MM.dd HH:mm')}"></span>
-									</div>
-								</div>
-								<div class="col-auto">
-									<i class="fas fa-star" th:id="${board.id}+'star'"
-										style="cursor: pointer;  " 
-										th:boardId="${board.id}"
-										th:onclick="updateBookmarkCk(this.getAttribute('boardId'))"
-										></i>
+									<th:block th:each="bookmark: ${bookmarks}">
+										<div class="col-auto" th:if="${bookmark}==${board.id}">
+											<i class="fas fa-star" th:id="${board.id}+'star'"
+												style="cursor: pointer; color: yellow;"
+												th:boardId="${board.id}"
+												th:onclick="updateBookmarkCk(this.getAttribute('boardId'))"></i>
+										</div>
+									</th:block>	
+									<div class="col-auto">
+										<i th:id="${board.id}+'star'" 
+											style="cursor: pointer; font-style: normal;" th:boardId="${board.id}"
+											th:onclick="updateBookmarkCk(this.getAttribute('boardId'))" th:text="북마크"></i>
+									</div>		
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</th:block>
-		</div>
+				</th:block>
+			</div>
 		</div>
 		<div th:if="${!boardList.isEmpty()}">
-			<ul style="justify-content: center;"  class="pagination"
+			<ul style="justify-content: center;" class="pagination"
 				th:with="
             pageNumber = ${boardList.pageable.pageNumber},
             pageSize = ${boardList.pageable.pageSize},

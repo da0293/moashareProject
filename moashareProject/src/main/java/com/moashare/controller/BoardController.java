@@ -54,17 +54,17 @@ public class BoardController {
 			boardList=boardService.boardSearchList(searchKeyWord,pageable);
 		}
 		// 해당 아이디가 가진 북마크리스트 가져옴
-//		List<Bookmark> bookmarkList=boardService.bookmarkList(principalDetails.getMember().getId());
-//		List<Long> bookmarks=new ArrayList<>();
-//		HashMap<Long, Boolean> map =new HashMap<>();
-//		for( Bookmark bookmark :  bookmarkList) {
-//			//bookmarks.add(bookmark.getBoard().getId());
-//			map.put(bookmark.getBoard().getId(),bookmark.isStatus());
-//		}
-//		for( Bookmark bookmark :  bookmarkList) {
-//			bookmarks.add(bookmark.getBoard().getId());
-//		}
-//		model.addAttribute("bookmarks", bookmarks);
+		List<Bookmark> bookmarkList=boardService.bookmarkList(principalDetails.getMember().getId());
+		List<Long> bookmarks=new ArrayList<>();
+		HashMap<Long, Boolean> map =new HashMap<>();
+		for( Bookmark bookmark :  bookmarkList) {
+			//bookmarks.add(bookmark.getBoard().getId());
+			map.put(bookmark.getBoard().getId(),bookmark.isStatus());
+		}
+		for( Bookmark bookmark :  bookmarkList) {
+			bookmarks.add(bookmark.getBoard().getId());
+		}
+		model.addAttribute("bookmarks", bookmarks);
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
 		model.addAttribute("boardList", boardList);
 		return "board/board";
