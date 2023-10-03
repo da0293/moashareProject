@@ -50,6 +50,7 @@ public class RegisterController {
 	@PostMapping("/register")
 	public String registerOk(@Valid @ModelAttribute("member") Member member,Errors errors , Model model ) {
 		
+		errorCk(member, errors, model);
 		if(errors.hasErrors()) {
 			model.addAttribute("member",member);
 			
@@ -71,6 +72,20 @@ public class RegisterController {
 		return "redirect:/login";
 	}
 		
+	
+	private String errorCk(@Valid Member member, Errors errors, Model model) {
+		if(errors.hasErrors()) {
+			model.addAttribute("member",member);
+			
+			Map<String, String> validatorResult=ms.validateHandling(errors);
+			for(String key : validatorResult.keySet()) {
+				model.addAttribute(key, validatorResult.get(key));
+			}
+			return "home/register";
+		}
+		return "home/error";
+	}
+
 //	이메일 인증
 	@GetMapping("/register/emailVerify") 
 	@ResponseBody
