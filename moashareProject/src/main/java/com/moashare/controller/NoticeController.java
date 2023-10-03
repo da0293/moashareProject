@@ -16,10 +16,11 @@ import lombok.extern.slf4j.Slf4j;
 public class NoticeController {
 	
 	@GetMapping("/notice")
-	public String member(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+	public String notice(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
 		log.info("컨트롤러");
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
 		return "notice/notice";
 	}
+
 }
