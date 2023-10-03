@@ -29,6 +29,8 @@ public class RegisterController {
 	private final MemberService ms;
 	private final EmailService es;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
+	private static final int confirm_duplicate=1; 
+	private static final int confirm_normal=2; 
 //	private final MemberRepository memberRepository;
 	
 	
@@ -82,11 +84,11 @@ public class RegisterController {
 	@ResponseBody
 	public int emailCk(@RequestParam("email")String email) {
 		System.out.println(email);
-		int confirm = 0;
+		int confirm=0;
 		if (ms.emailConfirm(email)==true){ // 이메일이 중복일 시 
-			confirm=1; 
+			confirm=confirm_duplicate;
 		} else { // 중복이 아닐 시 
-			confirm=2; 
+			confirm=confirm_normal;
 		}
 		return confirm;
 	}
@@ -97,9 +99,9 @@ public class RegisterController {
 	public int nicknameCk(@RequestParam("nickname")String nickname) {
 		int confirm = 0;
 		if(ms.nicknameConfirm(nickname)==true) {
-			confirm=1;
+			confirm=confirm_duplicate;
 		}else {
-			confirm=2; 
+			confirm=confirm_normal;
 		}
 		return confirm; // 존지(중복)일 시 1로 리턴 
 	}
