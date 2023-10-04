@@ -5,6 +5,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -239,6 +240,7 @@ public class BoardService {
 		return result;
 	}
     // 북마크체크된 북마크리스트 가져오기
+    @Cacheable(value="test", key="memberId") 
     @Transactional(readOnly = true)
 	public Page<BookmarkDTO> bookmarkCkList(Long memberId, Pageable pageable) {
     	Member member=memberRepository.findById(memberId).orElseThrow(() -> {

@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.moashare.dto.BoardDTO;
 import com.moashare.model.Board;
 
 // CRUD 함수를 JpaRepository가 들고 있음
@@ -29,7 +30,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	List<Board> findByIdIn(@Param(value = "ids") List<Long> ids);
 	
 	@Transactional
-	@Query(value = "select * from board where hits > 1 and reg_dt > (NOW() - INTERVAL 7 DAY) order by id desc;", nativeQuery = true)
+	@Query(value = "select * from board where hits > 0 and reg_dt > (NOW() - INTERVAL 7 DAY) order by id desc;", nativeQuery = true)
 	List<Board> findAllByHotBoard();
 	
 	@Transactional
