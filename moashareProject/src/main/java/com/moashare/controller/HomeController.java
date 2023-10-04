@@ -7,6 +7,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.moashare.config.auth.PrincipalDetails;
@@ -14,16 +15,19 @@ import com.moashare.dto.BoardDTO;
 import com.moashare.model.Board;
 import com.moashare.model.Bookmark;
 import com.moashare.service.BoardService;
+import com.moashare.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class HomeController {
 	
-	private final BoardService boardService;
+	private BoardService boardService;
+	private MemberService memberService;
 	
-	public HomeController(BoardService boardService) {
+	public HomeController(BoardService boardService,MemberService memberService) {
 		this.boardService=boardService;
+		this.memberService=memberService;
 	}
 	
 	
@@ -55,5 +59,6 @@ public class HomeController {
 		return "home/search";
         
 	}
+	
 	
 }

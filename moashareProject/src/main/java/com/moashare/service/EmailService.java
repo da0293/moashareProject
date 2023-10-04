@@ -19,9 +19,31 @@ public class EmailService {
     private final JavaMailSender emailSender; //의존성 주입을 통해서 필요한 객체를 가져온다.
     private final SpringTemplateEngine templateEngine; // 타임리프를사용하기 위한 객체를 의존성 주입으로 가져온다
     private String authNum; //랜덤 인증 코드
+    
+    
+    // 1 실제 메일 전송
+    public String sendEmail(String toEmail) throws MessagingException, UnsupportedEncodingException {
+        MimeMessage emailForm = createEmailForm(toEmail);//메일전송에 필요한 정보 설정
+        emailSender.send(emailForm);//실제 메일 전송
+        return authNum; //인증 코드 반환  
+    }
+    
+    // 2 메일 양식 작성
+    private MimeMessage createEmailForm(String email) throws MessagingException, UnsupportedEncodingException {
+        createCode(); //인증 코드 생성
+        String toEmail = email; //받는 사람
+        String title = "MOASHARE 이메일 인증 번호입니다."; //제목
 
-    //랜덤 인증 코드 생성
-    public void createCode() {
+        MimeMessage message = emailSender.createMimeMessage();
+        message.addRecipients(MimeMessage.RecipientType.TO, email); //보낼 이메일 설정
+        message.setSubject(title); //제목 설정
+        message.setText(setContext(authNum), "utf-8", "html");
+
+        return message;
+    }
+    
+    //3 랜덤 인증 코드 생성
+    private void createCode() {
         Random random = new Random();
         StringBuffer key = new StringBuffer();
         for(int i=0;i<8;i++) {
@@ -42,29 +64,8 @@ public class EmailService {
         authNum = key.toString();
     }
 
-    //메일 양식 작성
-    public MimeMessage createEmailForm(String email) throws MessagingException, UnsupportedEncodingException {
-        createCode(); //인증 코드 생성
-        String toEmail = email; //받는 사람
-        String title = "MOASHARE 이메일 인증 번호입니다."; //제목
-
-        MimeMessage message = emailSender.createMimeMessage();
-        message.addRecipients(MimeMessage.RecipientType.TO, email); //보낼 이메일 설정
-        message.setSubject(title); //제목 설정
-        message.setText(setContext(authNum), "utf-8", "html");
-
-        return message;
-    }
-
-    //실제 메일 전송
-    public String sendEmail(String toEmail) throws MessagingException, UnsupportedEncodingException {
-        MimeMessage emailForm = createEmailForm(toEmail);//메일전송에 필요한 정보 설정
-        emailSender.send(emailForm);//실제 메일 전송
-        return authNum; //인증 코드 반환  
-    }
-
-    //타임리프를 이용한 context 설정
-    public String setContext(String code) {
+    // 4.타임리프를 이용한 context 설정
+    private String setContext(String code) {
         Context context = new Context();
         context.setVariable("code", code);
         return templateEngine.process("mail", context); //mail.html

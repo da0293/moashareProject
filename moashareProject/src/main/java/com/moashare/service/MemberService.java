@@ -16,6 +16,7 @@ import org.springframework.validation.FieldError;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.moashare.model.Member;
+import com.moashare.repository.BoardRepository;
 import com.moashare.repository.MemberRepository;
 
 import jakarta.transaction.Transactional;
@@ -26,12 +27,14 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberService {
 	
 	private final MemberRepository memberRepository;
+	private final BoardRepository boardRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	
-	public MemberService(MemberRepository memberRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+	public MemberService(MemberRepository memberRepository, BCryptPasswordEncoder bCryptPasswordEncoder, BoardRepository boardRepository) {
 		this.memberRepository=memberRepository;
 		this.bCryptPasswordEncoder=bCryptPasswordEncoder;
+		this.boardRepository=boardRepository;
 	}
 
 	public boolean emailConfirm(String email) {
@@ -79,8 +82,6 @@ public class MemberService {
 		// = 영속화된 persistance객체의 변화가 감지되면 더티체킹이 되서 update문을 자동으로 날려줌
 		
 	}
-
-
 
 
 }
