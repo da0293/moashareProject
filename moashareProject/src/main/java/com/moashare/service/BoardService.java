@@ -212,6 +212,7 @@ public class BoardService {
     	
     }
     // 로그인 아이디에 대한 북마크 가져오기 
+    @Cacheable(value = "translationCache", key ="#memberId")
     @Transactional(readOnly = true)
 	public List<Bookmark> bookmarkList(Long memberId) {
 		Member member=memberRepository.findById(memberId).orElseThrow(() -> {
@@ -240,7 +241,6 @@ public class BoardService {
 		return result;
 	}
     // 북마크체크된 북마크리스트 가져오기
-    @Cacheable(value="test", key="memberId") 
     @Transactional(readOnly = true)
 	public Page<BookmarkDTO> bookmarkCkList(Long memberId, Pageable pageable) {
     	Member member=memberRepository.findById(memberId).orElseThrow(() -> {

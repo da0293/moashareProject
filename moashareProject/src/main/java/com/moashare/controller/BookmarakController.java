@@ -46,7 +46,8 @@ public class BookmarakController {
 		// 특정 아이디에 대한 북마크 리스트 가져오기
 		log.info("여기옴");
 		log.info("<<<<<<<<<<<<<<<<<<< 아이디 : " +principalDetails.getMember().getId() );
-		bookmarkList=boardService.bookmarkCkList(principalDetails.getMember().getId(),pageable);
+		Long memberId=principalDetails.getMember().getId();
+		bookmarkList=boardService.bookmarkCkList(memberId,pageable);
 		
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
 		model.addAttribute("bookmarkList", bookmarkList);
