@@ -36,16 +36,14 @@ public class BookmarakController {
 		this.boardService=boardService;
 	}
 
-	
 	// 북마크 페이지
 	@GetMapping("/bookmark")
-	public String bookmark(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model,
+	public String bookmark(@AuthenticationPrincipal PrincipalDetails principalDetails,Model model,
 							@PageableDefault(page=0, size = 12, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
 							String searchKeyWord) {
 		Page<BookmarkDTO> bookmarkList=null;
+		
 		// 특정 아이디에 대한 북마크 리스트 가져오기
-		log.info("여기옴");
-		log.info("<<<<<<<<<<<<<<<<<<< 아이디 : " +principalDetails.getMember().getId() );
 		Long memberId=principalDetails.getMember().getId();
 		bookmarkList=boardService.bookmarkCkList(memberId,pageable);
 		

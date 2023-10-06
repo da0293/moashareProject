@@ -213,9 +213,10 @@ public class BoardService {
     	
     }
     // 로그인 아이디에 대한 북마크 가져오기 
-   
+
     @Transactional(readOnly = true)
 	public List<Bookmark> bookmarkList(Long memberId) {
+    	System.out.println("여기>>>>>>>>>>>>>>>>>>캐싱처리");
 		Member member=memberRepository.findById(memberId).orElseThrow(() -> {
     		return new IllegalArgumentException("아이디가 제대로 확인되지않아 북마크리스트를 가져오지못하였습니다.");
     	});
@@ -242,6 +243,7 @@ public class BoardService {
 		return result;
 	}
     // 북마크체크된 북마크리스트 가져오기
+    @Cacheable(cacheNames = "bookmarkCacheStore", key="#memberId")
     @Transactional(readOnly = true)
 	public Page<BookmarkDTO> bookmarkCkList(Long memberId, Pageable pageable) {
     	Member member=memberRepository.findById(memberId).orElseThrow(() -> {
@@ -293,7 +295,7 @@ public class BoardService {
 	}
     // 인기글 가져오기
 
-    @Cacheable(cacheNames = "cacheStore")
+//    @Cacheable(cacheNames = "cacheStore")
     @Transactional(readOnly = true)
 	public List<Board> hotBoardList() {
 		List<Board> hotBoardList=boardRepository.findAllByHotBoard();
