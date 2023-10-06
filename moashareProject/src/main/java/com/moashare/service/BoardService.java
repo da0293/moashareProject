@@ -293,6 +293,7 @@ public class BoardService {
 	}
     // 인기글 가져오기
 
+    @Cacheable(cacheNames = "cacheStore")
     @Transactional(readOnly = true)
 	public List<Board> hotBoardList() {
 		List<Board> hotBoardList=boardRepository.findAllByHotBoard();

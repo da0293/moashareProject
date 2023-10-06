@@ -12,7 +12,7 @@ import lombok.Getter;
 public class CacheTestController {
 
 	@GetMapping("/cache")
-	@Cacheable(cacheNames = "cache")
+//	@Cacheable(cacheNames = "cache")
 	public String CacheTestDto() {
 		CacheTestDto cache = new CacheTestDto("name", 10);
 		System.out.println("데이터를 만들었음"); // 새로고침을 해도 한번만 출력되는 것을 확인함 
