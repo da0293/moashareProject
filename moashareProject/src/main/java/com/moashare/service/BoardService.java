@@ -49,6 +49,7 @@ public class BoardService {
 	 }
 	 
 	// 게시판 목록 가져오기
+	 
 	@Transactional(readOnly = true)
 	public Page<BoardDTO> boardList(Pageable pageable) {
 		Page<Board> boards= boardRepository.findAll(pageable);
@@ -212,7 +213,7 @@ public class BoardService {
     	
     }
     // 로그인 아이디에 대한 북마크 가져오기 
-    @Cacheable(value = "translationCache", key ="#memberId")
+   
     @Transactional(readOnly = true)
 	public List<Bookmark> bookmarkList(Long memberId) {
 		Member member=memberRepository.findById(memberId).orElseThrow(() -> {
@@ -291,6 +292,7 @@ public class BoardService {
 
 	}
     // 인기글 가져오기
+
     @Transactional(readOnly = true)
 	public List<Board> hotBoardList() {
 		List<Board> hotBoardList=boardRepository.findAllByHotBoard();
