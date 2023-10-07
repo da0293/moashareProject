@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.moashare.dto.ReplyDTO;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -44,10 +45,15 @@ public class Reply {
 	private Timestamp reg_dt;
 	
 	@Builder
-	public Reply(String rcontent) {
-
+	public Reply(String rcontent, Board board, Member mebmer) {
 		this.rcontent=rcontent;
-
+		this.board=board;
+		this.member=mebmer;
+	}
+	
+	@Builder
+	public Reply(String rcontent) {
+		this.rcontent=rcontent;
 	}
 	
 	

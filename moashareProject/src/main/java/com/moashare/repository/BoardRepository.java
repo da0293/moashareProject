@@ -26,14 +26,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	int updateHits(@Param(value = "id") Long id);
 	
 	@Transactional
-	@Query(value = "select * from board as b where b.id in (:ids)", nativeQuery = true)
-	List<Board> findByIdIn(@Param(value = "ids") List<Long> ids);
-	
-	@Transactional
 	@Query(value = "select * from board where hits > 0 and reg_dt > (NOW() - INTERVAL 7 DAY) order by id desc;", nativeQuery = true)
 	List<Board> findAllByHotBoard();
-	
-	@Transactional
-	@Query(value = "select * from board as b where b.id in (:ids)", nativeQuery = true)
-	Page<Board> findByIdIn(List<Long> ids, Pageable pageable);
 }

@@ -57,13 +57,9 @@ public class BookmarakController {
 	@PostMapping("/board/{boardId}/bookmark")
 	@ResponseBody
 	public String updateBookmark(@PathVariable Long boardId, @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
-		log.info("<<<<<<<<<<<<<<<<<<<<<<<< boardId : " +boardId);
 		// 북마크가 된 상태면 추가, 이미있을 시 삭제 
 		String bookmarkStatus= boardService.likeBoard(boardId, principalDetails.getMember().getId());
-//		model.addAttribute("replyList", boardService.getReplyList(boardId));
-//		model.addAttribute("id",principalDetails.getMember().getId());
 		return bookmarkStatus; 
-//		return "board :: #bookmarkTable"; 
 	}
 
 	@PostMapping("/board/list/{boardId}/bookmark")

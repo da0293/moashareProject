@@ -1,5 +1,8 @@
 package com.moashare.dto;
 
+import com.moashare.model.Board;
+import com.moashare.model.Member;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;

@@ -80,7 +80,6 @@ public class BoardController {
 	public String findById(@PathVariable Long id, Model model,
 			 HttpServletRequest req, HttpServletResponse res,
 			@AuthenticationPrincipal PrincipalDetails principalDetails) {
-		log.info("<<<<<<<<<<<<<<<< 여기");
 		model.addAttribute("replyList", boardService.getReplyList(id));
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
 		model.addAttribute("id",principalDetails.getMember().getId());
@@ -95,18 +94,4 @@ public class BoardController {
 		model.addAttribute("board", boardService.detailView(id));
 		return "board/updateForm";
 	}
-
-
-	
-//	@PostMapping("/board/{boardId}/reply")
-//	public String replySave(@RequestBody ReplyDTO replyDTO, @PathVariable Long boardId, Model model,  @AuthenticationPrincipal PrincipalDetails principalDetails) {
-//		boardService.saveReply(replyDTO);
-//		// 댓글리스트 추가 
-//		model.addAttribute("replyList", boardService.getReplyList(boardId));
-//		model.addAttribute("id",principalDetails.getMember().getId());
-//		
-//		log.info("<<<<<<<<<<<<< 달성 ");
-//		return "board/detail :: #replyTable"; // 정상성공시 1로 리턴 
-//		
-//	}
 }
