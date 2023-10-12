@@ -16,22 +16,28 @@
                             <h6 class="m-0 font-weight-bold text-primary">공지사항</h6>
                         </div>
                         <div class="card-body">
+                        
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Salary</th>
+                                            <th>제목</th>
+                                            <th>작성날짜</th>
                                         </tr>
                                     </thead>
+                                    <th:block th:each="notice : ${noticeList}">
                                     <tbody>
                                         <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>$320,800</td>
+                                            <td style="width: 80%;"><a th:href="@{/notice/{noticeId}(noticeId=${notice.id})}"
+												style="text-decoration-line: none; color: #13855c;"
+												th:text="${notice.ntitle}"></a></td>
+                                            <td th:text="${#dates.format(notice.reg_dt, 'yy.MM.dd HH:mm')}"></td>
                                         </tr>                            
                                     </tbody>
+									</th:block>
                                 </table>
                             </div>
+
                         </div>
                     </div>
 	</div>
