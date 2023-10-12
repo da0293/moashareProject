@@ -3,6 +3,7 @@ package com.moashare.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +28,7 @@ public class NoticeService {
 	 }
 
 	public List<Notice> getNoticeList() {
-		List<Notice> noticeList=noticeRepository.findAll();
+		List<Notice> noticeList=noticeRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
 		return noticeList;
 	}
 	
