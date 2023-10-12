@@ -23,7 +23,7 @@ public class FailureHandler implements AuthenticationFailureHandler {
 //	private final String url = "/login/fail";
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-			AuthenticationException exception) throws IOException, ServletException {
+		AuthenticationException exception) throws IOException, ServletException {
 		String errorMsg=null;
 		if (exception instanceof AuthenticationServiceException) {
 			errorMsg = "존재하지 않는 사용자입니다.";
