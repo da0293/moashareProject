@@ -69,13 +69,6 @@ public class LoginController {
 		return "redirect:/login";
 	}
 	
-//	@PostMapping("/resetPw/emailCk")
-//	@ResponseBody
-//	public int emailCheck(@RequestParam("email")String emailId) {
-//		int confirm = ms.emailCk(emailId);
-//		return confirm; // 존재(중복)할 시 1로 리턴 
-//	}
-//	
 	@GetMapping("/resetPw/emailVerify")
 	@ResponseBody
 	public String emailVerify(@RequestParam("email")String email) throws UnsupportedEncodingException, MessagingException {

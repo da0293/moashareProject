@@ -17,6 +17,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -44,4 +45,14 @@ public class Notice {
 	
 	@CreationTimestamp
 	private Timestamp reg_dt;
+	
+	@Builder
+	public Notice(Long id, String ntitle, String ncontent, Member member , Timestamp reg_dt ) {
+		this.id=id;
+		this.ntitle=ntitle;
+		this.ncontent=ncontent;
+		this.member=member;
+		this.reg_dt=reg_dt;
+		
+	}
 }

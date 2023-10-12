@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public abstract class AbastractEmailService {
+	
 	protected JavaMailSender emailSender;
     protected SpringTemplateEngine templateEngine;
     protected String authNum;
