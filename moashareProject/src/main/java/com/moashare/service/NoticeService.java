@@ -27,6 +27,7 @@ public class NoticeService {
 		noticeRepository.save(notice);
 	 }
 
+	@Transactional(readOnly = true)
 	public List<Notice> getNoticeList() {
 		List<Notice> noticeList=noticeRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
 		return noticeList;
@@ -39,6 +40,11 @@ public class NoticeService {
 					return new IllegalArgumentException("아이디를 찾을 수 없어 글을 볼 수 없습니다.");
 				});
 		return notice;
+	}
+
+	@Transactional
+	public void deleteNotice(Long id) {
+		noticeRepository.deleteById(id);
 	}
 	
 }

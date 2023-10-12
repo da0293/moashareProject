@@ -46,17 +46,10 @@ public class NoticeApiController {
 		return new ResponseDTO<Integer>(HttpStatus.OK,1); // 정상성공시 1로 리턴 
 		
 	}
-	
-//	@DeleteMapping("/boardApi/board/{id}")
-//	public ResponseDTO<Integer> deleteyById(@PathVariable Long id){
-//		boardService.deleteBoard(id);
-//		return new ResponseDTO<Integer>(HttpStatus.OK,1); 
-//	}
-//	
-//	@PutMapping("/boardApi/board/{id}") // delete와 같아도 메서드가 달라 괜찮다.
-//	public ResponseDTO<Integer> update(@PathVariable Long id, @RequestBody Board requestBoard){
-//		boardService.updateBoard(id,requestBoard);
-//		return new ResponseDTO<Integer>(HttpStatus.OK,1); 
-//		
-//	}
+	@DeleteMapping("/noticeApi/notice/{id}")
+	public ResponseDTO<Integer> deleteyById(@PathVariable Long id){
+		log.info("<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 확인 ");
+		noticeService.deleteNotice(id);
+		return new ResponseDTO<Integer>(HttpStatus.OK,1); 
+	}
 }
