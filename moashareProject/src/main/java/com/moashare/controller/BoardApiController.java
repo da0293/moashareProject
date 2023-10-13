@@ -84,7 +84,6 @@ public class BoardApiController {
 	public ResponseDTO<Integer> replySave(@Valid @RequestBody ReplyDTO replyDTO, Model model, Errors errors,
 			@AuthenticationPrincipal PrincipalDetails principalDetails) {
 		boardService.saveReply(replyDTO);
-		log.info("<<<<<<<<<<<<< 달성 ");
 		return new ResponseDTO<Integer>(HttpStatus.OK,1);
 		
 	}
@@ -92,7 +91,6 @@ public class BoardApiController {
 	
 	@DeleteMapping("/boardApi/board/{boardId}/reply/{replyId}")
 	public ResponseDTO<Integer> replyDelte(@PathVariable Long replyId){
-		log.info("<<<<<<<<<<<<<<<<<<<<<<<  댓글번호 : " + replyId);
 		boardService.deleteReply(replyId);
 		return new ResponseDTO<Integer>(HttpStatus.OK,1);
 	}

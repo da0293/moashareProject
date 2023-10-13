@@ -298,11 +298,10 @@ public class BoardService {
 //		return hotBoardList;
 //	}
 //    
-//    @Scheduled(fixedRate = 60000) // 매 분마다 실행
+    @Scheduled(cron = "0 0 0 * * *") // 매 자정마다 실행
+    @Transactional
    	public void hotBoardList() {
-    	log.info("<<<<<<<<<<<<<<<<<실행");
    		List<Board> boardList=boardRepository.findAllByHotBoard();
-   		log.info("<<<<<<<<<<<<<<<<<실행2");
    		for( Board board : boardList) {
    			HotBoard hotBoard=HotBoard.builder()
    					.board(board)
@@ -310,11 +309,16 @@ public class BoardService {
    			log.info(hotBoard.getTitle());
    			hotBoardRepository.save(hotBoard);
    		}
-   		
    	}
     @Transactional
-    @Scheduled(cron = "0 46 23 * * *")
+    @Scheduled(cron = "59 59 23 * * *") // 23시 59분 59초에 삭제 // unique컬럼 방지
     public void autoDelete() {
     	hotBoardRepository.deleteAllInBatch();
     }
+
+    @Cacheable(cacheNames = "hotboardCacheStore") // 1주일 캐싱 
+	public List<HotBoard> getHotBoardList() {
+		List<HotBoard> hotBoardList=hotBoardRepository.findAll();
+		return hotBoardList;
+	}
 }

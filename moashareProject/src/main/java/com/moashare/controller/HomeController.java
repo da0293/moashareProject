@@ -15,6 +15,7 @@ import com.moashare.config.auth.PrincipalDetails;
 import com.moashare.dto.BoardDTO;
 import com.moashare.model.Board;
 import com.moashare.model.Bookmark;
+import com.moashare.model.HotBoard;
 import com.moashare.service.BoardService;
 import com.moashare.service.MemberService;
 
@@ -36,9 +37,9 @@ public class HomeController {
 	public String member(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
 //		List<Board> hotBoardList=boardService.hotBoardList();// 인기글 가져오기 
-//		boardService.hotBoardList();
+		List<HotBoard> hotBoardList=boardService.getHotBoardList();// 인기글 가져오기 
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
-//		model.addAttribute("hotBoardList", hotBoardList);
+		model.addAttribute("hotBoardList", hotBoardList);
 		return "home/homepage";
 	}
 	
