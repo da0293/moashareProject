@@ -26,6 +26,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	int updateHits(@Param(value = "id") Long id);
 	
 	@Transactional
-	@Query(value = "select * from board where hits > 0 and reg_dt > (NOW() - INTERVAL 7 DAY) order by id desc;", nativeQuery = true)
+	@Query(value = "select * from board where hits > 0 and reg_dt > (NOW() - INTERVAL 8 DAY) order by id desc;", nativeQuery = true)
 	List<Board> findAllByHotBoard();
 }

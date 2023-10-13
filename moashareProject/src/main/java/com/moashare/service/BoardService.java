@@ -10,6 +10,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,10 +20,12 @@ import com.moashare.dto.BookmarkDTO;
 import com.moashare.dto.ReplyDTO;
 import com.moashare.model.Board;
 import com.moashare.model.Bookmark;
+import com.moashare.model.HotBoard;
 import com.moashare.model.Member;
 import com.moashare.model.Reply;
 import com.moashare.repository.BoardRepository;
 import com.moashare.repository.BookmarkRepository;
+import com.moashare.repository.HotBoardRepository;
 import com.moashare.repository.MemberRepository;
 import com.moashare.repository.ReplyRepository;
 import com.nimbusds.jose.proc.SecurityContext;
@@ -42,6 +46,7 @@ public class BoardService {
 	 private final MemberRepository memberRepository;
 	 private final String VIEWCOOKIENAME = "alreadyViewCookie";
 	 private final BookmarkRepository bookmarkRepository;
+	 private final HotBoardRepository hotBoardRepository;
 	 
 	 // 게시판 글 저장
 	 @Transactional // 함수 종료 시 자동 commit
@@ -286,9 +291,30 @@ public class BoardService {
 
 	}
     // 인기글 가져오기
-    @Transactional(readOnly = true)
-	public List<Board> hotBoardList() {
-		List<Board> hotBoardList=boardRepository.findAllByHotBoard();
-		return hotBoardList;
-	}
+
+//    @Transactional(readOnly = true)
+//	public List<Board> hotBoardList() {
+//		List<Board> hotBoardList=boardRepository.findAllByHotBoard();
+//		return hotBoardList;
+//	}
+//    
+//    @Scheduled(fixedRate = 60000) // 매 분마다 실행
+   	public void hotBoardList() {
+    	log.info("<<<<<<<<<<<<<<<<<실행");
+   		List<Board> boardList=boardRepository.findAllByHotBoard();
+   		log.info("<<<<<<<<<<<<<<<<<실행2");
+   		for( Board board : boardList) {
+   			HotBoard hotBoard=HotBoard.builder()
+   					.board(board)
+   					.build();
+   			log.info(hotBoard.getTitle());
+   			hotBoardRepository.save(hotBoard);
+   		}
+   		
+   	}
+    @Transactional
+    @Scheduled(cron = "0 46 23 * * *")
+    public void autoDelete() {
+    	hotBoardRepository.deleteAllInBatch();
+    }
 }

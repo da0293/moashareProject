@@ -35,9 +35,10 @@ public class HomeController {
 	@GetMapping("/home")
 	public String member(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
-		List<Board> hotBoardList=boardService.hotBoardList();
+//		List<Board> hotBoardList=boardService.hotBoardList();// 인기글 가져오기 
+//		boardService.hotBoardList();
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
-		model.addAttribute("hotBoardList", hotBoardList);
+//		model.addAttribute("hotBoardList", hotBoardList);
 		return "home/homepage";
 	}
 	
