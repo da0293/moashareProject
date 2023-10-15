@@ -273,34 +273,34 @@ public class BoardService {
 		return null;
 
 	}
-	// 인기글 가져오기
-
-//    @Transactional(readOnly = true)
-//	public List<Board> hotBoardList() {
-//		List<Board> hotBoardList=boardRepository.findAllByHotBoard();
-//		return hotBoardList;
-//	}
-//    
-	@Scheduled(cron = "0 0 0 * * *") // 매일 자정마다 실행
+  
+	// 초기 실행
+	@Scheduled(initialDelay = 0, fixedRate = Long.MAX_VALUE) // 매우 큰 시간 간격을 둬서 초기 실행만 적용되도록 함
+	@Transactional
+	public void initialHotBoardList() {
+		saveHotBoard();
+	}
+	
+	// 매일 자정마다 1주일 이내 
+	@Scheduled(cron = "0 0 0 * * *") 
 	@Transactional
 	public void hotBoardList() {
-		List<Board> boardList = boardRepository.findAllByHotBoard();
-		autoDelete(); 
-		for (Board board : boardList) {
-			if (!hotBoardRepository.existsByBoardId(board.getId())) { // board_id가 이미 존재하는지 확인(에러 방지)
-				HotBoard hotBoard = HotBoard.builder().board(board).build();
-				log.info(hotBoard.getTitle());
-				hotBoardRepository.save(hotBoard);
-			}
-		}
+		saveHotBoard();
 		clearHotBoardCache(); 
 	}
 	
-	// hotBoard 테이블에 있는 데이터 삭제
-	private void autoDelete() {
-		hotBoardRepository.deleteAllInBatch();
-	}
 	
+	// 150이상 조회수 게시물 조회 실행 및 같은 보드아이디 제외해 hotBoard테이블에 저장 
+	private void saveHotBoard() {
+		List<Board> boardList = boardRepository.findAllByHotBoard();
+		for (Board board : boardList) {
+			if (!hotBoardRepository.existsByBoardId(board.getId())) { // board_id가 이미 존재하는지 확인(에러 방지)
+				HotBoard hotBoard = HotBoard.builder().board(board).build();
+				hotBoardRepository.save(hotBoard);
+			}
+		}
+	}
+
 	// 캐싱 지우기(가장 처음을 위한 캐싱지우기 또한 오류방지)
 	@CacheEvict(cacheNames = "hotboardCacheStore", allEntries = true)
 	private void clearHotBoardCache() {
@@ -309,8 +309,8 @@ public class BoardService {
 	
 	// 주간 인기글(7일이내)하루 캐싱
 	@Cacheable(cacheNames = "hotboardCacheStore") 
+	@Transactional(readOnly = true)
 	public List<HotBoard> getHotBoardList() {
-		log.info("캐싱");
 		List<HotBoard> hotBoardList = hotBoardRepository.findAll();
 		return hotBoardList;
 	}
