@@ -298,20 +298,25 @@ public class BoardService {
 //		return hotBoardList;
 //	}
 //    
-    @Scheduled(cron = "0 0 0 * * *") // 매 자정마다 실행
+    @Scheduled(cron = "0 0 0 * * *") // 매일 자정마다 실행
     @Transactional
    	public void hotBoardList() {
-   		List<Board> boardList=boardRepository.findAllByHotBoard();
-   		for( Board board : boardList) {
-   			HotBoard hotBoard=HotBoard.builder()
-   					.board(board)
-   					.build();
-   			log.info(hotBoard.getTitle());
-   			hotBoardRepository.save(hotBoard);
-   		}
+    	List<Board> boardList = boardRepository.findAllByHotBoard();
+    	for (Board board : boardList) {
+    	    // board_id가 이미 존재하는지 확인
+    	    if (!hotBoardRepository.existsByBoardId(board.getId())) {
+    	        HotBoard hotBoard = HotBoard.builder()
+    	            .board(board)
+    	            .build();
+    	        log.info(hotBoard.getTitle());
+    	        hotBoardRepository.save(hotBoard);
+    	    }
+    	}
    	}
+    
     @Transactional
-    @Scheduled(cron = "59 59 23 * * *") // 23시 59분 59초에 삭제 // unique컬럼 방지
+    @CacheEvict(value = "hotboardCacheStore", allEntries = true)
+    @Scheduled(cron = "59 59 23 * * 7") // 매주 일요일 23시 59분 59초에 실행
     public void autoDelete() {
     	hotBoardRepository.deleteAllInBatch();
     }

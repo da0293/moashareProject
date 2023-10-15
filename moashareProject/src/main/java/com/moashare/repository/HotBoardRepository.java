@@ -12,5 +12,7 @@ import com.moashare.model.HotBoard;
 
 public interface HotBoardRepository extends JpaRepository<HotBoard, Long> {
 
+	boolean existsByBoardId(Long id);
+
 	
 }
