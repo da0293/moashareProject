@@ -16,6 +16,10 @@ public abstract class AbastractEmailService {
     protected SpringTemplateEngine templateEngine;
     protected String authNum;
     
+    public AbastractEmailService(JavaMailSender emailSender, SpringTemplateEngine templateEngine) {
+		this.emailSender=emailSender;
+		this.templateEngine=templateEngine;
+	}
     
     public String sendEmail(String toEmail) throws MessagingException, UnsupportedEncodingException {
         MimeMessage emailForm = createEmailForm(toEmail); //메일전송에 필요한 정보 설정
@@ -41,4 +45,6 @@ public abstract class AbastractEmailService {
         
         return message;
     }
+
+	
 }

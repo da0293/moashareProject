@@ -1,22 +1,21 @@
 package com.moashare.service;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
-import lombok.RequiredArgsConstructor;
-
 @Service
-@RequiredArgsConstructor
 public class EmailService extends AbastractEmailService {
 	
+	// 의존성 주입
+	public EmailService(JavaMailSender emailSender, SpringTemplateEngine templateEngine) {
+        super(emailSender, templateEngine);
+    }
+	
+	// 새로운 이메일 기능에 맞는 인증 코드 생성 로직 구현
 	@Override
 	protected void createCode() {
 		Random random = new Random();
@@ -40,18 +39,21 @@ public class EmailService extends AbastractEmailService {
 
 	}
 
+	// 새로운 이메일 기능에 맞는 이메일 제멕 설정 
 	@Override
 	protected String getEmailTitle() {
 		String title = "MOASHARE 이메일 인증 번호입니다."; //제목
 		return title;
 	}
 
+	// 새로운 이메일 기능에 맞는 타임리프 context 설정 
 	@Override
 	protected String setContext(String code) {
 		Context context = new Context();
 		context.setVariable("code", code);
 		return templateEngine.process("mail", context); // mail.html
 	}
+
 
 //    private final JavaMailSender emailSender; //의존성 주입을 통해서 필요한 객체를 가져온다.
 //    private final SpringTemplateEngine templateEngine; // 타임리프를사용하기 위한 객체를 의존성 주입으로 가져온다
