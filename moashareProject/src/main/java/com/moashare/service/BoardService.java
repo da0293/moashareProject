@@ -301,7 +301,7 @@ public class BoardService {
 		hotBoardRepository.deleteAllInBatch();
 	}
 	
-	// 캐싱 지우기
+	// 캐싱 지우기(가장 처음을 위한 캐싱지우기 또한 오류방지)
 	@CacheEvict(cacheNames = "hotboardCacheStore", allEntries = true)
 	private void clearHotBoardCache() {
 		
@@ -310,6 +310,7 @@ public class BoardService {
 	// 주간 인기글(7일이내)하루 캐싱
 	@Cacheable(cacheNames = "hotboardCacheStore") 
 	public List<HotBoard> getHotBoardList() {
+		log.info("캐싱");
 		List<HotBoard> hotBoardList = hotBoardRepository.findAll();
 		return hotBoardList;
 	}
