@@ -2,7 +2,12 @@ package com.moashare.repository;
 
 
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.moashare.model.HotBoard;
 
@@ -13,6 +18,10 @@ import com.moashare.model.HotBoard;
 public interface HotBoardRepository extends JpaRepository<HotBoard, Long> {
 
 	boolean existsByBoardId(Long id);
+
+	@Transactional
+	@Query(value = "select * from hot_board h where reg_dt > (CURRENT_DATE - 7) order by h.reg_dt desc;", nativeQuery = true)
+	List<HotBoard> findAllByRegDtAfter();
 
 	
 }

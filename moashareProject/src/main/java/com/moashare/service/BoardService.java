@@ -1,5 +1,6 @@
 package com.moashare.service;
 
+import java.security.Timestamp;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -311,7 +312,7 @@ public class BoardService {
 	@Cacheable(cacheNames = "hotboardCacheStore") 
 	@Transactional(readOnly = true)
 	public List<HotBoard> getHotBoardList() {
-		List<HotBoard> hotBoardList = hotBoardRepository.findAll();
+		List<HotBoard> hotBoardList = hotBoardRepository.findAllByRegDtAfter();
 		return hotBoardList;
 	}
 }
