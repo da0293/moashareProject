@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Index;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -61,6 +62,7 @@ public class Board {
 //	@OrderBy("id desc")
 	private List<Reply> replys;
 	
+	@Index(name = "idx_reg_dt")
 	@CreationTimestamp
 	private Timestamp reg_dt;
 	

@@ -1,5 +1,6 @@
 package com.moashare.service;
 
+import java.io.InputStream;
 import java.security.Timestamp;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -94,9 +95,11 @@ public class BoardService {
 	}
 
 	// 게시판 삭제
+	@CacheEvict(cacheNames = "hotboardCacheStore", allEntries=true)
 	@Transactional
 	public void deleteBoard(Long id) {
 		boardRepository.deleteById(id);
+		//clearHotBoardCache(); 
 	}
 
 	// 게시판 수정
@@ -279,19 +282,23 @@ public class BoardService {
 	@Scheduled(initialDelay = 0, fixedRate = Long.MAX_VALUE) // 매우 큰 시간 간격을 둬서 초기 실행만 적용되도록 함
 	@Transactional
 	public void initialHotBoardList() {
+		log.info("말도안돼");
 		saveHotBoard();
 	}
 	
 	// 매일 자정마다 1주일 이내 
-	@Scheduled(cron = "0 0 0 * * *") 
+	@CacheEvict(cacheNames = "hotboardCacheStore", allEntries=true)
+	@Scheduled(cron = "0 17 8 * * *") 
 	@Transactional
 	public void hotBoardList() {
 		saveHotBoard();
-		clearHotBoardCache(); 
+		log.info("여기");
+		//clearHotBoardCache();
 	}
 	
 	
 	// 150이상 조회수 게시물 조회 실행 및 같은 보드아이디 제외해 hotBoard테이블에 저장 
+	@Transactional
 	private void saveHotBoard() {
 		List<Board> boardList = boardRepository.findAllByHotBoard();
 		for (Board board : boardList) {
@@ -302,16 +309,11 @@ public class BoardService {
 		}
 	}
 
-	// 캐싱 지우기(가장 처음을 위한 캐싱지우기 또한 오류방지)
-	@CacheEvict(cacheNames = "hotboardCacheStore", allEntries = true)
-	private void clearHotBoardCache() {
-		
-	}
-	
 	// 주간 인기글(7일이내)하루 캐싱
 	@Cacheable(cacheNames = "hotboardCacheStore") 
 	@Transactional(readOnly = true)
 	public List<HotBoard> getHotBoardList() {
+		log.info("그래");
 		List<HotBoard> hotBoardList = hotBoardRepository.findAllByRegDtAfter();
 		return hotBoardList;
 	}
