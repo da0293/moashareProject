@@ -58,7 +58,6 @@ public class BoardService {
 	}
 
 	// 게시판 목록 가져오기
-
 	@Transactional(readOnly = true)
 	public Page<BoardDTO> boardList(Pageable pageable) {
 		Page<Board> boards = boardRepository.findAll(pageable);
@@ -99,7 +98,6 @@ public class BoardService {
 	@Transactional
 	public void deleteBoard(Long id) {
 		boardRepository.deleteById(id);
-		//clearHotBoardCache(); 
 	}
 
 	// 게시판 수정
@@ -282,18 +280,15 @@ public class BoardService {
 	@Scheduled(initialDelay = 0, fixedRate = Long.MAX_VALUE) // 매우 큰 시간 간격을 둬서 초기 실행만 적용되도록 함
 	@Transactional
 	public void initialHotBoardList() {
-		log.info("말도안돼");
 		saveHotBoard();
 	}
 	
 	// 매일 자정마다 1주일 이내 
 	@CacheEvict(cacheNames = "hotboardCacheStore", allEntries=true)
-	@Scheduled(cron = "0 17 8 * * *") 
+	@Scheduled(cron = "0 0 0 * * *") 
 	@Transactional
 	public void hotBoardList() {
 		saveHotBoard();
-		log.info("여기");
-		//clearHotBoardCache();
 	}
 	
 	
@@ -313,7 +308,6 @@ public class BoardService {
 	@Cacheable(cacheNames = "hotboardCacheStore") 
 	@Transactional(readOnly = true)
 	public List<HotBoard> getHotBoardList() {
-		log.info("그래");
 		List<HotBoard> hotBoardList = hotBoardRepository.findAllByRegDtAfter();
 		return hotBoardList;
 	}
