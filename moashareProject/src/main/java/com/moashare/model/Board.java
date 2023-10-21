@@ -62,7 +62,6 @@ public class Board {
 //	@OrderBy("id desc")
 	private List<Reply> replys;
 	
-	@Index(name = "idx_reg_dt")
 	@CreationTimestamp
 	private Timestamp reg_dt;
 	

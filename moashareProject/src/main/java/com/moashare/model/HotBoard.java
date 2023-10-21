@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -39,12 +42,14 @@ public class HotBoard {
 	
 	@OneToOne
 	@JoinColumn(name = "board_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Board board;
 	
 	private int hits;
 	
 	private int replycnt;
 	
+	@Index(name = "idx_reg_dt")
 	private Timestamp reg_dt;
 	
 	@Builder

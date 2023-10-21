@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -285,7 +286,7 @@ public class BoardService {
 	
 	// 매일 자정마다 1주일 이내 
 	@CacheEvict(cacheNames = "hotboardCacheStore", allEntries=true)
-	@Scheduled(cron = "0 0 0 * * *") 
+	@Scheduled(cron = "0 30 9 * * *") 
 	@Transactional
 	public void hotBoardList() {
 		saveHotBoard();
