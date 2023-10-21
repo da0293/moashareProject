@@ -45,4 +45,6 @@ int main(void) {
 * DB 인덱스
   
 # ERD
+![image](https://github.com/da0293/moashareProject/assets/117956416/48ac13f4-57a1-483e-8858-ddc1d87ee29e)
+
 
