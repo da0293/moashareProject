@@ -15,6 +15,7 @@
 			style="margin-top: 40px;">
 			<h6 class="h6 mb-0 text-gray-800" style="margin-left: 5px;"><i class="fas fa-fire fa-1x text-gray-800" style="width: 20px; height: 20px;"></i>주간 인기 프로젝트 ( 오늘로부터 7일 이내 ) </h6>
 		</div>
+		<div style="height: 640px;">
 		<div class="row">
 			<!-- Earnings (Monthly) Card Example -->
 			<th:block th:each="board, boardStat: ${hotBoardList}">
@@ -29,12 +30,12 @@
 										-webkit-line-clamp: 3; -webkit-box-orient: vertical;  width: 320px; height: 86px;">
 										<a th:href="@{/board/{boardId}(boardId=${board.board.id})}"
 											style="text-decoration-line: none; color: #1cc88a;"
-											th:text="${board.title}"></a>
+											th:text="${board.board.title}"></a>
 									</div>
 									<hr/>
 									<div>
 										<span class="h6 mb-0 font-weight-bold text-gray-800"
-										th:text="' 작성일 '+${#dates.format(board.reg_dt, 'yy.MM.dd HH:mm')}"></span>
+										th:text="' 작성일 '+${#dates.format(board.board.reg_dt, 'yy.MM.dd HH:mm')}"></span>
 									</div>
 								</div>
 								<div class="col-auto">
@@ -44,6 +45,33 @@
 					</div>
 				</div>
 			</th:block>
+		</div>
+		</div>
+		<div th:if="${!hotBoardList.isEmpty()}">
+			<ul style="justify-content: center;" class="pagination"
+				th:with="
+            pageNumber = ${hotBoardList.pageable.pageNumber},
+            pageSize = ${hotBoardList.pageable.pageSize},
+            totalPages = ${hotBoardList.totalPages},
+            startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize + 1},
+            tempEndPage = ${startPage + pageSize - 1},
+            endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})">
+
+				<li th:classappend="${hotBoardList.first} ? 'disabled'"
+					class="page-item"><a class="page-link"
+					th:href="${hotBoardList.first} ? '#' : @{/home(page=${pageNumber - 1})}">
+						<span aria-hidden="true">&lt;</span>
+				</a></li>
+				<li th:each="page: ${#numbers.sequence(startPage, endPage)}"
+					th:classappend="${page == pageNumber + 1} ? 'active'"
+					class="page-item"><a th:text="${page}" class="page-link"
+					th:href="@{/home(page=${page - 1})}"></a></li>
+				<li th:classappend="${hotBoardList.last} ? 'disabled'"
+					class="page-item"><a class="page-link"
+					th:href="${hotBoardList.last} ? '#' : @{/home(page=${pageNumber + 1})}"
+					aria-label="Next"> <span aria-hidden="true">&gt;</span>
+				</a></li>
+			</ul>
 		</div>
 	</div>
 	<!-- /.container-fluid -->

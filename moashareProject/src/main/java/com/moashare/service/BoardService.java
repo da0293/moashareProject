@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.moashare.dto.BoardDTO;
 import com.moashare.dto.BookmarkDTO;
+import com.moashare.dto.HotBoardDTO;
 import com.moashare.dto.ReplyDTO;
 import com.moashare.model.Board;
 import com.moashare.model.Bookmark;
@@ -308,8 +309,18 @@ public class BoardService {
 	// 주간 인기글(7일이내)하루 캐싱
 	@Cacheable(cacheNames = "hotboardCacheStore") 
 	@Transactional(readOnly = true)
-	public List<HotBoard> getHotBoardList() {
-		List<HotBoard> hotBoardList = hotBoardRepository.findAllByRegDtAfter();
-		return hotBoardList;
+	public Page<HotBoardDTO> getHotBoardList(Pageable pageable) {
+		Page<HotBoard> hotBoardList = hotBoardRepository.findAllByRegDtAfter(pageable);
+		List<HotBoardDTO> hotBoardDTO = doHotBoardPaging(hotBoardList);
+		return new PageImpl<>(hotBoardDTO, pageable, hotBoardList.getTotalElements());
+	}
+
+	private List<HotBoardDTO> doHotBoardPaging(Page<HotBoard> hotBoardList) {
+		List<HotBoardDTO> hotBoardDTO = new ArrayList<>();
+		for (HotBoard hotBoard : hotBoardList) {
+			HotBoardDTO result = HotBoardDTO.builder().hotboard(hotBoard).build();
+			hotBoardDTO.add(result);
+		}
+		return hotBoardDTO;
 	}
 }

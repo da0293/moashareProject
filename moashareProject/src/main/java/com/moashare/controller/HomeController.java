@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.moashare.config.auth.PrincipalDetails;
 import com.moashare.dto.BoardDTO;
+import com.moashare.dto.HotBoardDTO;
 import com.moashare.model.Board;
 import com.moashare.model.Bookmark;
 import com.moashare.model.HotBoard;
@@ -37,10 +39,11 @@ public class HomeController {
 	
 	
 	@GetMapping("/home")
-	public String member(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+	public String member(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model,@PageableDefault(page=0, size = 12, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
 //		List<Board> hotBoardList=boardService.hotBoardList();// 인기글 가져오기 
-		List<HotBoard> hotBoardList=boardService.getHotBoardList();// 인기글 가져오기 
+		Page<HotBoardDTO> hotBoardList= null;
+		hotBoardList=boardService.getHotBoardList(pageable);// 인기글 가져오기 
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
 		model.addAttribute("hotBoardList", hotBoardList);
 		return "home/homepage";
