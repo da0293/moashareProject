@@ -3,6 +3,8 @@ package com.moashare.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,12 +31,14 @@ public class MemberService {
 	private final MemberRepository memberRepository;
 	private final BoardRepository boardRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
+	private final MessageSource messageSource;
 
 	
-	public MemberService(MemberRepository memberRepository, BCryptPasswordEncoder bCryptPasswordEncoder, BoardRepository boardRepository) {
+	public MemberService(MemberRepository memberRepository, BCryptPasswordEncoder bCryptPasswordEncoder, BoardRepository boardRepository, MessageSource messageSource) {
 		this.memberRepository=memberRepository;
 		this.bCryptPasswordEncoder=bCryptPasswordEncoder;
 		this.boardRepository=boardRepository;
+		this.messageSource=messageSource;
 	}
 
 	public boolean emailConfirm(String email) {
@@ -71,7 +75,7 @@ public class MemberService {
 		// Select해서 Member 오브젝트를 DB로부터 가져오는 이유는 영속화하기 위해서다.
 		// 영속화를 하면 영속화된 오브젝트를 변경하면 자동으로 DB에 update문을 날려준다.
 		Member persistance=memberRepository.findById(member.getId()).orElseThrow(()-> {
-			return new IllegalArgumentException("회원 찾기 실패");
+			return new IllegalArgumentException(messageSource.getMessage("memberNotFound", null, LocaleContextHolder.getLocale()));
 		});
 		
 //		String rawPassword=member.getPassword();

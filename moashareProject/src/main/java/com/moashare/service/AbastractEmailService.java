@@ -34,15 +34,11 @@ public abstract class AbastractEmailService {
 
     private MimeMessage createEmailForm(String email) throws MessagingException, UnsupportedEncodingException {
         createCode();
-        System.out.println(authNum);
         String title = getEmailTitle();
-        System.out.println("title  :" + title);
         MimeMessage message = emailSender.createMimeMessage();
-        System.out.println("여기");
         message.addRecipients(MimeMessage.RecipientType.TO, email);
         message.setSubject(title);
         message.setText(setContext(authNum), "utf-8", "html");
-        
         return message;
     }
 

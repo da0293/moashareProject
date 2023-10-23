@@ -8,8 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -52,6 +55,7 @@ public class BoardService {
 	private final String VIEWCOOKIENAME = "alreadyViewCookie";
 	private final BookmarkRepository bookmarkRepository;
 	private final HotBoardRepository hotBoardRepository;
+	private final MessageSource messageSource;
 
 	// 게시판 글 저장
 	@Transactional // 함수 종료 시 자동 commit
@@ -90,7 +94,7 @@ public class BoardService {
 	@Transactional
 	public Board detailView(Long id) {
 		Board board = boardRepository.findById(id).orElseThrow(() -> {
-			return new IllegalArgumentException("아이디를 찾을 수 없어 글을 볼 수 없습니다.");
+			return new IllegalArgumentException(messageSource.getMessage("boardNotFound", null, LocaleContextHolder.getLocale()));
 		});
 		return board;
 	}
@@ -106,7 +110,7 @@ public class BoardService {
 	@Transactional
 	public void updateBoard(Long id, Board requestBoard) {
 		Board board = boardRepository.findById(id).orElseThrow(() -> {
-			return new IllegalArgumentException("아이디가 없어 글 찾기를 실패하였씁니다.");
+			return new IllegalArgumentException(messageSource.getMessage("boardNotUpdate", null, LocaleContextHolder.getLocale()));
 		}); // 영속화 완료
 		board.update(requestBoard.getTitle(), requestBoard.getContent());
 
@@ -166,11 +170,11 @@ public class BoardService {
 	@Transactional
 	public String likeBoard(Long boardId, Long memberId) {
 		Board board = boardRepository.findById(boardId).orElseThrow(() -> {
-			return new IllegalArgumentException("게시판이 제대로 확인되지않아 북마크에 실패하였씁니다.");
+			return new IllegalArgumentException(messageSource.getMessage("boardNotFoundAndnNotBookmark", null, LocaleContextHolder.getLocale()));
 		});
 
 		Member member = memberRepository.findById(memberId).orElseThrow(() -> {
-			return new IllegalArgumentException("아이디가 제대로 확인되지않아 북마크에 실패하였씁니다.");
+			return new IllegalArgumentException(messageSource.getMessage("boardNotFoundAndnNotBookmark", null, LocaleContextHolder.getLocale()));
 		});
 		String bookmarkStatus = "n";
 		if (bookmarkRepository.findByBoardAndMember(board, member) == null) {
@@ -192,7 +196,7 @@ public class BoardService {
 	@Transactional(readOnly = true)
 	public List<Bookmark> bookmarkList(Long memberId) {
 		Member member = memberRepository.findById(memberId).orElseThrow(() -> {
-			return new IllegalArgumentException("아이디가 제대로 확인되지않아 북마크리스트를 가져오지못하였습니다.");
+			return new IllegalArgumentException(messageSource.getMessage("bookmarkNotFoundCausedByMemberId", null, LocaleContextHolder.getLocale()));
 		});
 
 		List<Bookmark> bookmarkList = bookmarkRepository.findByMember(member);
@@ -207,7 +211,7 @@ public class BoardService {
 	@Transactional(readOnly = true)
 	public Page<BookmarkDTO> bookmarkCkList(Long memberId, Pageable pageable) {
 		Member member = memberRepository.findById(memberId).orElseThrow(() -> {
-			return new IllegalArgumentException("아이디가 확인되지않아 북마크를 가져오지못하였습니다.");
+			return new IllegalArgumentException(messageSource.getMessage("bookmarkNotFoundCausedByMemberId", null, LocaleContextHolder.getLocale()));
 		});
 		Page<Bookmark> bookmarks = bookmarkRepository.findByMember(member, pageable);
 		int size = bookmarks.getSize();
@@ -229,10 +233,10 @@ public class BoardService {
 	@Transactional
 	public void saveReply(ReplyDTO replyDTO) {
 		Member meber = memberRepository.findById(replyDTO.getMember_id()).orElseThrow(() -> {
-			return new IllegalArgumentException("아이디가 없어 댓글 개수 찾기를 실패하였씁니다.");
+			return new IllegalArgumentException(messageSource.getMessage("replyNotFoundCausedByMemberId", null, LocaleContextHolder.getLocale()));
 		}); // 영속화 완료
 		Board board = boardRepository.findById(replyDTO.getBoard_id()).orElseThrow(() -> {
-			return new IllegalArgumentException("아이디가 없어 댓글 개수 찾기를 실패하였씁니다.");
+			return new IllegalArgumentException(messageSource.getMessage("replyNotFoundCausedByBoardId", null, LocaleContextHolder.getLocale()));
 		}); // 영속화 완료
 		Reply reply = Reply.builder().rcontent(replyDTO.getRcontent()).board(board).mebmer(meber).build();
 		replyRepository.save(reply);
@@ -243,7 +247,7 @@ public class BoardService {
 	@Transactional
 	public void updateReply(Long replyId, ReplyDTO replyDTO) {
 		Reply reply = replyRepository.findById(replyId).orElseThrow(() -> {
-			return new IllegalArgumentException("아이디가 없어 글 찾기를 실패하였씁니다.");
+			return new IllegalArgumentException(messageSource.getMessage("replyNotUpdateCausedByReplyId", null, LocaleContextHolder.getLocale()));
 		}); // 영속화 완료
 		reply.update(replyDTO.getRcontent());
 	}
@@ -252,7 +256,7 @@ public class BoardService {
 	@Transactional
 	public void deleteReply(Long replyId) {
 		Reply reply = replyRepository.findById(replyId).orElseThrow(() -> {
-			return new IllegalArgumentException("아이디가 없어 댓글 개수 찾기를 실패하였씁니다.");
+			return new IllegalArgumentException(messageSource.getMessage("replyNotDeleteCausedByReplyId", null, LocaleContextHolder.getLocale()));
 		});
 		replyRepository.deleteById(replyId);
 		// 영속화 완료
@@ -267,7 +271,7 @@ public class BoardService {
 	@Transactional(readOnly = true)
 	public List<Reply> getReplyList(Long board_id) {
 		Board board = boardRepository.findById(board_id).orElseThrow(() -> {
-			return new IllegalArgumentException("게시글이 제대로 확인되지않아 댓글리스트를 가져오지못하였습니다.");
+			return new IllegalArgumentException(messageSource.getMessage("replyNotFoundCausedByBoardId", null, LocaleContextHolder.getLocale()));
 		});
 		List<Reply> replyList = new ArrayList<>();
 		replyList = replyRepository.findAllByBoardId(board_id);
@@ -287,7 +291,7 @@ public class BoardService {
 	
 	// 매일 자정마다 1주일 이내 
 	@CacheEvict(cacheNames = "hotboardCacheStore", allEntries=true)
-	@Scheduled(cron = "0 30 9 * * *") 
+	@Scheduled(cron = "0 0 0 * * *") 
 	@Transactional
 	public void hotBoardList() {
 		saveHotBoard();
