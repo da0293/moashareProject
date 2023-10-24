@@ -56,7 +56,8 @@ public class BoardService {
 	private final BookmarkRepository bookmarkRepository;
 	private final HotBoardRepository hotBoardRepository;
 	private final MessageSource messageSource;
-
+	long beforeTime=0;
+	long afterTime =0;
 	// 게시판 글 저장
 	@Transactional // 함수 종료 시 자동 commit
 	public void saveBoard(Board board) {
@@ -295,19 +296,14 @@ public class BoardService {
 	@Transactional
 	public void hotBoardList() {
 		saveHotBoard();
+		
 	}
 	
 	
 	// 150이상 조회수 게시물 조회 실행 및 같은 보드아이디 제외해 hotBoard테이블에 저장 
 	@Transactional
 	private void saveHotBoard() {
-		List<Board> boardList = boardRepository.findAllByHotBoard();
-		for (Board board : boardList) {
-			if (!hotBoardRepository.existsByBoardId(board.getId())) { // board_id가 이미 존재하는지 확인(에러 방지)
-				HotBoard hotBoard = HotBoard.builder().board(board).build();
-				hotBoardRepository.save(hotBoard);
-			}
-		}
+		hotBoardRepository.findByBoardIdIsNullAndHitsGreaterThanAndRegDtAfter();
 	}
 
 	// 주간 인기글(7일이내)하루 캐싱

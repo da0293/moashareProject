@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Calendar;
 
 public class InsertDummyData {
     public static void main(String[] args) {
@@ -38,13 +39,24 @@ public class InsertDummyData {
        	String deleteQuery="delete from Board where id=?";
           PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
 
+       // Calendar 객체를 생성하고 원하는 날짜(10월 1일)를 설정합니다.
+          Calendar calendar = Calendar.getInstance();
+          calendar.set(Calendar.YEAR, 2023); // 원하는 연도
+          calendar.set(Calendar.MONTH, Calendar.OCTOBER); // 10월
+          calendar.set(Calendar.DAY_OF_MONTH, 1); // 1일
+
+          // Calendar에서 Timestamp로 변환합니다.
+          Timestamp timestamp = new Timestamp(calendar.getTimeInMillis());
+
+          // PreparedStatement에 설정합니다.
+          preparedStatement.setTimestamp(6, timestamp);
             for (int i = 1; i <= 10000; i++) {
-               preparedStatement.setString(1, "Title " + i);
+               preparedStatement.setString(1, "Title3 " + i);
                preparedStatement.setString(2, "Content " + i);
                preparedStatement.setInt(3, i * 1); // Example hits value
                preparedStatement.setLong(4, 1); // Assuming member_id values from 1 to 10000
                 preparedStatement.setInt(5, 0); // Example replycnt value
-               preparedStatement.setTimestamp(6, new Timestamp(System.currentTimeMillis())); // Current timestamp
+               preparedStatement.setTimestamp(6, timestamp); // Current timestamp
 
               preparedStatement.executeUpdate();
             }
