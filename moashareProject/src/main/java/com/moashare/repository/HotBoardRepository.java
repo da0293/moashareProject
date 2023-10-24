@@ -24,7 +24,7 @@ public interface HotBoardRepository extends JpaRepository<HotBoard, Long> {
 	boolean existsByBoardId(Long id);
 
 	@Transactional
-	@Query(value = "select * from hot_board h where reg_dt > (CURRENT_DATE - 7) order by h.reg_dt desc", nativeQuery = true)
+	@Query(value = "SELECT * FROM hot_board h WHERE reg_dt > (NOW() - INTERVAL 7 DAY) ORDER BY h.reg_dt DESC", nativeQuery = true)
 	Page<HotBoard> findAllByRegDtAfter(Pageable pageable);
 
 
