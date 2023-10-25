@@ -25,7 +25,4 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	@Query(value="update board b set b.hits = b.hits+1 where b.id = :id", nativeQuery = true)
 	int updateHits(@Param(value = "id") Long id);
 	
-	@Transactional
-	@Query(value = "select * from board where hits > 150 and reg_dt > (NOW() - INTERVAL 1 DAY) order by id desc;", nativeQuery = true)
-	List<Board> findAllByHotBoard();
 }
