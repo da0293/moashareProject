@@ -36,6 +36,7 @@ public class Member {
 	
 	@Column( nullable=false,unique=true)
 	@Email(message="올바른 이메일 주소를 입력하세요.")
+	@Index(name = "idx_email")
 	private String email;
 	
 	@NotNull(message="비밀번호를 입력해주세요.")
