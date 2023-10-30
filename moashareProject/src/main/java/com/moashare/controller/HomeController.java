@@ -38,7 +38,7 @@ public class HomeController {
 	}
 	
 	
-	@GetMapping("/home")
+	@GetMapping("home")
 	public String member(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model,@PageableDefault(page=0, size = 12, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
 //		List<Board> hotBoardList=boardService.hotBoardList();// 인기글 가져오기 
