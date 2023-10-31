@@ -37,6 +37,8 @@ import com.moashare.repository.MemberRepository;
 import com.moashare.repository.ReplyRepository;
 import com.nimbusds.jose.proc.SecurityContext;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -56,6 +58,7 @@ public class BoardService {
 	private final BookmarkRepository bookmarkRepository;
 	private final HotBoardRepository hotBoardRepository;
 	private final MessageSource messageSource;
+	
 	long beforeTime=0;
 	long afterTime =0;
 	// 게시판 글 저장
@@ -133,14 +136,29 @@ public class BoardService {
 			if (!checkCookie) {
 				Cookie newCookie = createCookieForForNotOverlap(id);
 				response.addCookie(newCookie);
-				result = boardRepository.updateHits(id);
+				result=updateHits(id);
 			}
 		} else {
 			Cookie newCookie = createCookieForForNotOverlap(id);
 			response.addCookie(newCookie);
-			result = boardRepository.updateHits(id);
+			result=updateHits(id);
 		}
 		return result;
+	}
+
+	private int updateHits(Long id) {
+	    Board board = boardRepository.findById(id).orElseThrow(() -> {
+	        return new IllegalArgumentException(messageSource.getMessage("boardNotUpdate", null, LocaleContextHolder.getLocale()));
+	    });
+	    if (board != null) {
+	        Board updatedBoard = board.toBuilder()
+	        		.hits(board.getHits()+1)
+	        		.build();
+	        boardRepository.save(updatedBoard); // 엔티티 수정을 저장
+	        return 1;
+	    } else {
+	        return 0;
+	    }
 	}
 
 	/*

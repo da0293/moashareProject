@@ -41,11 +41,13 @@ public class MemberService {
 		this.messageSource=messageSource;
 	}
 
+	@Transactional
 	public boolean emailConfirm(String email) {
 		System.out.println("Service : " + email);
 		return memberRepository.existsByEmail(email);
 	}
 	
+	@Transactional
 	public boolean nicknameConfirm(String nickname) {
 		return memberRepository.existsByNickname(nickname);
 	}
@@ -59,9 +61,17 @@ public class MemberService {
 		return validatorResult;
 	}
 	
-
-	public void resetPassword(String email, String password) {
-		memberRepository.resetPassword(email, password);
+	@Transactional
+	public void resetPassword(String email, String newPassword) {
+		Member member = memberRepository.findByEmail(email);
+        if (member != null) {
+            Member updatedMember = member.toBuilder()
+                .password(newPassword)
+                .build();
+            memberRepository.save(updatedMember); 
+        } else {
+            throw new IllegalArgumentException(messageSource.getMessage("memberNotFound", null, LocaleContextHolder.getLocale()));
+        }
 	}
 
 	@Transactional
@@ -71,19 +81,10 @@ public class MemberService {
 	}
 	@Transactional
 	public void updateMember(Member member) {
-		// 수정 시에는 영속성 컨테스트 Member 오브젝트를 영속화시키고 영속화된 Member 오브젝트 수정
-		// Select해서 Member 오브젝트를 DB로부터 가져오는 이유는 영속화하기 위해서다.
-		// 영속화를 하면 영속화된 오브젝트를 변경하면 자동으로 DB에 update문을 날려준다.
 		Member persistance=memberRepository.findById(member.getId()).orElseThrow(()-> {
 			return new IllegalArgumentException(messageSource.getMessage("memberNotFound", null, LocaleContextHolder.getLocale()));
 		});
-		
-//		String rawPassword=member.getPassword();
-//		String encPassword=bCryptPasswordEncoder.encode(rawPassword);
 		persistance.update(member.getNickname());
-
-		// 회원 수정 함수 종료시 = 서비스 종류 = 트랜잭션 종료 = 커밋 자동
-		// = 영속화된 persistance객체의 변화가 감지되면 더티체킹이 되서 update문을 자동으로 날려줌
 		
 	}
 
