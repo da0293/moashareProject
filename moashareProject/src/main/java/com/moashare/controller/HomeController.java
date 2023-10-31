@@ -41,7 +41,6 @@ public class HomeController {
 	@GetMapping("home")
 	public String member(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model,@PageableDefault(page=0, size = 12, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
-//		List<Board> hotBoardList=boardService.hotBoardList();// 인기글 가져오기 
 		Page<HotBoardDTO> hotBoardList= null;
 		hotBoardList=boardService.getHotBoardList(pageable);// 인기글 가져오기 
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
@@ -55,19 +54,5 @@ public class HomeController {
 		model.addAttribute("email", principalDetails.getMember().getEmail());
 		model.addAttribute("id", principalDetails.getMember().getId());
 		return "home/profileForm";
-	}
-	// 협업공간이름 검색
-	@GetMapping("/search") 	
-	public String searchClubName(@RequestParam(value = "searchValue")String searchValue, Model model,@AuthenticationPrincipal PrincipalDetails userDetails ) {
-		// 해당 단어가 속하는지  
-//		log.info(searchValue);
-//		List<ClubDTO> clubList = cs.searchKeyword(searchValue, userDetails.getMdto().getEmail() );
-//		model.addAttribute("clubList", clubList);
-//		log.info( "search" + searchValue);
-//		model.addAttribute("myClub", ClubUtil.getClub(userDetails)); 
-		return "home/search";
-        
-	}
-	
-	
+	}	
 }

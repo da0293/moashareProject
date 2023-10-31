@@ -58,7 +58,6 @@ public class BoardController {
 		List<Long> bookmarks=new ArrayList<>();
 		HashMap<Long, Boolean> map =new HashMap<>();
 		for( Bookmark bookmark :  bookmarkList) {
-			//bookmarks.add(bookmark.getBoard().getId());
 			map.put(bookmark.getBoard().getId(),bookmark.isStatus());
 		}
 		for( Bookmark bookmark :  bookmarkList) {

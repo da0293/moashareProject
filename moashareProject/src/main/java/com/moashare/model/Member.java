@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Index;
 
 import com.moashare.enumpackage.AuthType;
+import com.moashare.model.Board.BoardBuilder;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -65,8 +66,18 @@ public class Member {
 		this.join_dt=join_dt;
 	}
 	
+	public MemberBuilder toBuilder() {
+        return Member.builder()
+                .id(this.id)
+                .email(this.email)
+                .password(this.password)
+                .nickname(this.nickname)
+                .auth(this.auth)
+                .provider(this.provider)
+                .join_dt(this.join_dt);
+    }
+	
 	public void update(String nickname) {
 		this.nickname=nickname;
-//		this.password=password;
 	}
 }

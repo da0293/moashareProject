@@ -36,7 +36,6 @@ public class NoticeApiController {
 	
 	@PostMapping("/NoticeApi/writeOk")
 	public ResponseDTO<Integer> writeOk(@Valid @RequestBody NoticeDTO noticeDTO,Errors errors, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-		log.info("컨트롤러 도착");
 		Notice notice = Notice.builder()
 				.ntitle(noticeDTO.getNtitle())
 				.ncontent(noticeDTO.getNcontent())
@@ -48,7 +47,6 @@ public class NoticeApiController {
 	}
 	@DeleteMapping("/noticeApi/notice/{id}")
 	public ResponseDTO<Integer> deleteyById(@PathVariable Long id){
-		log.info("<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 확인 ");
 		noticeService.deleteNotice(id);
 		return new ResponseDTO<Integer>(HttpStatus.OK,1); 
 	}

@@ -46,20 +46,15 @@ public class Board {
 	@ColumnDefault("0")
 	private int hits;
 	
-	// Many=Board , One=Member
-	@ManyToOne(fetch = FetchType.EAGER) // FetchType.EAGER 무조건 들고옴
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "member_id")
-	private Member member;// DB는 오브젝트 저장할 수 없다.  
+	private Member member;
 	
 	@ColumnDefault("0")
 	private int replycnt;
 	
-	// mappedBy 연관관계 주인아니다 (foreign key 아님), 데이터베이스에 컬럼을 만들지 말자 
-	// 만약 댓글을 펼치기버튼을 눌러 볼 경우 LAZY
-	// cascade = CascadeType.REMOVE 게시판 삭제시 댓글 들 같이 삭제 
 	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE) 
 	@JsonIgnoreProperties({"board"})
-//	@OrderBy("id desc")
 	private List<Reply> replys;
 	
 	@CreationTimestamp
@@ -76,6 +71,17 @@ public class Board {
 		
 	}
 	
+	public BoardBuilder toBuilder() {
+        return Board.builder()
+                .id(this.id)
+                .title(this.title)
+                .content(this.content)
+                .hits(this.hits)
+                .member(this.member)
+                .replycnt(this.replycnt)
+                .reg_dt(this.reg_dt);
+    }
+	
 	// 게시판 수정
 	public void update(String title, String content) {
 		this.title=title;
@@ -90,5 +96,10 @@ public class Board {
 	public void decreaseReplyCnt(int replycnt) {
 		this.replycnt=replycnt-1;
 		
+	}
+
+	public Object tobuilder() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -20,7 +20,6 @@ import lombok.Setter;
 
 @Component
 public class FailureHandler implements AuthenticationFailureHandler {
-//	private final String url = "/login/fail";
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 		AuthenticationException exception) throws IOException, ServletException {

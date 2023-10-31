@@ -12,8 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.moashare.model.Member;
 
-// CRUD 함수를 JpaRepository가 들고 있음
-// @Repository라는 어노테이션이 없어도 IOC된다. 
+
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
 	// select * from member where email=?
@@ -23,11 +22,4 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
 	boolean existsByEmail(String email);
 
-	@Transactional
-	@Modifying
-	@Query(value="update member m set m.password = :password where m.email = :email", nativeQuery = true)
-	public void resetPassword(@Param(value="email")String email,@Param(value="password") String password);
-//	boolean exexistsById(String id);
-	
-	
 }

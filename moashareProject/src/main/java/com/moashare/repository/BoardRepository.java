@@ -14,15 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.moashare.dto.BoardDTO;
 import com.moashare.model.Board;
 
-// CRUD 함수를 JpaRepository가 들고 있음
-// @Repository라는 어노테이션이 없어도 IOC된다. 
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
 	Page<Board> findByTitleContaining(String searchKeyWord, Pageable pageable);
-	@Transactional
-	@Modifying
-	@Query(value="update board b set b.hits = b.hits+1 where b.id = :id", nativeQuery = true)
-	int updateHits(@Param(value = "id") Long id);
 	
 }

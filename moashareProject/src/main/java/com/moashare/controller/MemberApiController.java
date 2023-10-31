@@ -33,8 +33,6 @@ public class MemberApiController {
 	@PutMapping("/memberProfile")
 	public ResponseDTO<Integer> updateProfile(@RequestBody Member member){
 		memberService.updateMember(member);
-		// 여기서는 트랜잭션이 종료되기때문에 DB값은 변경이 되었음
-		// 하지만 세션값은 변경되지않은 상태이기 때무에 우리가 직접 세션값을 변경시켜야 한다.
 		
 		// 세션 강제 등록
 		Authentication authentication=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(member.getEmail(), member.getPassword()));

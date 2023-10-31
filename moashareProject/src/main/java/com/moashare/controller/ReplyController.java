@@ -24,10 +24,8 @@ public class ReplyController {
 	
 	@PostMapping("/reply/list/{boardId}")
 	public String getBoard(@PathVariable Long boardId, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-		log.info("board" +boardId);
 		model.addAttribute("replyList", boardService.getReplyList(boardId));
 		model.addAttribute("id",principalDetails.getMember().getId());
-		log.info("마침");
 		return "board/detail :: #replyTable"; 
 
 	}

@@ -63,7 +63,6 @@ public class LoginController {
 	@PostMapping("/resetPw")
 	public String resetOk(@RequestParam("repw")String password,
 			@RequestParam("email")String email) {
-		log.info("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 이메일 " + email );
 		password=bCryptPasswordEncoder.encode(password);
 		ms.resetPassword(email, password);
 		return "redirect:/login";

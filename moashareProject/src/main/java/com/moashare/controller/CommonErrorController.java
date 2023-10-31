@@ -11,9 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class CommonErrorController implements ErrorController{
 	@RequestMapping(value = "/error")
 	public String handleError(HttpServletRequest request) {
-		Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-        // error로 들어온 에러의 status를 불러온다 (ex:404,500,403...)
-        
+		Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);     
         if(status != null){
             int statusCode = Integer.valueOf(status.toString());
             
@@ -23,7 +21,6 @@ public class CommonErrorController implements ErrorController{
                 return "home/error";
             }
         }
-
         return "error";
 	}
 }

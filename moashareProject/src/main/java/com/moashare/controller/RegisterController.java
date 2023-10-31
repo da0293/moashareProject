@@ -31,7 +31,6 @@ public class RegisterController {
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	private static final int confirm_duplicate=1; 
 	private static final int confirm_normal=2; 
-//	private final MemberRepository memberRepository;
 	
 	
 	public RegisterController(MemberService ms, EmailService es, BCryptPasswordEncoder bCryptPasswordEncoder) {
@@ -39,7 +38,6 @@ public class RegisterController {
 		this.ms=ms;
 		this.es=es;
 		this.bCryptPasswordEncoder=bCryptPasswordEncoder;
-//		this.memberRepository=memberRepository;
 	}
 	
 	@GetMapping("/register")

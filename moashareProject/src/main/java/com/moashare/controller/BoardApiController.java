@@ -56,30 +56,6 @@ public class BoardApiController {
 		return new ResponseDTO<Integer>(HttpStatus.OK,1); 
 		
 	}
-	
-//	// 댓글 작성
-//	// 데이터를 받을 때 컨트롤러에서 dto를 만들어서 받는 것이 좋다.
-//	@PostMapping("/boardApi/board/{boardId}/reply")
-//	public ResponseDTO<Integer> replySave(@RequestParam("rcontent") String rcontent,
-//			@AuthenticationPrincipal PrincipalDetails principalDetails,
-//			@PathVariable Long boardId) {
-//		log.info("여기");
-//		boardService.saveReply(principalDetails.getMember(), boardId, rcontent);
-//		return new ResponseDTO<Integer>(HttpStatus.OK,1); // 정상성공시 1로 리턴 
-//		
-//	}
-	// 댓글 작성
-	// 데이터를 받을 때 컨트롤러에서 dto를 만들어서 받는 것이 좋다.
-//	@PostMapping("/boardApi/board/{boardId}/reply")
-//	public String replySave(@RequestBody ReplyDTO replyDTO, @PathVariable Long boardId) {
-//		boardService.saveReply(replyDTO);
-//		// 댓글리스트 추가 
-//		model.add
-//		boardService.getReplyList(boardId);
-//		//return "index :: #moreList"; // template html 파일 이름 + '::' + fragment의 id
-//		return " " // 정상성공시 1로 리턴 
-//		
-//	}
 	@PostMapping("/boardApi/{boardId}/reply")
 	public ResponseDTO<Integer> replySave(@Valid @RequestBody ReplyDTO replyDTO, Model model, Errors errors,
 			@AuthenticationPrincipal PrincipalDetails principalDetails) {

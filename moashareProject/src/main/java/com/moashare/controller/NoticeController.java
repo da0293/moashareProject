@@ -27,7 +27,6 @@ public class NoticeController {
 	
 	@GetMapping("/notice")
 	public String notice(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
-		log.info("컨트롤러");
 		model.addAttribute("noticeList", noticeService.getNoticeList());
 		model.addAttribute("nickname", principalDetails.getMember().getNickname());
 		return "notice/notice";

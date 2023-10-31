@@ -25,7 +25,7 @@ public class NoticeService {
 	private final NoticeRepository noticeRepository;
 	private final MessageSource messageSource;
 
-	@Transactional // 함수 종료 시 자동 commit
+	@Transactional
 	 public void saveNotice(Notice notice) {
 		noticeRepository.save(notice);
 	 }
