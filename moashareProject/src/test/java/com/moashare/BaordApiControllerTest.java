@@ -21,64 +21,54 @@ import jakarta.validation.ValidatorFactory;
 class BaordApiControllerTest {
 
 	private Validator validator;
-	
+
 	@BeforeEach
 	public void setUpValidator() {
-		validator=Validation.buildDefaultValidatorFactory().getValidator();
+		validator = Validation.buildDefaultValidatorFactory().getValidator();
 	}
-	
+
 	@Test
 	@DisplayName("@NotBlank 타이틀 컬럼 에러 테스트")
 	void 게시판title_notblank_테스트() throws Exception {
 		// given
-		Board board=Board.builder()
-				.title("")
-				.content("안녕")
-				.build();
+		Board board = Board.builder().title("").content("안녕").build();
+		
 		// when
-		Set<ConstraintViolation<Board>> violations =
-				validator.validate(board);
-		//then
-		 assertThat(violations).isNotEmpty();
-	        violations
-	                .forEach(error -> {
-	                    assertThat(error.getMessage()).isEqualTo("제목은 공백일 수 없습니다");
-	                });
+		Set<ConstraintViolation<Board>> violations = validator.validate(board);
+		
+		// then
+		assertThat(violations).isNotEmpty();
+		violations.forEach(error -> {
+			assertThat(error.getMessage()).isEqualTo("제목은 공백일 수 없습니다");
+		});
 	}
-	
+
 	@Test
 	@DisplayName("@NotBlank content 컬럼 에러 테스트")
 	void 게시판content_notblank_테스트() throws Exception {
 		// given
-		Board board=Board.builder()
-				.title("제목")
-				.content("")
-				.build();
+		Board board = Board.builder().title("제목").content("").build();
+		
 		// when
-		Set<ConstraintViolation<Board>> violations =
-				validator.validate(board);
-		//then
-		 assertThat(violations).isNotEmpty();
-	        violations
-	                .forEach(error -> {
-	                    assertThat(error.getMessage()).isEqualTo("내용은 공백일 수 없습니다");
-	                });
+		Set<ConstraintViolation<Board>> violations = validator.validate(board);
+		
+		// then
+		assertThat(violations).isNotEmpty();
+		violations.forEach(error -> {
+			assertThat(error.getMessage()).isEqualTo("내용은 공백일 수 없습니다");
+		});
 	}
-	
+
 	@DisplayName("유효성 성공")
-    @Test
-    void 유효성_성공_테스트() {
+	@Test
+	void 유효성_성공_테스트() {
 		// given
-				Board board=Board.builder()
-						.title("제목")
-						.content("안녕")
-						.build();
+		Board board = Board.builder().title("제목").content("안녕").build();
 
-        // when
-		Set<ConstraintViolation<Board>> violations =
-				validator.validate(board);
+		// when
+		Set<ConstraintViolation<Board>> violations = validator.validate(board);
 
-        // then
-        assertThat(violations).isEmpty(); // 유효한 경우
-    }
+		// then
+		assertThat(violations).isEmpty(); // 유효한 경우
+	}
 }
