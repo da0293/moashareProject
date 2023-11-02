@@ -321,7 +321,13 @@ public class BoardService {
 	// 150이상 조회수 게시물 조회 실행 및 같은 보드아이디 제외해 hotBoard테이블에 저장 
 	@Transactional
 	private void saveHotBoard() {
-		hotBoardRepository.findByBoardIdIsNullAndHitsGreaterThanAndRegDtAfter();
+	    try {
+	        hotBoardRepository.findByBoardIdIsNullAndHitsGreaterThanAndRegDtAfter();
+	    } catch (Exception ex) {
+	        // 예외 처리 로직을 여기에 추가
+	        log.error("Hot board update failed: " + ex.getMessage());
+	        // 예외를 처리하거나 로깅하거나 다른 작업을 수행할 수 있음
+	    }
 	}
 
 	// 주간 인기글(7일이내)하루 캐싱
