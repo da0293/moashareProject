@@ -302,11 +302,11 @@ public class BoardService {
 	}
   
 	// 초기 실행
-//	@Scheduled(initialDelay = 0, fixedRate = Long.MAX_VALUE) // 매우 큰 시간 간격을 둬서 초기 실행만 적용되도록 함
-//	@Transactional
-//	public void initialHotBoardList() {
-//		saveHotBoard();
-//	}
+	@Scheduled(initialDelay = 0, fixedRate = Long.MAX_VALUE) // 매우 큰 시간 간격을 둬서 초기 실행만 적용되도록 함
+	@Transactional
+	public void initialHotBoardList() {
+		saveHotBoard();
+	}
 	
 	// 매일 자정마다 1주일 이내 
 	@CacheEvict(cacheNames = "hotboardCacheStore", allEntries=true)
