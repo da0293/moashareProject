@@ -15,9 +15,3 @@ cache:
 
 # main branch에 push 되었을 때 수행할 명령어
 script: "mvn clean install" # Maven 빌드 명령어로 수정 
-
-# CI 완료 시 메일로 알람 (선택사항)
-notifications:
-  email:
-    recipients:
-      - od0206683@gmail.com
