@@ -49,6 +49,3 @@ int main(void) {
 # ERD
 ![image](https://github.com/da0293/moashareProject/assets/117956416/48ac13f4-57a1-483e-8858-ddc1d87ee29e)
 
-[![Build Status](https://app.travis-ci.com/da0293/moashareProject.svg?branch=main)](https://app.travis-ci.com/da0293/moashareProject)
-
-
