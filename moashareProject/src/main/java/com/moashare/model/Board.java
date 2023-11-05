@@ -97,9 +97,4 @@ public class Board {
 		this.replycnt=replycnt-1;
 		
 	}
-
-	public Object tobuilder() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

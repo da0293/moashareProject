@@ -56,8 +56,6 @@ public class Reply {
 		this.rcontent=rcontent;
 	}
 	
-	
-	// 메서드명 update라고 해야지만 update반영 아닐 시 네이티브쿼리 이용
 	public void update(Member member, Board board, String rcontent) {
 		this.member=member;
 		this.board=board;

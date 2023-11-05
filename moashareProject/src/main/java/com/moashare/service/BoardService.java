@@ -324,9 +324,7 @@ public class BoardService {
 	    try {
 	        hotBoardRepository.findByBoardIdIsNullAndHitsGreaterThanAndRegDtAfter();
 	    } catch (Exception ex) {
-	        // 예외 처리 로직을 여기에 추가
 	        log.error("Hot board update failed: " + ex.getMessage());
-	        // 예외를 처리하거나 로깅하거나 다른 작업을 수행할 수 있음
 	    }
 	}
 
